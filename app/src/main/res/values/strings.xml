@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">NeWork</string>
+    <string name="title_login">Login</string>
+    <string name="title_reg">Registration</string>
+    <string name="login_label">Login</string>
+    <string name="password_label">Password</string>
+    <string name="name_label">Name</string>
+    <string name="avatar_load_button">Avatar Load Button</string>
+</resources>

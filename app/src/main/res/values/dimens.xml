@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="common_spacing">16dp</dimen>
+    <dimen name="posts_avatar_size">48dp</dimen>
+    <dimen name="spacing_8dp">8dp</dimen>
+    <dimen name="text_title">18sp</dimen>
+
+
+</resources>
