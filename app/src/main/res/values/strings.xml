@@ -6,4 +6,10 @@
     <string name="password_label">Password</string>
     <string name="name_label">Name</string>
     <string name="avatar_load_button">Avatar Load Button</string>
+    <string name="avatar_image">Avatar Image</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="posts_item_menu">Posts</string>
+    <string name="events_item_menu">Events</string>
+    <string name="users_item_menu">Users</string>
 </resources>

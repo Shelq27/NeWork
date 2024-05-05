@@ -1,10 +1,359 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.PostDetailsFragment">
+    android:orientation="vertical">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/topAppBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="?attr/actionBarSize"
+            app:menu="@menu/menu_post_event_top_bar"
+            app:navigationIcon="@drawable/ic_arrow_back_24dp"
+            app:title="Post" />
+    </com.google.android.material.appbar.AppBarLayout>
 
 
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-</FrameLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/AvatarIV"
+                android:layout_width="@dimen/posts_avatar_size"
+                android:layout_height="@dimen/posts_avatar_size"
+                android:layout_marginStart="@dimen/element_spacing"
+                android:layout_marginTop="@dimen/element_spacing"
+                android:layout_marginBottom="@dimen/common_spacing"
+                android:contentDescription="TODO"
+                android:src="@drawable/img_test_avatar"
+                app:layout_constraintBottom_toBottomOf="@id/barrier_top"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <TextView
+                android:id="@+id/AuthorTV"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/element_spacing"
+                android:layout_marginEnd="@dimen/element_spacing"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textSize="@dimen/size_text_title"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/name_job"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/AvatarIV"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed"
+                tools:text="Albert Ablyaev" />
+
+            <TextView
+                android:id="@+id/name_job"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/element_spacing"
+                app:layout_constraintBottom_toBottomOf="@id/barrier_top"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/AvatarIV"
+                app:layout_constraintTop_toBottomOf="@id/AuthorTV"
+                tools:text="Android Developer" />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrier_top"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="AvatarIV,name_job" />
+
+            <ImageView
+                android:id="@+id/AttachmentIV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:contentDescription="TODO"
+                android:padding="@dimen/element_spacing"
+                android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@id/TextPostTV"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/barrier_top"
+                app:layout_constraintVertical_bias="0.0"
+                app:layout_constraintVertical_chainStyle="packed"
+                tools:layout_height="200dp"
+                tools:src="@drawable/ic_people_outline_24dp" />
+
+            <ImageButton
+                android:id="@+id/PlayIB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:contentDescription="TODO"
+                android:src="@drawable/ic_play_80dp"
+                app:layout_constraintBottom_toBottomOf="@id/AttachmentIV"
+                app:layout_constraintEnd_toEndOf="@id/AttachmentIV"
+                app:layout_constraintStart_toStartOf="@id/AttachmentIV"
+                app:layout_constraintTop_toTopOf="@id/AttachmentIV" />
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/AttachmentGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:constraint_referenced_ids="AttachmentIV,PlayIB"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/date_publication_post"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/element_spacing"
+                android:layout_marginTop="@dimen/element_spacing"
+                android:layout_marginEnd="@dimen/element_spacing"
+                app:layout_constraintTop_toBottomOf="@id/AttachmentIV"
+                tools:text="12.02.2021 10:45" />
+
+            <TextView
+                android:id="@+id/TextPostTV"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/element_spacing"
+                android:layout_marginTop="@dimen/common_spacing"
+                android:layout_marginEnd="@dimen/element_spacing"
+                android:autoLink="web"
+                android:padding="@dimen/element_spacing"
+                app:layout_constraintBottom_toTopOf="@id/title_likers"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/date_publication_post"
+                tools:text="Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore" />
+
+
+            <TextView
+                android:id="@+id/title_likers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/element_spacing"
+                android:text="Likers"
+                android:textSize="@dimen/size_text_title"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/group_likers"
+                app:layout_constraintTop_toBottomOf="@id/TextPostTV" />
+
+            <LinearLayout
+                android:id="@+id/group_likers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/element_spacing"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toTopOf="@id/title_mentioned"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/title_likers">
+
+                <ImageView
+                    android:id="@+id/ic_like"
+                    style="?attr/materialIconButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_liked_24dp" />
+
+                <TextView
+                    android:id="@+id/numb_like"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:padding="@dimen/element_spacing"
+                    android:textColor="@color/like_color"
+                    android:textStyle="bold"
+                    tools:text="10" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/likers_1"
+                    android:layout_width="@dimen/posts_avatar_size"
+                    android:layout_height="@dimen/posts_avatar_size"
+                    tools:src="@drawable/img_test_avatar" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/likers_2"
+                    android:layout_width="@dimen/posts_avatar_size"
+
+                    android:layout_height="@dimen/posts_avatar_size"
+                    tools:src="@drawable/img_test_avatar" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/likers_3"
+                    android:layout_width="@dimen/posts_avatar_size"
+                    android:layout_height="@dimen/posts_avatar_size"
+                    tools:src="@drawable/img_test_avatar" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/likers_4"
+                    android:layout_width="@dimen/posts_avatar_size"
+                    android:layout_height="@dimen/posts_avatar_size"
+                    tools:src="@drawable/img_test_avatar" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/likers_5"
+                    android:layout_width="@dimen/posts_avatar_size"
+                    android:layout_height="@dimen/posts_avatar_size"
+                    tools:src="@drawable/img_test_avatar" />
+
+                <ImageButton
+                    android:id="@+id/show_more_likers"
+                    android:layout_width="@dimen/posts_avatar_size"
+                    android:layout_height="@dimen/posts_avatar_size"
+                    android:background="@drawable/background_button_show_more"
+                    android:contentDescription="@string/avatar_load_button"
+                    android:src="@drawable/ic_add_24dp"
+                    app:layout_constraintBottom_toTopOf="@id/login_input_text"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/title_mentioned"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/element_spacing"
+                android:text="Mentioned"
+                android:textSize="@dimen/size_text_title"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/group_mentioned"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/group_likers" />
+
+            <LinearLayout
+                android:id="@+id/group_mentioned"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/element_spacing"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toTopOf="@id/geoIV"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/title_mentioned">
+
+                <ImageView
+                    android:id="@+id/ic_people"
+                    style="?attr/materialIconButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_people_outline_24dp" />
+
+                <TextView
+                    android:id="@+id/numb_mentioned"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:padding="@dimen/element_spacing"
+                    android:textColor="@color/like_color"
+                    android:textStyle="bold"
+                    tools:text="10" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/mentioned_1"
+                    android:layout_width="@dimen/posts_avatar_size"
+                    android:layout_height="44dp"
+                    tools:src="@drawable/img_test_avatar" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/mentioned_2"
+                    android:layout_width="@dimen/posts_avatar_size"
+
+                    android:layout_height="46dp"
+                    tools:src="@drawable/img_test_avatar" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/mentioned_3"
+                    android:layout_width="@dimen/posts_avatar_size"
+                    android:layout_height="@dimen/posts_avatar_size"
+                    tools:src="@drawable/img_test_avatar" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/mentioned_4"
+                    android:layout_width="@dimen/posts_avatar_size"
+                    android:layout_height="@dimen/posts_avatar_size"
+                    tools:src="@drawable/img_test_avatar" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/mentioned_5"
+                    android:layout_width="@dimen/posts_avatar_size"
+                    android:layout_height="@dimen/posts_avatar_size"
+                    tools:src="@drawable/img_test_avatar" />
+
+                <ImageButton
+                    android:id="@+id/show_more_mentioned"
+                    android:layout_width="@dimen/posts_avatar_size"
+                    android:layout_height="@dimen/posts_avatar_size"
+                    android:background="@drawable/background_button_show_more"
+                    android:contentDescription="@string/avatar_load_button"
+                    android:src="@drawable/ic_add_24dp"
+                    app:layout_constraintBottom_toTopOf="@id/login_input_text"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/geoIV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/element_spacing"
+                android:adjustViewBounds="true"
+                android:contentDescription="TODO"
+                app:layout_constraintBottom_toTopOf="@id/title_link"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/group_mentioned"
+                app:layout_constraintVertical_chainStyle="packed"
+                tools:layout_height="200dp"
+                tools:src="@drawable/ic_location_pin_24dp" />
+
+            <TextView
+                android:id="@+id/title_link"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/element_spacing"
+                android:text="Site"
+                android:textSize="@dimen/size_text_title"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/link_post"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/geoIV" />
+
+
+            <TextView
+                android:id="@+id/link_post"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/element_spacing"
+                android:padding="@dimen/element_spacing"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/title_link"
+                tools:text="https://03www.ru/" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>

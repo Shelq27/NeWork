@@ -1,47 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.google.android.material.appbar.AppBarLayout
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/topAppBar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:minHeight="?attr/actionBarSize"
+            app:navigationIcon="@drawable/ic_arrow_back_24dp"
+            app:title="@string/title_reg" />
 
-            <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/topAppBar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="?attr/actionBarSize"
-                app:navigationIcon="@drawable/ic_arrow_back_24dp"
-                app:title="@string/title_reg"
-
-                />
-
-
-        </com.google.android.material.appbar.AppBarLayout>
-
-
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="40dp">
+        android:padding="@dimen/spaccing_login_reg">
 
         <ImageButton
             android:id="@+id/avatar_image_button"
-            style="?attr/materialIconButtonFilledStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/background_circle_reg"
+            android:layout_height="@dimen/background_circle_reg"
+            android:background="@drawable/circle_button_background"
             android:contentDescription="@string/avatar_load_button"
-            android:src="@drawable/ic_photo_camera_24dp"
+            android:src="@drawable/ic_photo_camera_60dp"
             app:layout_constraintBottom_toTopOf="@id/login_input_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -53,7 +42,7 @@
             style="?attr/textInputFilledStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_8dp"
+            android:layout_marginTop="@dimen/element_spacing"
             android:hint="@string/login_label"
             app:layout_constraintBottom_toTopOf="@id/name_input_text"
             app:layout_constraintEnd_toEndOf="parent"
@@ -70,7 +59,7 @@
             style="?attr/textInputFilledStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_8dp"
+            android:layout_marginTop="@dimen/element_spacing"
 
             android:hint="@string/name_label"
             app:layout_constraintBottom_toTopOf="@id/password_input_text"
@@ -92,7 +81,7 @@
 
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="@dimen/spacing_8dp"
+            android:layout_marginTop="@dimen/element_spacing"
             android:hint="@string/password_label"
             app:endIconMode="password_toggle"
             app:layout_constraintBottom_toTopOf="@id/reg_button"
@@ -113,7 +102,7 @@
             android:id="@+id/reg_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_8dp"
+            android:layout_marginTop="@dimen/element_spacing"
             android:text="@string/title_login"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -123,3 +112,4 @@
 
 
 </LinearLayout>
+
