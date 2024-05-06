@@ -12,7 +12,7 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/topAppBar"
+            android:id="@+id/PostDetailsTB"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="?attr/actionBarSize"
@@ -39,7 +39,7 @@
                 android:layout_marginStart="@dimen/element_spacing"
                 android:layout_marginTop="@dimen/element_spacing"
                 android:layout_marginBottom="@dimen/common_spacing"
-                android:contentDescription="TODO"
+                android:contentDescription="@string/desc_avatar_image"
                 android:src="@drawable/img_test_avatar"
                 app:layout_constraintBottom_toBottomOf="@id/barrier_top"
                 app:layout_constraintStart_toStartOf="parent"
@@ -56,7 +56,7 @@
                 android:singleLine="true"
                 android:textSize="@dimen/size_text_title"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/name_job"
+                app:layout_constraintBottom_toTopOf="@+id/NameJobTV"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/AvatarIV"
                 app:layout_constraintTop_toTopOf="parent"
@@ -64,7 +64,7 @@
                 tools:text="Albert Ablyaev" />
 
             <TextView
-                android:id="@+id/name_job"
+                android:id="@+id/NameJobTV"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/element_spacing"
@@ -79,14 +79,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:barrierDirection="bottom"
-                app:constraint_referenced_ids="AvatarIV,name_job" />
+                app:constraint_referenced_ids="AvatarIV,NameJobTV" />
 
             <ImageView
                 android:id="@+id/AttachmentIV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
-                android:contentDescription="TODO"
+                android:contentDescription="@string/desc_attachment_image"
                 android:padding="@dimen/element_spacing"
                 android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@id/TextPostTV"
@@ -104,7 +104,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
-                android:contentDescription="TODO"
+                android:contentDescription="@string/desc_image_play_button"
                 android:src="@drawable/ic_play_80dp"
                 app:layout_constraintBottom_toBottomOf="@id/AttachmentIV"
                 app:layout_constraintEnd_toEndOf="@id/AttachmentIV"
@@ -120,7 +120,7 @@
                 tools:visibility="visible" />
 
             <TextView
-                android:id="@+id/date_publication_post"
+                android:id="@+id/DatePublicationPostTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/element_spacing"
@@ -138,44 +138,44 @@
                 android:layout_marginEnd="@dimen/element_spacing"
                 android:autoLink="web"
                 android:padding="@dimen/element_spacing"
-                app:layout_constraintBottom_toTopOf="@id/title_likers"
+                app:layout_constraintBottom_toTopOf="@id/TitleLikersTV"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/date_publication_post"
+                app:layout_constraintTop_toBottomOf="@id/DatePublicationPostTV"
                 tools:text="Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore" />
 
 
             <TextView
-                android:id="@+id/title_likers"
+                android:id="@+id/TitleLikersTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/element_spacing"
-                android:text="Likers"
+                android:text="@string/title_likers"
                 android:textSize="@dimen/size_text_title"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@id/group_likers"
+                app:layout_constraintBottom_toTopOf="@id/GroupLikersLL"
                 app:layout_constraintTop_toBottomOf="@id/TextPostTV" />
 
             <LinearLayout
-                android:id="@+id/group_likers"
+                android:id="@+id/GroupLikersLL"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/element_spacing"
                 android:orientation="horizontal"
-                app:layout_constraintBottom_toTopOf="@id/title_mentioned"
+                app:layout_constraintBottom_toTopOf="@id/TitleMentionedTV"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/title_likers">
+                app:layout_constraintTop_toBottomOf="@id/TitleLikersTV">
 
                 <ImageView
-                    android:id="@+id/ic_like"
+                    android:id="@+id/IcLikeIV"
                     style="?attr/materialIconButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_liked_24dp" />
 
                 <TextView
-                    android:id="@+id/numb_like"
+                    android:id="@+id/NumbLikeTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -185,44 +185,49 @@
                     tools:text="10" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/likers_1"
+                    android:id="@+id/LikerFirstIV"
                     android:layout_width="@dimen/posts_avatar_size"
                     android:layout_height="@dimen/posts_avatar_size"
+                    android:contentDescription="@string/desc_avatar_image"
+
                     tools:src="@drawable/img_test_avatar" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/likers_2"
+                    android:id="@+id/LikerSecondIV"
                     android:layout_width="@dimen/posts_avatar_size"
-
                     android:layout_height="@dimen/posts_avatar_size"
+                    android:contentDescription="@string/desc_avatar_image"
                     tools:src="@drawable/img_test_avatar" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/likers_3"
+                    android:id="@+id/LikerThirdIV"
                     android:layout_width="@dimen/posts_avatar_size"
                     android:layout_height="@dimen/posts_avatar_size"
+                    android:contentDescription="@string/desc_avatar_image"
                     tools:src="@drawable/img_test_avatar" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/likers_4"
+                    android:id="@+id/LikerFourthIV"
                     android:layout_width="@dimen/posts_avatar_size"
                     android:layout_height="@dimen/posts_avatar_size"
+                    android:contentDescription="@string/desc_avatar_image"
                     tools:src="@drawable/img_test_avatar" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/likers_5"
+                    android:id="@+id/LikerFifthIV"
                     android:layout_width="@dimen/posts_avatar_size"
                     android:layout_height="@dimen/posts_avatar_size"
+                    android:contentDescription="@string/desc_avatar_image"
                     tools:src="@drawable/img_test_avatar" />
 
                 <ImageButton
-                    android:id="@+id/show_more_likers"
+                    android:id="@+id/ShowMoreLikersIB"
                     android:layout_width="@dimen/posts_avatar_size"
                     android:layout_height="@dimen/posts_avatar_size"
                     android:background="@drawable/background_button_show_more"
                     android:contentDescription="@string/avatar_load_button"
                     android:src="@drawable/ic_add_24dp"
-                    app:layout_constraintBottom_toTopOf="@id/login_input_text"
+                    app:layout_constraintBottom_toTopOf="@id/LoginET"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -230,38 +235,39 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/title_mentioned"
+                android:id="@+id/TitleMentionedTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/element_spacing"
-                android:text="Mentioned"
+                android:text="@string/title_mentioned"
                 android:textSize="@dimen/size_text_title"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@id/group_mentioned"
+                app:layout_constraintBottom_toTopOf="@id/GroupMentionedLL"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/group_likers" />
+                app:layout_constraintTop_toBottomOf="@id/GroupLikersLL" />
 
             <LinearLayout
-                android:id="@+id/group_mentioned"
+                android:id="@+id/GroupMentionedLL"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/element_spacing"
                 android:orientation="horizontal"
-                app:layout_constraintBottom_toTopOf="@id/geoIV"
+                app:layout_constraintBottom_toTopOf="@id/GeoEventIV"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/title_mentioned">
+                app:layout_constraintTop_toBottomOf="@id/TitleMentionedTV">
 
                 <ImageView
-                    android:id="@+id/ic_people"
+                    android:id="@+id/IcMentionedIV"
                     style="?attr/materialIconButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:contentDescription="@string/desc_icon_mentioned"
                     android:src="@drawable/ic_people_outline_24dp" />
 
                 <TextView
-                    android:id="@+id/numb_mentioned"
+                    android:id="@+id/NumbMentionedTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -271,44 +277,48 @@
                     tools:text="10" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/mentioned_1"
+                    android:id="@+id/MentionedFirstIV"
                     android:layout_width="@dimen/posts_avatar_size"
                     android:layout_height="44dp"
+                    android:contentDescription="@string/desc_avatar_image"
                     tools:src="@drawable/img_test_avatar" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/mentioned_2"
+                    android:id="@+id/MentionedSecondIV"
                     android:layout_width="@dimen/posts_avatar_size"
-
                     android:layout_height="46dp"
+                    android:contentDescription="@string/desc_avatar_image"
                     tools:src="@drawable/img_test_avatar" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/mentioned_3"
+                    android:id="@+id/MentionedThirdIV"
                     android:layout_width="@dimen/posts_avatar_size"
                     android:layout_height="@dimen/posts_avatar_size"
+                    android:contentDescription="@string/desc_avatar_image"
                     tools:src="@drawable/img_test_avatar" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/mentioned_4"
+                    android:id="@+id/MentionedFourthIV"
                     android:layout_width="@dimen/posts_avatar_size"
                     android:layout_height="@dimen/posts_avatar_size"
+                    android:contentDescription="@string/desc_avatar_image"
                     tools:src="@drawable/img_test_avatar" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/mentioned_5"
+                    android:id="@+id/MentionedFifthIV"
                     android:layout_width="@dimen/posts_avatar_size"
                     android:layout_height="@dimen/posts_avatar_size"
+                    android:contentDescription="@string/desc_avatar_image"
                     tools:src="@drawable/img_test_avatar" />
 
                 <ImageButton
-                    android:id="@+id/show_more_mentioned"
+                    android:id="@+id/ShowMoreMentionedIB"
                     android:layout_width="@dimen/posts_avatar_size"
                     android:layout_height="@dimen/posts_avatar_size"
                     android:background="@drawable/background_button_show_more"
                     android:contentDescription="@string/avatar_load_button"
                     android:src="@drawable/ic_add_24dp"
-                    app:layout_constraintBottom_toTopOf="@id/login_input_text"
+                    app:layout_constraintBottom_toTopOf="@id/LoginET"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -316,42 +326,42 @@
             </LinearLayout>
 
             <ImageView
-                android:id="@+id/geoIV"
+                android:id="@+id/GeoPostIV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/element_spacing"
                 android:adjustViewBounds="true"
-                android:contentDescription="TODO"
-                app:layout_constraintBottom_toTopOf="@id/title_link"
+                android:contentDescription="@string/desc_screen_geo_location"
+                app:layout_constraintBottom_toTopOf="@id/TitleLinkTV"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/group_mentioned"
+                app:layout_constraintTop_toBottomOf="@id/GroupMentionedLL"
                 app:layout_constraintVertical_chainStyle="packed"
                 tools:layout_height="200dp"
                 tools:src="@drawable/ic_location_pin_24dp" />
 
             <TextView
-                android:id="@+id/title_link"
+                android:id="@+id/TitleLinkTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/element_spacing"
-                android:text="Site"
+                android:text="@string/title_site"
                 android:textSize="@dimen/size_text_title"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@id/link_post"
+                app:layout_constraintBottom_toTopOf="@id/LinkPostTV"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/geoIV" />
+                app:layout_constraintTop_toBottomOf="@id/GeoPostIV" />
 
 
             <TextView
-                android:id="@+id/link_post"
+                android:id="@+id/LinkPostTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/element_spacing"
                 android:padding="@dimen/element_spacing"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/title_link"
+                app:layout_constraintTop_toBottomOf="@id/TitleLinkTV"
                 tools:text="https://03www.ru/" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>

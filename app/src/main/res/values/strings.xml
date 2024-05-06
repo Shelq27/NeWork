@@ -12,4 +12,18 @@
     <string name="posts_item_menu">Posts</string>
     <string name="events_item_menu">Events</string>
     <string name="users_item_menu">Users</string>
+    <string name="title_event">Event</string>
+    <string name="desc_avatar_image">Avatar Image</string>
+    <string name="title_likers">Likers</string>
+    <string name="desc_icon_like">Icon Like</string>
+    <string name="title_participant">Participant</string>
+    <string name="desc_icon_people">Icon People</string>
+    <string name="desc_screen_geo_location">Screen Geo Location</string>
+    <string name="title_site">Site</string>
+    <string name="title_mentioned">Mentioned</string>
+    <string name="desc_icon_mentioned">Icon Mentioned</string>
+    <string name="desc_icon_menu_button">Icon Menu Button</string>
+    <string name="desc_attachment_image">Attachment Image</string>
+    <string name="desc_image_play_button">Image Play Button</string>
+    <string name="desc_icon_repost">Icon Repost</string>
 </resources>

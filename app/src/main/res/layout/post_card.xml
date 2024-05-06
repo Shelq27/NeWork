@@ -26,7 +26,7 @@
                 android:layout_height="@dimen/posts_avatar_size"
                 android:layout_marginTop="@dimen/element_spacing"
                 android:layout_marginBottom="@dimen/common_spacing"
-                android:contentDescription="TODO"
+                android:contentDescription="@string/desc_avatar_image"
                 android:src="@drawable/img_test_avatar"
                 app:layout_constraintBottom_toBottomOf="@id/barrier_top"
                 app:layout_constraintStart_toStartOf="parent"
@@ -86,7 +86,7 @@
                 android:layout_marginTop="@dimen/common_spacing"
                 android:autoLink="web"
                 android:padding="@dimen/element_spacing"
-                app:layout_constraintBottom_toTopOf="@id/link_post"
+                app:layout_constraintBottom_toTopOf="@id/LinkPostTV"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/AttachmentIV"
@@ -106,7 +106,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
-                android:contentDescription="TODO"
+                android:contentDescription="@string/desc_attachment_image"
                 android:padding="@dimen/element_spacing"
                 android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@id/TextPostTV"
@@ -124,7 +124,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
-                android:contentDescription="TODO"
+                android:contentDescription="@string/desc_image_play_button"
                 android:src="@drawable/ic_play_80dp"
                 app:layout_constraintBottom_toBottomOf="@id/AttachmentIV"
                 app:layout_constraintEnd_toEndOf="@id/AttachmentIV"
@@ -132,7 +132,7 @@
                 app:layout_constraintTop_toTopOf="@id/AttachmentIV" />
 
             <TextView
-                android:id="@+id/link_post"
+                android:id="@+id/LinkPostTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/element_spacing"
@@ -146,7 +146,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:barrierDirection="bottom"
-                app:constraint_referenced_ids="TextPostTV,AttachmentIV,link_post" />
+                app:constraint_referenced_ids="TextPostTV,AttachmentIV,LinkPostTV" />
 
             <ImageButton
                 android:id="@+id/RepostIB"
@@ -155,7 +155,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/common_spacing"
                 android:background="@android:color/transparent"
-                android:contentDescription="TODO"
+                android:contentDescription="@string/desc_icon_repost"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@id/LikeIB"
                 app:layout_constraintTop_toBottomOf="@id/barrier_middle"
@@ -169,7 +169,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/common_spacing"
                 android:checkable="true"
-                android:contentDescription="TODO"
+                android:contentDescription="@string/desc_icon_like"
                 android:src="@drawable/sel_likes_24dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

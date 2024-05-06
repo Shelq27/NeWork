@@ -10,7 +10,7 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/topAppBar"
+            android:id="@+id/RegistrationTB"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="?attr/actionBarSize"
@@ -25,29 +25,29 @@
         android:padding="@dimen/spaccing_login_reg">
 
         <ImageButton
-            android:id="@+id/avatar_image_button"
+            android:id="@+id/LoadAvatarIB"
             android:layout_width="@dimen/background_circle_reg"
             android:layout_height="@dimen/background_circle_reg"
             android:background="@drawable/circle_button_background"
             android:contentDescription="@string/avatar_load_button"
             android:src="@drawable/ic_photo_camera_60dp"
-            app:layout_constraintBottom_toTopOf="@id/login_input_text"
+            app:layout_constraintBottom_toTopOf="@id/LoginET"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/login_input_text"
+            android:id="@+id/LoginET"
             style="?attr/textInputFilledStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/element_spacing"
             android:hint="@string/login_label"
-            app:layout_constraintBottom_toTopOf="@id/name_input_text"
+            app:layout_constraintBottom_toTopOf="@id/NameET"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/avatar_image_button">
+            app:layout_constraintTop_toBottomOf="@id/LoadAvatarIB">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
@@ -55,17 +55,16 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/name_input_text"
+            android:id="@+id/NameET"
             style="?attr/textInputFilledStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/element_spacing"
-
             android:hint="@string/name_label"
-            app:layout_constraintBottom_toTopOf="@id/password_input_text"
+            app:layout_constraintBottom_toTopOf="@id/PasswordET"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/login_input_text">
+            app:layout_constraintTop_toBottomOf="@id/LoginET">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
@@ -75,19 +74,18 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/password_input_text"
+            android:id="@+id/PasswordET"
             style="?attr/textInputFilledStyle"
             android:layout_width="match_parent"
-
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/element_spacing"
             android:hint="@string/password_label"
             app:endIconMode="password_toggle"
-            app:layout_constraintBottom_toTopOf="@id/reg_button"
+            app:layout_constraintBottom_toTopOf="@id/RegistrationB"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/name_input_text">
+            app:layout_constraintTop_toBottomOf="@id/NameET">
 
 
             <com.google.android.material.textfield.TextInputEditText
@@ -99,7 +97,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
-            android:id="@+id/reg_button"
+            android:id="@+id/RegistrationB"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/element_spacing"
@@ -107,7 +105,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/password_input_text" />
+            app:layout_constraintTop_toBottomOf="@id/PasswordET" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

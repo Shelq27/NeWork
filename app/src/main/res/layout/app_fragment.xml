@@ -7,7 +7,7 @@
     tools:context=".ui.AppFragment">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/app_top_bar"
+        android:id="@+id/AppTB"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent">
@@ -25,7 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        app:layout_constraintTop_toBottomOf="@id/app_top_bar">
+        app:layout_constraintTop_toBottomOf="@id/AppTB">
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
@@ -35,7 +35,7 @@
     </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigation"
+        android:id="@+id/AppBN"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
