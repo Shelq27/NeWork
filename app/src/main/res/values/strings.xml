@@ -37,4 +37,11 @@
     <string name="desc_icon_take_a_photo">Icon Take a Photo</string>
     <string name="text_menu_item_take_a_photo">Take a Photo</string>
     <string name="text_button_remove">Remove</string>
+    <string name="title_new_event">New Event</string>
+    <string name="desc_button_remove">Button Remove</string>
+    <string name="hint_date_event">Date</string>
+    <string name="desc_icon_calendar">Icon Calendar</string>
+    <string name="title_type_event">Type</string>
+    <string name="text_radio_button_online">Online</string>
+    <string name="text_radio_button_offline">Offline</string>
 </resources>
