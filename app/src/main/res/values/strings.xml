@@ -36,4 +36,5 @@
     <string name="desc_icon_attachment">Icon Attachment</string>
     <string name="desc_icon_take_a_photo">Icon Take a Photo</string>
     <string name="text_menu_item_take_a_photo">Take a Photo</string>
+    <string name="text_button_remove">Remove</string>
 </resources>
