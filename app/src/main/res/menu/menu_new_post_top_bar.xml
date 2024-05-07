@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/save_post"
+        android:contentDescription="@string/desc_icon_button_save"
+        android:icon="@drawable/ic_check_24dp"
+        android:title="@string/button_text_save"
+        app:showAsAction="ifRoom" />
+</menu>

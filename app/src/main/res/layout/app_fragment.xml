@@ -34,6 +34,16 @@
             tools:listitem="@layout/event_card" />
     </androidx.core.widget.NestedScrollView>
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/AddNewPostEventIB"
+        style="?attr/floatingActionButtonPrimaryStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/common_spacing"
+        android:src="@drawable/ic_add_24dp"
+        app:layout_constraintBottom_toTopOf="@id/AppBN"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/AppBN"
         android:layout_width="match_parent"

@@ -12,7 +12,7 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/EvenetDetailsTB"
+            android:id="@+id/EventDetailsTB"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="?attr/actionBarSize"
@@ -155,7 +155,8 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/DateEventTV"
-                tools:text="Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore" />
+                tools:text="@tools:sample/lorem[100]"
+                />
 
             <TextView
                 android:id="@+id/TitleSpeakersTV"
@@ -163,7 +164,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/element_spacing"
                 android:layout_marginEnd="@dimen/element_spacing"
-                android:text="Speakers"
+                android:text="@string/title_speakers"
                 android:textSize="@dimen/size_text_title"
                 android:textStyle="bold"
                 app:layout_constraintTop_toBottomOf="@id/TextPostTV" />

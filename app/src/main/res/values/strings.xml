@@ -26,4 +26,14 @@
     <string name="desc_attachment_image">Attachment Image</string>
     <string name="desc_image_play_button">Image Play Button</string>
     <string name="desc_icon_repost">Icon Repost</string>
+    <string name="button_text_save">Save</string>
+    <string name="desc_icon_button_save">Icon Button Save</string>
+    <string name="title_new_post">New post</string>
+    <string name="title_post">Post</string>
+    <string name="title_speakers">Speakers</string>
+    <string name="text_menu_item_mention">Mention</string>
+    <string name="text_menu_item_load_attachment">Load Attachment</string>
+    <string name="desc_icon_attachment">Icon Attachment</string>
+    <string name="desc_icon_take_a_photo">Icon Take a Photo</string>
+    <string name="text_menu_item_take_a_photo">Take a Photo</string>
 </resources>
