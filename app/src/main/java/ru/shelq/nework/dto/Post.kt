@@ -10,9 +10,9 @@ data class Post(
     val published: String,
     val coords:String, // TODO
     val link: String,
-    val mentionIds : Long, //TODO
+    val mentionIds : List<Long>, //TODO
     val mentionedMe : Boolean, //TODO
-    val likeOwnerIds: Long,
+    val likeOwnerIds: List<Long>,
     val likedByMe: Boolean,
     val attachment : String, //TODO
     val users:String ,//TODO
