@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.EventNewFragment">
+    tools:context=".ui.event.EventNewFragment">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/PostEventTB"
+        android:id="@+id/NewEventABL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -15,6 +15,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/NewEventTTB"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="?attr/actionBarSize"
@@ -31,14 +32,14 @@
         app:layout_constraintBottom_toTopOf="@+id/GroupNewEventBB"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/PostEventTB">
+        app:layout_constraintTop_toBottomOf="@id/NewEventABL">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <EditText
-                android:id="@+id/ContentPostET"
+                android:id="@+id/ContentEventET"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
@@ -49,15 +50,21 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="@tools:sample/lorem[100]" />
 
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/AttachmentEventGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:constraint_referenced_ids="AttachmentIV,RemoveAttachmentB" />
+
             <ImageView
                 android:id="@+id/AttachmentIV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/ContentPostET"
-                tools:layout_height="200dp"
+                app:layout_constraintHeight="@dimen/max_height_attachment_container"
+                app:layout_constraintTop_toBottomOf="@id/ContentEventET"
                 tools:src="@drawable/img_test_avatar" />
 
             <Button
@@ -93,6 +100,7 @@
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="TODO"
             app:layout_anchor="@id/NewEventBB"
             app:srcCompat="@drawable/ic_add_24dp" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

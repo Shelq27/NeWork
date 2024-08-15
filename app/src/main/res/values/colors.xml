@@ -8,6 +8,18 @@
     <color name="light_blue_A400">#FF00B0FF</color>
     <color name="black_overlay">#66000000</color>
     <color name="background_circle_reg">#C4C4C4</color>
-    <color name="like_color">#6750A4</color>
+    <color name="primary">#6750A4</color>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="divider_color">#ccc</color>
+    <color name="appbar_color">#FEF7FF</color>
+    <color name="secondary">#EADDFF</color>
+    <color name="header_text_color">#1D1B20</color>
+    <color name="main_text_color">#49454F</color>
+    <color name="bottom_navigation">#F3EDF7</color>
+    <color name="ic_launcher_background">#382B73</color>
+
 
 </resources>

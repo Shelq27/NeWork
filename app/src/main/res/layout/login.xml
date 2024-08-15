@@ -5,29 +5,24 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+
 
         <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/LoginTB"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/LoginTB"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:minHeight="?attr/actionBarSize"
                 app:navigationIcon="@drawable/ic_arrow_back_24dp"
-                app:title="@string/title_login"
+                app:title="@string/name_login_button"
 
                 />
-
-
         </com.google.android.material.appbar.AppBarLayout>
 
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -41,7 +36,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:hint="@string/login_label"
+            android:hint="@string/hint_login_edit_text"
             app:layout_constraintBottom_toTopOf="@id/PasswordET"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -62,7 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/element_spacing"
-            android:hint="@string/password_label"
+            android:hint="@string/hint_password_edit_text"
             app:endIconMode="password_toggle"
             app:layout_constraintBottom_toTopOf="@id/LoginB"
             app:layout_constraintEnd_toEndOf="parent"
@@ -83,7 +78,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/element_spacing"
-            android:text="@string/title_login"
+            android:text="@string/name_login_button"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

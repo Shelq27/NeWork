@@ -1,10 +1,10 @@
 <resources>
     <string name="app_name">NeWork</string>
-    <string name="title_login">Login</string>
+    <string name="name_login_button">Login</string>
     <string name="title_reg">Registration</string>
-    <string name="login_label">Login</string>
-    <string name="password_label">Password</string>
-    <string name="name_label">Name</string>
+    <string name="hint_login_edit_text">Login</string>
+    <string name="hint_password_edit_text">Password</string>
+    <string name="hint_name_edit_text">Name</string>
     <string name="avatar_load_button">Avatar Load Button</string>
     <string name="avatar_image">Avatar Image</string>
     <!-- TODO: Remove or change this placeholder text -->
@@ -25,14 +25,14 @@
     <string name="desc_icon_menu_button">Icon Menu Button</string>
     <string name="desc_attachment_image">Attachment Image</string>
     <string name="desc_image_play_button">Image Play Button</string>
-    <string name="desc_icon_repost">Icon Repost</string>
-    <string name="button_text_save">Save</string>
+    <string name="desc_icon_share">Icon Repost</string>
+    <string name="save_item_menu">Save</string>
     <string name="desc_icon_button_save">Icon Button Save</string>
     <string name="title_new_post">New post</string>
     <string name="title_post">Post</string>
     <string name="title_speakers">Speakers</string>
-    <string name="text_menu_item_mention">Mention</string>
-    <string name="text_menu_item_load_attachment">Load Attachment</string>
+    <string name="mention_item_menu">Mention</string>
+    <string name="load_attachment_item_menu">Load Attachment</string>
     <string name="desc_icon_attachment">Icon Attachment</string>
     <string name="desc_icon_take_a_photo">Icon Take a Photo</string>
     <string name="text_menu_item_take_a_photo">Take a Photo</string>
@@ -44,4 +44,18 @@
     <string name="title_type_event">Type</string>
     <string name="text_radio_button_online">Online</string>
     <string name="text_radio_button_offline">Offline</string>
+    <string name="text_type_event_online">Online</string>
+    <string name="desc_icon_button_delete">Icon Button Delete</string>
+    <string name="desc_icon_profile">Icon Profile</string>
+    <string name="profile_item_menu">Profile</string>
+    <string name="post_geolocation_item_menu">Post Geolocation</string>
+    <string name="share_item_menu">Share</string>
+    <string name="title_tab_item_user_details_first">Wall</string>
+    <string name="title_tab_item_user_details_second">Jobs</string>
+    <string name="title_new_job">New job</string>
+    <string name="hint_position_edit_text">Position</string>
+    <string name="name_create_job_button">Create</string>
+    <string name="hint_link_edit_text">Link</string>
+    <string name="menu_options_edit">Изменить</string>
+    <string name="menu_options_remove">Удалить</string>
 </resources>

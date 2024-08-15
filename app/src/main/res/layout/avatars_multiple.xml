@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/avatar1"
+        android:layout_width="@dimen/posts_avatar_size"
+        android:layout_height="@dimen/posts_avatar_size"
+        android:importantForAccessibility="no"
+        tools:src="@drawable/img_test_avatar"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/avatar2"
+        android:layout_width="@dimen/posts_avatar_size"
+        android:layout_height="@dimen/posts_avatar_size"
+        android:layout_marginStart="-10dp"
+        android:importantForAccessibility="no"
+        android:visibility="gone"
+        tools:src="@drawable/test_avatar2"
+        tools:visibility="visible" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/avatar3"
+        android:layout_width="@dimen/posts_avatar_size"
+        android:layout_height="@dimen/posts_avatar_size"
+        android:layout_marginStart="-10dp"
+        android:importantForAccessibility="no"
+        android:visibility="gone"
+        tools:src="@drawable/test_avatar2"
+        tools:visibility="visible" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/avatar4"
+        android:layout_width="@dimen/posts_avatar_size"
+        android:layout_height="@dimen/posts_avatar_size"
+        android:layout_marginStart="-10dp"
+        android:importantForAccessibility="no"
+        android:visibility="gone"
+        tools:src="@drawable/img_test_avatar"
+        tools:visibility="visible" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/avatar5"
+        android:layout_width="@dimen/posts_avatar_size"
+        android:layout_height="@dimen/posts_avatar_size"
+        android:layout_marginStart="-10dp"
+        android:importantForAccessibility="no"
+        android:visibility="gone"
+        tools:src="@drawable/img_test_avatar"
+        tools:visibility="visible" />
+
+    <ImageButton
+        android:id="@+id/ShowMoreB"
+        android:layout_width="@dimen/posts_avatar_size"
+        android:layout_height="@dimen/posts_avatar_size"
+        android:layout_marginStart="-10dp"
+        android:background="@drawable/background_button_show_more"
+        android:contentDescription="@string/avatar_load_button"
+        android:src="@drawable/ic_add_24dp"
+        app:layout_constraintBottom_toTopOf="@id/LoginET"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+</LinearLayout>

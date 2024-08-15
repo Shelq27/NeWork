@@ -8,11 +8,12 @@
     android:orientation="vertical">
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/EventDetailsABL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/EventDetailsTB"
+            android:id="@+id/EventDetailsTTB"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="?attr/actionBarSize"
@@ -89,7 +90,7 @@
                 android:contentDescription="@string/desc_attachment_image"
                 android:padding="@dimen/element_spacing"
                 android:visibility="gone"
-                app:layout_constraintBottom_toTopOf="@id/TextPostTV"
+                app:layout_constraintBottom_toTopOf="@id/TypeEventTV"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -120,12 +121,12 @@
                 tools:visibility="visible" />
 
             <TextView
-                android:id="@+id/FormatEventTV"
+                android:id="@+id/TypeEventTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/element_spacing"
                 android:layout_marginEnd="@dimen/element_spacing"
-                android:text="Online"
+                android:text="@string/text_type_event_online"
                 android:textSize="@dimen/size_text_title"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@id/DateEventTV"
@@ -138,12 +139,12 @@
                 android:layout_marginStart="@dimen/element_spacing"
                 android:layout_marginTop="@dimen/element_spacing"
                 android:layout_marginEnd="@dimen/element_spacing"
-                app:layout_constraintTop_toBottomOf="@id/FormatEventTV"
+                app:layout_constraintTop_toBottomOf="@id/TypeEventTV"
                 tools:text="12.02.2021 10:45" />
 
 
             <TextView
-                android:id="@+id/TextPostTV"
+                android:id="@+id/TextEventTV"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/element_spacing"
@@ -166,9 +167,10 @@
                 android:text="@string/title_speakers"
                 android:textSize="@dimen/size_text_title"
                 android:textStyle="bold"
-                app:layout_constraintTop_toBottomOf="@id/TextPostTV" />
+                app:layout_constraintTop_toBottomOf="@id/TextEventTV" />
 
             <LinearLayout
+
                 android:id="@+id/GroupSpeakersLL"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -176,55 +178,9 @@
                 android:orientation="horizontal"
                 app:layout_constraintTop_toBottomOf="@id/TitleSpeakersTV">
 
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/SpeakerFirstIV"
-                    android:layout_width="@dimen/posts_avatar_size"
-                    android:layout_height="@dimen/posts_avatar_size"
-                    android:contentDescription="@string/desc_avatar_image"
-                    tools:src="@drawable/img_test_avatar" />
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/SpeakerSecondIV"
-                    android:layout_width="@dimen/posts_avatar_size"
-                    android:layout_height="@dimen/posts_avatar_size"
-                    android:contentDescription="@string/desc_avatar_image"
-                    tools:src="@drawable/img_test_avatar" />
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/SpeakerThirdIV"
-                    android:layout_width="@dimen/posts_avatar_size"
-                    android:layout_height="@dimen/posts_avatar_size"
-                    android:contentDescription="@string/desc_avatar_image"
-                    tools:src="@drawable/img_test_avatar" />
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/SpeakerFourthIV"
-                    android:layout_width="@dimen/posts_avatar_size"
-                    android:layout_height="@dimen/posts_avatar_size"
-
-                    android:contentDescription="@string/desc_avatar_image"
-                    tools:src="@drawable/img_test_avatar" />
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/SpeakerFifthIV"
-                    android:layout_width="@dimen/posts_avatar_size"
-                    android:layout_height="@dimen/posts_avatar_size"
-                    android:contentDescription="@string/desc_avatar_image"
-                    tools:src="@drawable/img_test_avatar" />
-
-                <ImageButton
-                    android:id="@+id/ShowMoreSpeakersIB"
-                    android:layout_width="@dimen/posts_avatar_size"
-                    android:layout_height="@dimen/posts_avatar_size"
-                    android:background="@drawable/background_button_show_more"
-                    android:contentDescription="@string/avatar_load_button"
-                    android:src="@drawable/ic_add_24dp"
-                    app:layout_constraintBottom_toTopOf="@id/LoginET"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_chainStyle="packed" />
+                <include
+                    android:id="@+id/list_avatars_speakers"
+                    layout="@layout/avatars_multiple" />
             </LinearLayout>
 
 
@@ -250,73 +206,17 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/TitleLikersTV">
 
-                <ImageView
-                    android:id="@+id/IcLikeIV"
-                    style="?attr/materialIconButtonStyle"
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/LikeB"
+                    style="@style/Widget.AppTheme.LikeButton"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:contentDescription="@string/desc_icon_like"
-                    android:src="@drawable/ic_liked_24dp" />
-
-                <TextView
-                    android:id="@+id/NumbLikeTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:padding="@dimen/element_spacing"
-                    android:textColor="@color/like_color"
-                    android:textStyle="bold"
+                    android:layout_height="@dimen/posts_avatar_size"
+                    android:checkable="true"
+                    app:icon="@drawable/ic_like_24dp"
                     tools:text="10" />
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/LikerFirstIV"
-                    android:layout_width="@dimen/posts_avatar_size"
-                    android:layout_height="@dimen/posts_avatar_size"
-                    android:contentDescription="@string/desc_avatar_image"
-
-                    tools:src="@drawable/img_test_avatar" />
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/LikerSecondIV"
-                    android:layout_width="@dimen/posts_avatar_size"
-                    android:layout_height="@dimen/posts_avatar_size"
-                    android:contentDescription="@string/desc_avatar_image"
-                    tools:src="@drawable/img_test_avatar" />
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/LikerThirdIV"
-                    android:layout_width="@dimen/posts_avatar_size"
-                    android:layout_height="@dimen/posts_avatar_size"
-
-                    android:contentDescription="@string/desc_avatar_image"
-                    tools:src="@drawable/img_test_avatar" />
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/LikerFourthIV"
-                    android:layout_width="@dimen/posts_avatar_size"
-                    android:layout_height="@dimen/posts_avatar_size"
-                    android:contentDescription="@string/desc_avatar_image"
-                    tools:src="@drawable/img_test_avatar" />
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/LikerFifthIV"
-                    android:layout_width="@dimen/posts_avatar_size"
-                    android:layout_height="@dimen/posts_avatar_size"
-                    android:contentDescription="@string/desc_avatar_image"
-                    tools:src="@drawable/img_test_avatar" />
-
-                <ImageButton
-                    android:id="@+id/ShowMoreLikersIB"
-                    android:layout_width="@dimen/posts_avatar_size"
-                    android:layout_height="@dimen/posts_avatar_size"
-                    android:background="@drawable/background_button_show_more"
-                    android:contentDescription="@string/avatar_load_button"
-                    android:src="@drawable/ic_add_24dp"
-                    app:layout_constraintBottom_toTopOf="@id/LoginET"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_chainStyle="packed" />
+                <include
+                    android:id="@+id/list_avatars_likers"
+                    layout="@layout/avatars_multiple" />
             </LinearLayout>
 
             <TextView
@@ -343,73 +243,18 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/TitleParticipantTV">
 
-                <ImageView
-                    android:id="@+id/IcParticipantIV"
-                    style="?attr/materialIconButtonStyle"
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/ParticipantB"
+                    style="@style/Widget.AppTheme.LikeButton"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:contentDescription="@string/desc_icon_people"
-                    android:src="@drawable/ic_people_outline_24dp" />
-
-                <TextView
-                    android:id="@+id/NumbParticipantTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:padding="@dimen/element_spacing"
-                    android:textColor="@color/like_color"
-                    android:textStyle="bold"
+                    android:layout_height="@dimen/posts_avatar_size"
+                    android:checkable="true"
+                    app:icon="@drawable/ic_people_outline_24dp"
                     tools:text="10" />
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/ParticipantFirstIV"
-                    android:layout_width="@dimen/posts_avatar_size"
-                    android:layout_height="44dp"
-
-                    android:contentDescription="@string/desc_avatar_image"
-                    tools:src="@drawable/img_test_avatar" />
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/ParticipantSecondIV"
-                    android:layout_width="@dimen/posts_avatar_size"
-                    android:layout_height="46dp"
-                    android:contentDescription="@string/desc_avatar_image"
-                    tools:src="@drawable/img_test_avatar" />
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/ParticipantThirdIV"
-                    android:layout_width="@dimen/posts_avatar_size"
-                    android:layout_height="@dimen/posts_avatar_size"
-                    android:contentDescription="@string/desc_avatar_image"
-                    tools:src="@drawable/img_test_avatar" />
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/ParticipantForthIV"
-                    android:layout_width="@dimen/posts_avatar_size"
-                    android:layout_height="@dimen/posts_avatar_size"
-                    android:contentDescription="@string/desc_avatar_image"
-
-                    tools:src="@drawable/img_test_avatar" />
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/ParticipantFifthIV"
-                    android:layout_width="@dimen/posts_avatar_size"
-                    android:layout_height="@dimen/posts_avatar_size"
-                    android:contentDescription="@string/desc_avatar_image"
-                    tools:src="@drawable/img_test_avatar" />
-
-                <ImageButton
-                    android:id="@+id/ShowMoreParticipantsIB"
-                    android:layout_width="@dimen/posts_avatar_size"
-                    android:layout_height="@dimen/posts_avatar_size"
-                    android:background="@drawable/background_button_show_more"
-                    android:contentDescription="@string/avatar_load_button"
-                    android:src="@drawable/ic_add_24dp"
-                    app:layout_constraintBottom_toTopOf="@id/LoginET"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_chainStyle="packed" />
+                <include
+                    android:id="@+id/list_avatars_participant"
+                    layout="@layout/avatars_multiple" />
             </LinearLayout>
 
             <ImageView
@@ -446,6 +291,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/element_spacing"
+                android:autoLink="web"
                 android:padding="@dimen/element_spacing"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/TitleLinkTV"

@@ -3,10 +3,10 @@
 
     <item
         android:id="@+id/profile"
-        android:contentDescription="Share"
+        android:contentDescription="@string/desc_icon_profile"
         android:icon="@drawable/ic_account_circle_24dp"
-        android:title="Share"
-        app:showAsAction="ifRoom" />
+        android:title="@string/profile_item_menu"
+        app:showAsAction="always" />
 
 
 </menu>

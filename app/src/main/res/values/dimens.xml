@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="common_spacing">16dp</dimen>
+    <dimen name="icon_min_height">40dp</dimen>
     <dimen name="job_spacing">20dp</dimen>
     <dimen name="posts_avatar_size">48dp</dimen>
     <dimen name="element_spacing">8dp</dimen>
@@ -8,6 +9,7 @@
     <dimen name="background_circle_reg">160dp</dimen>
     <dimen name="spacing_user_list">4dp</dimen>
     <dimen name="spaccing_login_reg">40dp</dimen>
+    <dimen name="max_height_attachment_container">258dp</dimen>
 
 
 </resources>

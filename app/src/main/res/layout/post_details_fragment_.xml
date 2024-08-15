@@ -5,14 +5,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    >
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/PostDetailsABL"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/PostDetailsTB"
+            android:id="@+id/PostDetailsTBL"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="?attr/actionBarSize"
@@ -167,72 +170,16 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/TitleLikersTV">
 
-                <ImageView
-                    android:id="@+id/IcLikeIV"
-                    android:contentDescription="@string/desc_icon_like"
-                    style="?attr/materialIconButtonStyle"
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/LikeB"
+                    style="@style/Widget.AppTheme.LikeButton"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_liked_24dp" />
-
-                <TextView
-                    android:id="@+id/NumbLikeTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:padding="@dimen/element_spacing"
-                    android:textColor="@color/like_color"
-                    android:textStyle="bold"
+                    android:layout_height="@dimen/posts_avatar_size"
+                    android:checkable="true"
+                    app:icon="@drawable/ic_like_24dp"
                     tools:text="10" />
+                <include layout="@layout/avatars_multiple" android:id="@+id/list_avatars_likers"/>
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/LikerFirstIV"
-                    android:layout_width="@dimen/posts_avatar_size"
-                    android:layout_height="@dimen/posts_avatar_size"
-                    android:contentDescription="@string/desc_avatar_image"
-
-                    tools:src="@drawable/img_test_avatar" />
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/LikerSecondIV"
-                    android:layout_width="@dimen/posts_avatar_size"
-                    android:layout_height="@dimen/posts_avatar_size"
-                    android:contentDescription="@string/desc_avatar_image"
-                    tools:src="@drawable/img_test_avatar" />
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/LikerThirdIV"
-                    android:layout_width="@dimen/posts_avatar_size"
-                    android:layout_height="@dimen/posts_avatar_size"
-                    android:contentDescription="@string/desc_avatar_image"
-                    tools:src="@drawable/img_test_avatar" />
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/LikerFourthIV"
-                    android:layout_width="@dimen/posts_avatar_size"
-                    android:layout_height="@dimen/posts_avatar_size"
-                    android:contentDescription="@string/desc_avatar_image"
-                    tools:src="@drawable/img_test_avatar" />
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/LikerFifthIV"
-                    android:layout_width="@dimen/posts_avatar_size"
-                    android:layout_height="@dimen/posts_avatar_size"
-                    android:contentDescription="@string/desc_avatar_image"
-                    tools:src="@drawable/img_test_avatar" />
-
-                <ImageButton
-                    android:id="@+id/ShowMoreLikersIB"
-                    android:layout_width="@dimen/posts_avatar_size"
-                    android:layout_height="@dimen/posts_avatar_size"
-                    android:background="@drawable/background_button_show_more"
-                    android:contentDescription="@string/avatar_load_button"
-                    android:src="@drawable/ic_add_24dp"
-                    app:layout_constraintBottom_toTopOf="@id/LoginET"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_chainStyle="packed" />
             </LinearLayout>
 
             <TextView
@@ -259,71 +206,15 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/TitleMentionedTV">
 
-                <ImageView
-                    android:id="@+id/IcMentionedIV"
-                    style="?attr/materialIconButtonStyle"
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/MentionedB"
+                    style="@style/Widget.AppTheme.LikeButton"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:contentDescription="@string/desc_icon_mentioned"
-                    android:src="@drawable/ic_people_outline_24dp" />
-
-                <TextView
-                    android:id="@+id/NumbMentionedTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:padding="@dimen/element_spacing"
-                    android:textColor="@color/like_color"
-                    android:textStyle="bold"
+                    android:layout_height="@dimen/posts_avatar_size"
+                    android:checkable="true"
+                    app:icon="@drawable/ic_people_outline_24dp"
                     tools:text="10" />
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/MentionedFirstIV"
-                    android:layout_width="@dimen/posts_avatar_size"
-                    android:layout_height="44dp"
-                    android:contentDescription="@string/desc_avatar_image"
-                    tools:src="@drawable/img_test_avatar" />
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/MentionedSecondIV"
-                    android:layout_width="@dimen/posts_avatar_size"
-                    android:layout_height="46dp"
-                    android:contentDescription="@string/desc_avatar_image"
-                    tools:src="@drawable/img_test_avatar" />
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/MentionedThirdIV"
-                    android:layout_width="@dimen/posts_avatar_size"
-                    android:layout_height="@dimen/posts_avatar_size"
-                    android:contentDescription="@string/desc_avatar_image"
-                    tools:src="@drawable/img_test_avatar" />
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/MentionedFourthIV"
-                    android:layout_width="@dimen/posts_avatar_size"
-                    android:layout_height="@dimen/posts_avatar_size"
-                    android:contentDescription="@string/desc_avatar_image"
-                    tools:src="@drawable/img_test_avatar" />
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/MentionedFifthIV"
-                    android:layout_width="@dimen/posts_avatar_size"
-                    android:layout_height="@dimen/posts_avatar_size"
-                    android:contentDescription="@string/desc_avatar_image"
-                    tools:src="@drawable/img_test_avatar" />
-
-                <ImageButton
-                    android:id="@+id/ShowMoreMentionedIB"
-                    android:layout_width="@dimen/posts_avatar_size"
-                    android:layout_height="@dimen/posts_avatar_size"
-                    android:background="@drawable/background_button_show_more"
-                    android:contentDescription="@string/avatar_load_button"
-                    android:src="@drawable/ic_add_24dp"
-                    app:layout_constraintBottom_toTopOf="@id/LoginET"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_chainStyle="packed" />
+                <include layout="@layout/avatars_multiple" android:id="@+id/list_avatars_mentioned"/>
             </LinearLayout>
 
             <ImageView
@@ -361,6 +252,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/element_spacing"
                 android:padding="@dimen/element_spacing"
+                android:autoLink="web"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/TitleLinkTV"
                 tools:text="https://03www.ru/" />

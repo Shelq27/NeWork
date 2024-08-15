@@ -12,19 +12,19 @@
         android:id="@+id/load_attachment"
         android:contentDescription="@string/desc_icon_attachment"
         android:icon="@drawable/ic_attach_file_24dp"
-        android:title="@string/text_menu_item_load_attachment"
+        android:title="@string/load_attachment_item_menu"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/mention"
         android:contentDescription="@string/desc_icon_mentioned"
         android:icon="@drawable/ic_people_24dp"
-        android:title="@string/text_menu_item_mention"
+        android:title="@string/mention_item_menu"
         app:showAsAction="always" />
     <item
         android:id="@+id/post_geolocation"
         android:contentDescription="@string/desc_screen_geo_location"
         android:icon="@drawable/ic_location_pin_24dp"
-        android:title="Post Geolocation"
+        android:title="@string/post_geolocation_item_menu"
         app:showAsAction="always" />
 </menu>

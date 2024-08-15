@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.PostNewFragment">
+    tools:context=".ui.post.PostNewFragment">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/PostDetailsTB"
+        android:id="@+id/NewPostABL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -15,6 +15,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/NewPostTTB"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="?attr/actionBarSize"
@@ -31,7 +32,7 @@
         app:layout_constraintBottom_toTopOf="@+id/GroupNewPostBB"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/PostDetailsTB">
+        app:layout_constraintTop_toBottomOf="@id/NewPostABL">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -47,15 +48,21 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="@tools:sample/lorem[100]" />
 
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/AttachmentPostGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:constraint_referenced_ids="AttachmentIV,RemoveAttachmentB" />
+
             <ImageView
                 android:id="@+id/AttachmentIV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHeight="@dimen/max_height_attachment_container"
                 app:layout_constraintTop_toBottomOf="@id/ContentPostET"
-                app:layout_constraintVertical_bias="0.0"
-                tools:layout_editor_absoluteX="0dp"
-                tools:layout_height="200dp"
                 tools:src="@drawable/img_test_avatar" />
 
             <Button
@@ -86,6 +93,7 @@
             android:id="@+id/NewPostBB"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
             app:menu="@menu/menu_new_post_bottom_bar" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

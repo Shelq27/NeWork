@@ -3,10 +3,10 @@
 
     <item
         android:id="@+id/share"
-        android:contentDescription="Share"
+        android:contentDescription="@string/desc_icon_share"
         android:icon="@drawable/ic_black_share_24dp"
-        android:title="Share"
-        app:showAsAction="ifRoom" />
+        android:title="@string/share_item_menu"
+        app:showAsAction="always" />
 
 
 </menu>

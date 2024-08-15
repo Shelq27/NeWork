@@ -3,7 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.PostEditFragment">
+    tools:context=".ui.post.PostEditFragment">
+
+    <include
+        android:id="@+id/PostEditFragmnet"
+        layout="@layout/post_new_fragment" />
 
 
 </FrameLayout>

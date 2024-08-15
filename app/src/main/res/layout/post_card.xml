@@ -4,16 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/element_spacing"
-    tools:context=".ui.MainActivity">
+    android:padding="@dimen/element_spacing">
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent
-">
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -43,7 +41,7 @@
                 android:singleLine="true"
                 android:textSize="@dimen/size_text_title"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/LoginTV"
+                app:layout_constraintBottom_toTopOf="@+id/DatePostTV"
                 app:layout_constraintEnd_toStartOf="@id/MenuIB"
                 app:layout_constraintStart_toEndOf="@id/AvatarIV"
                 app:layout_constraintTop_toTopOf="parent"
@@ -51,7 +49,7 @@
                 tools:text="Albert Ablyaev" />
 
             <TextView
-                android:id="@+id/LoginTV"
+                android:id="@+id/DatePostTV"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/element_spacing"
@@ -67,7 +65,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/element_spacing"
-                android:contentDescription="TODO"
+                android:contentDescription="@string/desc_icon_menu_button"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_menu_vert_24dp" />
@@ -77,7 +75,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:barrierDirection="bottom"
-                app:constraint_referenced_ids="AvatarIV,LoginTV,MenuIB" />
+                app:constraint_referenced_ids="AvatarIV,DatePostTV,MenuIB" />
 
             <TextView
                 android:id="@+id/TextPostTV"
@@ -90,7 +88,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/AttachmentIV"
-                tools:text="Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore" />
+                tools:text="@tools:sample/lorem[100]" />
 
             <androidx.constraintlayout.widget.Group
                 android:id="@+id/AttachmentGroup"
@@ -135,6 +133,7 @@
                 android:id="@+id/LinkPostTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:autoLink="web"
                 android:padding="@dimen/element_spacing"
                 android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@id/TextPostTV"
@@ -148,30 +147,28 @@
                 app:barrierDirection="bottom"
                 app:constraint_referenced_ids="TextPostTV,AttachmentIV,LinkPostTV" />
 
-            <ImageButton
-                android:id="@+id/RepostIB"
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/ShareIB"
                 style="?attr/materialIconButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/common_spacing"
                 android:background="@android:color/transparent"
-                android:contentDescription="@string/desc_icon_repost"
+                android:contentDescription="@string/desc_icon_share"
+                app:icon="@drawable/ic_share_24dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@id/LikeIB"
-                app:layout_constraintTop_toBottomOf="@id/barrier_middle"
-                app:srcCompat="@drawable/ic_share_24dp" />
+                app:layout_constraintTop_toBottomOf="@id/barrier_middle" />
 
 
-            <ImageButton
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/LikeIB"
-                style="?attr/materialIconButtonStyle"
+                style="@style/Widget.AppTheme.LikeButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/common_spacing"
                 android:checkable="true"
                 android:contentDescription="@string/desc_icon_like"
-                android:src="@drawable/sel_likes_24dp"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/barrier_middle" />
 

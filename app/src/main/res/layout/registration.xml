@@ -6,11 +6,11 @@
     android:orientation="vertical">
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/RegistrationTB"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/RegistrationTB"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="?attr/actionBarSize"
@@ -43,7 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/element_spacing"
-            android:hint="@string/login_label"
+            android:hint="@string/hint_login_edit_text"
             app:layout_constraintBottom_toTopOf="@id/NameET"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -60,7 +60,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/element_spacing"
-            android:hint="@string/name_label"
+            android:hint="@string/hint_name_edit_text"
             app:layout_constraintBottom_toTopOf="@id/PasswordET"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -80,7 +80,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/element_spacing"
-            android:hint="@string/password_label"
+            android:hint="@string/hint_password_edit_text"
             app:endIconMode="password_toggle"
             app:layout_constraintBottom_toTopOf="@id/RegistrationB"
             app:layout_constraintEnd_toEndOf="parent"
@@ -101,7 +101,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/element_spacing"
-            android:text="@string/title_login"
+            android:text="@string/name_login_button"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

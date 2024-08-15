@@ -22,6 +22,7 @@ out/
 
 ### Android Studio ###
 local.properties
+apikey.properties
 captures/
 .externalNativeBuild
 .cxx

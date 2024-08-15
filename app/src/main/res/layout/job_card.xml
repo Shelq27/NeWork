@@ -13,26 +13,53 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="@dimen/common_spacing">
 
-            <TextView
-                android:id="@+id/NameJobTV"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/HeadJobCL"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/size_text_title"
-                android:textStyle="bold"
-                tools:text="LeroyMerlin" />
+                app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/PeriodJobTV"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/element_spacing"
-                tools:text="1 september 2020 - PT" />
+                <TextView
+                    android:id="@+id/NameJobTV"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/size_text_title"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toStartOf="@id/DeleteJobIB"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="LeroyMerlin" />
+
+                <TextView
+                    android:id="@+id/PeriodJobTV"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/element_spacing"
+                    app:layout_constraintEnd_toStartOf="@id/DeleteJobIB"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/NameJobTV"
+                    tools:text="1 september 2020 - PT" />
+
+                <ImageButton
+                    android:id="@+id/DeleteJobIB"
+                    style="?attr/materialIconButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/desc_icon_button_delete"
+                    android:src="@drawable/ic_delete_24dp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
 
             <TextView
                 android:id="@+id/PositionJobTV"
@@ -40,6 +67,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/job_spacing"
                 android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/HeadJobCL"
                 tools:text="Product Turnover Manager" />
 
             <TextView
@@ -47,8 +75,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/job_spacing"
+                android:autoLink="web"
+                app:layout_constraintTop_toBottomOf="@id/PositionJobTV"
+
                 tools:text="https://spb.leroymerlin.ru/" />
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>
 
