@@ -19,13 +19,11 @@ private val empty = Post(
     authorAvatar = "",
     content = "",
     published = "post data pub",
-    coords = "",
     link = "",
     mentionIds = emptyList(),
     mentionedMe = false,
     likeOwnerIds = emptyList(),
     likedByMe = false,
-    attachment = "",
     users = ""
 )
 
