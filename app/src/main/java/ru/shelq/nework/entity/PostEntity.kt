@@ -31,7 +31,6 @@ data class PostEntity(
     val likedByMe: Boolean,
     @Embedded
     val attachment: AttachmentEmbeddable?,
-    val users: String,
 ) {
     fun toDto() = Post(
         id = id,
@@ -48,7 +47,7 @@ data class PostEntity(
         likeOwnerIds = likeOwnerIds,
         likedByMe = likedByMe,
         attachment = attachment?.toDto(),
-        users = users
+        emptyMap()
     )
 
     companion object {
@@ -68,7 +67,6 @@ data class PostEntity(
                 likeOwnerIds = likeOwnerIds,
                 likedByMe = likedByMe,
                 attachment = AttachmentEmbeddable.fromDto(dto.attachment),
-                users = users
             )
         }
     }

@@ -24,7 +24,7 @@ private val empty = Post(
     mentionedMe = false,
     likeOwnerIds = emptyList(),
     likedByMe = false,
-    users = ""
+    users = emptyMap()
 )
 
 class PostViewModel(application: Application) : AndroidViewModel(application) {

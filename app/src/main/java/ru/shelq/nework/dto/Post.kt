@@ -15,5 +15,5 @@ data class Post(
     val likeOwnerIds: List<Long>,
     val likedByMe: Boolean,
     val attachment: Attachment? = null,
-    val users: String,
+    val users: Map<Long,UserPreview>,
 ) : AppItem()
