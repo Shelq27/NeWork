@@ -2,15 +2,10 @@ package ru.shelq.nework.api
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Call
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
-import retrofit2.http.Body
-import retrofit2.http.DELETE
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
+import retrofit2.http.*
 import ru.shelq.nework.dto.Post
 import ru.shelq.nework.BuildConfig
 import java.util.concurrent.TimeUnit
@@ -50,24 +45,27 @@ private val retrofit = Retrofit.Builder()
 interface ApiProject {
     // POST
     @GET("posts")
-    fun getAllPosts(): Call<List<Post>>
+    suspend fun getAllPosts(): Response<List<Post>>
 
     @GET("posts")
-    fun savePost(@Body post: Post): Call<Post>
+    suspend fun savePost(@Body post: Post): Response<Post>
 
     @DELETE("posts/{id}")
-    fun deletePostById(@Path("id") id: Long): Call<Unit>
+    suspend fun deletePostById(@Path("id") id: Long): Response<Unit>
 
     @POST("posts/{id}/likes")
-    fun likePostById(@Path("id") id: Long): Call<Post>
+    suspend fun likePostById(@Path("id") id: Long): Response<Post>
 
     @DELETE("posts/{id}/likes")
-    fun dislikePostById(@Path("id") id: Long): Call<Post>
+    suspend fun dislikePostById(@Path("id") id: Long): Response<Post>
+
+    @GET("posts/{id}")
+    suspend fun getPostById(@Path("id") id: Long): Response<Post>
 }
 
 object ApiService {
     val service: ApiProject by lazy {
-        retrofit.create()
+        retrofit.create(ApiProject::class.java)
     }
 
 }

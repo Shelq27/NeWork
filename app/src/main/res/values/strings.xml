@@ -58,4 +58,6 @@
     <string name="hint_link_edit_text">Link</string>
     <string name="menu_options_edit">Изменить</string>
     <string name="menu_options_remove">Удалить</string>
+    <string name="retry_loading">Retry</string>
+    <string name="error_loading">Error loading data</string>
 </resources>

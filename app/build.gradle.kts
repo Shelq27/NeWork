@@ -77,14 +77,15 @@ dependencies {
     implementation(libs.circleimageview)
     implementation(libs.okhttp)
     implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
     kapt(libs.androidx.room.compiler)
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
     implementation(libs.logging.interceptor)
     implementation(libs.kotlinx.coroutines.core)
-
-    implementation("com.google.dagger:hilt-android:2.52")
-    kapt("com.google.dagger:hilt-compiler:2.52")
+    implementation(libs.hilt.android.v252)
+    kapt(libs.hilt.compiler)
+    implementation(libs.androidx.swiperefreshlayout)
 
 }
 kapt {

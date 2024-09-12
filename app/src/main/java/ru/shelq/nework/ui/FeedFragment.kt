@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import ru.shelq.nework.R
 import ru.shelq.nework.adapter.EventAdapter
 import ru.shelq.nework.adapter.EventOnInteractionListener
@@ -41,7 +42,7 @@ class FeedFragment : Fragment() {
 
         val adapterPost = PostAdapter(object : PostOnInteractionListener {
             override fun onLike(post: Post) {
-                viewModelPost.likeById(post.id)
+                viewModelPost.likeByPost(post)
             }
 
             override fun onRemove(post: Post) {
@@ -89,9 +90,20 @@ class FeedFragment : Fragment() {
         binding.listAppFragment.adapter = adapterPost
         viewModelPost.data.observe(viewLifecycleOwner) { state ->
             adapterPost.submitList(state.posts)
-            binding.ProgressBar.isVisible=state.loading
-        }
 
+        }
+        viewModelPost.dataState.observe(viewLifecycleOwner) { state ->
+            binding.ProgressBar.isVisible = state.loading
+            binding.swiperefresh.isRefreshing = state.refreshing
+            if (state.error) {
+                Snackbar.make(binding.root, R.string.error_loading, Snackbar.LENGTH_LONG)
+                    .setAction(R.string.retry_loading) { viewModelPost.loadPost() }
+                    .show()
+            }
+        }
+        binding.swiperefresh.setOnRefreshListener {
+            viewModelPost.refreshPosts()
+        }
         viewModelEvent.data.observe(viewLifecycleOwner) { events ->
             adapterEvent.submitList(events)
         }

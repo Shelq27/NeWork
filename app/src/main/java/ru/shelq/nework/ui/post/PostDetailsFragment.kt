@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import ru.shelq.nework.databinding.PostDetailsFragmentBinding
 import ru.shelq.nework.util.idArg
@@ -23,22 +24,23 @@ class PostDetailsFragment : Fragment() {
     ): View? {
         val binding = PostDetailsFragmentBinding.inflate(inflater, container, false)
         val viewModelPost: PostViewModel by activityViewModels()
+
         val postId = arguments?.id ?: -1
+        viewModelPost.getPostById(postId)
+        viewModelPost.selectedPost.observe(viewLifecycleOwner) { post ->
 
-        viewModelPost.data.observe(viewLifecycleOwner) { posts ->
+            if (post != null)
+                binding.apply {
+                    PostDetailsTBL.setOnClickListener {
+                        findNavController().navigateUp()
+                    }
+                    AuthorTV.text = post.content
+                    DatePublicationPostTV.text = post.published
+                    TextPostTV.text = post.content
+                    LinkPostTV.text = post.link
+                    LikeB.text = post.likeOwnerIds.toString()
 
-            val post = posts.posts.find { it.id == postId } ?: return@observe
-            with(binding) {
-                PostDetailsTBL.setOnClickListener {
-                    findNavController().navigateUp()
                 }
-                AuthorTV.text = post.content
-                DatePublicationPostTV.text = post.published
-                TextPostTV.text = post.content
-                LinkPostTV.text = post.link
-                LikeB.text = post.likeOwnerIds.toString()
-
-            }
         }
 
         return binding.root
