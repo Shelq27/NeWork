@@ -1,8 +1,12 @@
 package ru.shelq.nework.entity
 
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
 import ru.shelq.nework.dto.Event
+import ru.shelq.nework.enumer.EventType
+
 
 @Entity
 data class EventEntity(
@@ -10,63 +14,74 @@ data class EventEntity(
     val id: Long,
     val authorId: Long,
     val author: String,
-    val authorJob: String,
-    val authorAvatar: String,
+    val authorJob: String? = "",
+    val authorAvatar: String? = "",
     val content: String,
     val datetime: String,
     val published: String,
-    val coords: String, // TODO
-    val type: String,
-    val likeOwnerIds: Long,
+    @Embedded
+    val coords: CoordsEmbeddable?,
+    val eventType: EventType,
+    @TypeConverters
+    val likeOwnerIds: List<Long>,
     val likedByMe: Boolean,
-    val participantsIds: Long, //TODO
-    val participatedByMe: Boolean, //TODO
-    val attachment: String, //TODO
-    val link: String,
-    val users: String,//TODO
+    @TypeConverters
+    val speakerIds: List<Long>,
+    @TypeConverters
+    val participantsIds: List<Long>,
+    val participatedByMe: Boolean,
+    val read: Boolean = true,
+    @Embedded
+    var attachment: AttachmentEmbeddable?,
+    val link: String? = null,
 
-) {
+    ) {
     fun toDto(): Event = Event(
-        id = id,
-        authorId = authorId,
-        author = author,
-        authorJob = authorJob,
-        authorAvatar = authorAvatar,
-        content = content,
-        datetime = datetime,
-        published = published,
-        coords = coords,
-        type = type,
-        likeOwnerIds = likeOwnerIds,
-        likedByMe = likedByMe,
-        participantsIds = participantsIds,
-        participatedByMe = participatedByMe,
-        attachment = attachment,
-        link = link,
-        users = users
+        id,
+        authorId,
+        author,
+        authorJob,
+        authorAvatar,
+        content,
+        datetime,
+        published,
+        coords?.toDto(),
+        eventType,
+        likeOwnerIds,
+        likedByMe,
+        speakerIds,
+        participantsIds,
+        participatedByMe,
+        attachment?.toDto(),
+        link,
+        emptyMap(),
     )
 
     companion object {
         fun fromDto(dto: Event): EventEntity = with(dto) {
             EventEntity(
-                id = id,
-                authorId = authorId,
-                author = author,
-                authorJob = authorJob,
-                authorAvatar = authorAvatar,
-                content = content,
-                datetime = datetime,
-                published = published,
-                coords = coords,
-                type = type,
-                likeOwnerIds = likeOwnerIds,
-                likedByMe = likedByMe,
-                participantsIds = participantsIds,
-                participatedByMe = participatedByMe,
-                attachment = attachment,
-                link = link,
-                users = users
+                dto.id,
+                dto.authorId,
+                dto.author,
+                dto.authorJob,
+                dto.authorAvatar,
+                dto.content,
+                dto.datetime,
+                dto.published,
+                coords = CoordsEmbeddable.fromDto(dto.coords),
+                dto.type,
+                dto.likeOwnerIds,
+                dto.likedByMe,
+                dto.speakerIds,
+                dto.participantsIds,
+                dto.participatedByMe,
+                attachment = AttachmentEmbeddable.fromDto(dto.attachment),
+                link = dto.link,
+
             )
         }
     }
 }
+
+fun List<EventEntity>.toDto(): List<Event> = map(EventEntity::toDto)
+fun List<Event>.toEntity(): List<EventEntity> = map(EventEntity::fromDto)

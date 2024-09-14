@@ -1,15 +1,17 @@
 package ru.shelq.nework.dao
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Upsert
+import kotlinx.coroutines.flow.Flow
 import ru.shelq.nework.entity.EventEntity
 
 @Dao
 interface EventDao {
     @Query("SELECT * FROM EventEntity ORDER BY id DESC")
-    fun getAll(): LiveData<List<EventEntity>>
+    fun getAll(): Flow<List<EventEntity>>
 
     @Upsert
     fun save(event: EventEntity): Long
@@ -24,6 +26,18 @@ interface EventDao {
     )
     fun likeById(id: Long)
 
-    @Query("DELETE FROM EVENTENTITY WHERE id = :id")
+    @Query("DELETE FROM EventEntity WHERE id = :id")
     fun removeById(id: Long)
+
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(event: EventEntity)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(events: List<EventEntity>)
+
+    @Query("SELECT authorAvatar FROM EventEntity where authorId = :authorId")
+    suspend fun authorAvatar(authorId: Long): String
+    @Query("UPDATE EventEntity SET read = 1 WHERE read = 0")
+    suspend fun readNewEvents()
 }

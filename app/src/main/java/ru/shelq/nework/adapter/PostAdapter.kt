@@ -9,6 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.shelq.nework.R
 import ru.shelq.nework.databinding.PostCardBinding
 import ru.shelq.nework.dto.Post
+import ru.shelq.nework.util.AndroidUtils
+import ru.shelq.nework.util.AndroidUtils.loadImgCircle
+
 
 interface PostOnInteractionListener {
     fun onLike(post: Post) {}
@@ -19,7 +22,7 @@ interface PostOnInteractionListener {
 }
 
 class PostAdapter(
-    private val onInteractionListener: PostOnInteractionListener
+    private val onInteractionListener: PostOnInteractionListener,
 ) : ListAdapter<Post, PostViewHolder>(PostDiffCallback()) {
 
 
@@ -36,6 +39,7 @@ class PostAdapter(
 
 }
 
+
 class PostViewHolder(
     private val binding: PostCardBinding,
     private val onInteractionListener: PostOnInteractionListener
@@ -44,12 +48,13 @@ class PostViewHolder(
         binding.apply {
 
             AuthorTV.text = post.author
-            DatePostTV.text = post.published
+            AvatarIV.loadImgCircle(post.authorAvatar)
+            DatePostTV.text = AndroidUtils.dateFormatToText(post.published, root.context)
             TextPostTV.text = post.content
             LinkPostTV.text = post.link
             LikeIB.text = post.likeOwnerIds.toString()
             LikeIB.isChecked = post.likedByMe
-            TextPostTV.setOnClickListener{
+            TextPostTV.setOnClickListener {
                 onInteractionListener.onOpen(post)
             }
             LikeIB.setOnClickListener {

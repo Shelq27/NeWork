@@ -8,6 +8,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
 import ru.shelq.nework.dto.Post
 import ru.shelq.nework.BuildConfig
+import ru.shelq.nework.dto.Event
+import ru.shelq.nework.dto.User
 import java.util.concurrent.TimeUnit
 
 private const val BASE_URL = "${BuildConfig.BASE_URL}/api/"
@@ -46,6 +48,9 @@ interface ApiProject {
     // POST
     @GET("posts")
     suspend fun getAllPosts(): Response<List<Post>>
+    @GET("posts/{id}/newer")
+
+    suspend fun getNewerPosts(@Path("id") id: Long): Response<List<Post>>
 
     @GET("posts")
     suspend fun savePost(@Body post: Post): Response<Post>
@@ -61,6 +66,29 @@ interface ApiProject {
 
     @GET("posts/{id}")
     suspend fun getPostById(@Path("id") id: Long): Response<Post>
+
+    // EVENTS
+
+    @GET("events")
+    suspend fun getAllEvents(): Response<List<Event>>
+
+    @GET("events/{id}/newer")
+    suspend fun getNewerEvent(@Path("id") id: Long): Response<List<Event>>
+
+    @GET("events")
+    suspend fun saveEvent(@Body event: Event): Response<Event>
+
+    @DELETE("events/{id}")
+    suspend fun deleteEventById(@Path("id") id: Long): Response<Unit>
+
+    @POST("events/{id}/likes")
+    suspend fun likeEventById(@Path("id") id: Long): Response<Event>
+
+    @DELETE("events/{id}/likes")
+    suspend fun dislikeEventById(@Path("id") id: Long): Response<Event>
+
+    @GET("events/{id}")
+    suspend fun getEventById(@Path("id") id: Long): Response<Event>
 }
 
 object ApiService {

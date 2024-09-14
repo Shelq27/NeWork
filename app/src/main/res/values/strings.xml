@@ -29,6 +29,8 @@
     <string name="save_item_menu">Save</string>
     <string name="desc_icon_button_save">Icon Button Save</string>
     <string name="title_new_post">New post</string>
+    <string name="title_new_item">New item</string>
+    <string name="date_format" translatable="false">dd.MM.yy HH:mm</string>
     <string name="title_post">Post</string>
     <string name="title_speakers">Speakers</string>
     <string name="mention_item_menu">Mention</string>

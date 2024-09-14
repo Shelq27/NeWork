@@ -1,6 +1,12 @@
 package ru.shelq.nework.repository
 
-import androidx.lifecycle.map
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
 import ru.shelq.nework.api.ApiService
 import ru.shelq.nework.dao.PostDao
 import ru.shelq.nework.dto.Post
@@ -8,6 +14,7 @@ import ru.shelq.nework.entity.PostEntity
 import ru.shelq.nework.entity.toDto
 import ru.shelq.nework.entity.toEntity
 import ru.shelq.nework.error.ApiError
+import ru.shelq.nework.error.AppError
 import ru.shelq.nework.error.NetworkError
 import ru.shelq.nework.error.UnknownError
 import java.io.IOException
@@ -15,8 +22,8 @@ import java.io.IOException
 class PostRepositoryImpl(
     private val postDao: PostDao,
 ) : PostRepository {
-    override val data = postDao.getAll().map(List<PostEntity>::toDto)
-
+    override val data = postDao.getAll()
+        .map(List<PostEntity>::toDto)
 
     override suspend fun getAll() {
         try {
@@ -80,7 +87,7 @@ class PostRepositoryImpl(
         } catch (e: IOException) {
             throw NetworkError
         } catch (e: Exception) {
-            UnknownError
+            throw UnknownError
         }
     }
 
@@ -97,10 +104,27 @@ class PostRepositoryImpl(
         } catch (e: IOException) {
             throw NetworkError
         } catch (e: Exception) {
-            UnknownError
+            throw UnknownError
         }
-        // Уточнить !!!
-        return TODO("Provide the return value")
+
     }
 
+    override fun getNewerPost(id: Long): Flow<Int> = flow {
+        while (true) {
+            delay(10_000L)
+            val response = ApiService.service.getNewerPosts(id)
+            if (!response.isSuccessful) {
+                throw ApiError(response.code(), response.message())
+            }
+
+            val body = response.body() ?: throw ApiError(response.code(), response.message())
+            postDao.insert(body.toEntity())
+            emit(body.size)
+        }
+    }.catch { e -> throw AppError.from(e) }
+        .flowOn(Dispatchers.Default)
+
+    override suspend fun readNewPosts() {
+        postDao.readNewPosts()
+    }
 }

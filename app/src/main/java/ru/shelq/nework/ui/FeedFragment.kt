@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import ru.shelq.nework.R
@@ -66,7 +65,7 @@ class FeedFragment : Fragment() {
 
         val adapterEvent = EventAdapter(object : EventOnInteractionListener {
             override fun onLike(event: Event) {
-                viewModelEvent.likeById(event.id)
+                viewModelEvent.likeByEvent(event)
             }
 
             override fun onRemove(event: Event) {
@@ -88,25 +87,94 @@ class FeedFragment : Fragment() {
         })
 
         binding.listAppFragment.adapter = adapterPost
-        viewModelPost.data.observe(viewLifecycleOwner) { state ->
-            adapterPost.submitList(state.posts)
 
-        }
-        viewModelPost.dataState.observe(viewLifecycleOwner) { state ->
-            binding.ProgressBar.isVisible = state.loading
-            binding.swiperefresh.isRefreshing = state.refreshing
-            if (state.error) {
-                Snackbar.make(binding.root, R.string.error_loading, Snackbar.LENGTH_LONG)
-                    .setAction(R.string.retry_loading) { viewModelPost.loadPost() }
-                    .show()
+        when (binding.AppBN.selectedItemId) {
+            R.id.Posts -> {
+                viewModelPost.newerPostCount.observe(viewLifecycleOwner){
+                    binding.NewItem.isVisible = it > 0
+                    println(it)
+                }
+                viewModelPost.data.observe(viewLifecycleOwner) { state ->
+                    adapterPost.submitList(state.data)
+
+                }
+                viewModelPost.dataState.observe(viewLifecycleOwner) { state ->
+                    binding.ProgressBar.isVisible = state.loading
+                    binding.SwipeRefresh.isRefreshing = state.refreshing
+                    if (state.error) {
+                        Snackbar.make(binding.root, R.string.error_loading, Snackbar.LENGTH_LONG)
+                            .setAction(R.string.retry_loading) { viewModelPost.loadPost() }
+                            .show()
+                    }
+                }
+            }
+
+            R.id.Events -> {
+                viewModelEvent.newerEventCount.observe(viewLifecycleOwner){
+                    binding.NewItem.isVisible = it > 0
+                    println(it)
+                }
+                viewModelEvent.data.observe(viewLifecycleOwner) { state ->
+                    adapterEvent.submitList(state.data)
+
+                }
+                viewModelEvent.dataState.observe(viewLifecycleOwner) { state ->
+                    binding.ProgressBar.isVisible = state.loading
+                    binding.SwipeRefresh.isRefreshing = state.refreshing
+                    if (state.error) {
+                        Snackbar.make(binding.root, R.string.error_loading, Snackbar.LENGTH_LONG)
+                            .setAction(R.string.retry_loading) { viewModelEvent.loadEvent() }
+                            .show()
+                    }
+                }
+            }
+
+            R.id.Users -> {
+                TODO()
             }
         }
-        binding.swiperefresh.setOnRefreshListener {
+
+
+        binding.NewItem.setOnClickListener {
+            when (binding.AppBN.selectedItemId) {
+                R.id.Posts -> {
+                    viewModelPost.readNewPosts()
+
+                }
+
+                R.id.Events -> {
+                    viewModelEvent.readNewEvents()
+                }
+
+                R.id.Users -> {
+                    TODO()
+                }
+            }
+            binding.NewItem.isVisible = false
+            binding.listAppFragment.smoothScrollToPosition(0)
+        }
+
+
+        binding.SwipeRefresh.setOnRefreshListener {
+            when (binding.AppBN.selectedItemId) {
+                R.id.Posts -> {
+                    viewModelPost.refreshPosts()
+                }
+
+                R.id.Events -> {
+                    viewModelEvent.refreshEvents()
+                }
+
+                R.id.Users -> {
+                    TODO()
+                }
+            }
             viewModelPost.refreshPosts()
         }
-        viewModelEvent.data.observe(viewLifecycleOwner) { events ->
-            adapterEvent.submitList(events)
-        }
+
+
+
+
 
         binding.AppBN.setOnItemSelectedListener { item ->
             when (item.itemId) {

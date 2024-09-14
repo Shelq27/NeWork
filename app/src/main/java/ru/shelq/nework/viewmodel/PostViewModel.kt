@@ -4,8 +4,12 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.map
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import ru.shelq.nework.db.AppDb
 import ru.shelq.nework.dto.Post
@@ -18,11 +22,11 @@ import ru.shelq.nework.util.SingleLiveEvent
 private val empty = Post(
     id = 0,
     authorId = 0,
-    author = "PostAutor",
+    author = "",
     authorJob = "",
     authorAvatar = "",
     content = "",
-    published = "post data pub",
+    published = "",
     link = "",
     mentionIds = emptyList(),
     mentionedMe = false,
@@ -35,7 +39,15 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
     private val repository: PostRepository =
         PostRepositoryImpl(AppDb.getInstance(context = application).postDao)
 
-    val data: LiveData<FeedModel> = repository.data.map(::FeedModel)
+    val data: LiveData<FeedModel<Post>> = repository.data
+        .map(::FeedModel)
+        .asLiveData(Dispatchers.Default)
+
+
+    val newerPostCount = data.switchMap {
+        repository.getNewerPost(it.data.firstOrNull()?.id ?: 0L)
+            .asLiveData(Dispatchers.Default)
+    }
     private val _dataState = MutableLiveData<FeedModelState>()
     val dataState: LiveData<FeedModelState>
         get() = _dataState
@@ -50,7 +62,7 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
         loadPost()
     }
 
-     fun loadPost() = viewModelScope.launch {
+    fun loadPost() = viewModelScope.launch {
         try {
             _dataState.value = FeedModelState(loading = true)
             repository.getAll()
@@ -59,6 +71,7 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
             _dataState.value = FeedModelState(error = true)
         }
     }
+
     fun getPostById(postId: Long) = viewModelScope.launch {
         try {
             _dataState.value = FeedModelState(loading = true)
@@ -90,7 +103,7 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
         }
         viewModelScope.launch {
             try {
-              _dataState.value = FeedModelState()
+                _dataState.value = FeedModelState()
                 _postCreated.value = Unit
             } catch (e: Exception) {
                 _dataState.value = FeedModelState(error = true)
@@ -113,6 +126,9 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    fun readNewPosts() = viewModelScope.launch {
+        repository.readNewPosts()
+    }
 
     fun removeById(id: Long) = viewModelScope.launch {
         try {

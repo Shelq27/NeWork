@@ -1,4 +1,4 @@
-package ru.shelq.nework.dto
+package ru.shelq.nework.enumer
 
 enum class AttachmentType {
     IMAGE,

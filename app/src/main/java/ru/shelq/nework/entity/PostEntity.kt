@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import ru.shelq.nework.dto.Attachment
-import ru.shelq.nework.dto.AttachmentType
+import ru.shelq.nework.enumer.AttachmentType
 import ru.shelq.nework.dto.Coordinates
 import ru.shelq.nework.dto.Post
 
@@ -16,20 +16,21 @@ data class PostEntity(
     val id: Long,
     val authorId: Long,
     val author: String,
-    val authorJob: String,
-    val authorAvatar: String,
+    val authorJob: String?,
+    val authorAvatar: String?,
     val content: String,
     val published: String,
     @Embedded
     val coords: CoordsEmbeddable?,
-    val link: String,
+    val link: String?,
     @TypeConverters
     val mentionIds: List<Long>,
     val mentionedMe: Boolean,
     @TypeConverters
     val likeOwnerIds: List<Long>,
     val likedByMe: Boolean,
-    @Embedded
+    val read: Boolean = true,
+    @Embedded()
     val attachment: AttachmentEmbeddable?,
 ) {
     fun toDto() = Post(
@@ -73,7 +74,6 @@ data class PostEntity(
 
 }
 
-
 data class CoordsEmbeddable(
     var latitude: Double,
     var longitude: Double,
@@ -99,6 +99,7 @@ data class AttachmentEmbeddable(
         }
     }
 }
+
 fun List<PostEntity>.toDto(): List<Post> = map(PostEntity::toDto)
 fun List<Post>.toEntity(): List<PostEntity> = map(PostEntity::fromDto)
 

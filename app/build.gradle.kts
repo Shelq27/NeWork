@@ -86,6 +86,9 @@ dependencies {
     implementation(libs.hilt.android.v252)
     kapt(libs.hilt.compiler)
     implementation(libs.androidx.swiperefreshlayout)
+    implementation(libs.glide)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+
 
 }
 kapt {

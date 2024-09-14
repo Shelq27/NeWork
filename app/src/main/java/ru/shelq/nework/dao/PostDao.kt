@@ -1,18 +1,19 @@
 package ru.shelq.nework.dao
 
-import androidx.lifecycle.LiveData
+
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Upsert
+import kotlinx.coroutines.flow.Flow
 import ru.shelq.nework.entity.PostEntity
 
 @Dao
 interface PostDao {
 
     @Query("SELECT * FROM PostEntity ORDER BY id DESC")
-    fun getAll(): LiveData<List<PostEntity>>
+    fun getAll(): Flow<List<PostEntity>>
 
     @Upsert
     suspend fun save(post: PostEntity): Long
@@ -35,4 +36,9 @@ interface PostDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(posts: List<PostEntity>)
+
+    @Query("SELECT authorAvatar FROM PostEntity where authorId = :authorId")
+    suspend fun authorAvatar(authorId: Long): String
+    @Query("UPDATE PostEntity SET read = 1 WHERE read = 0")
+    suspend fun readNewPosts()
 }
