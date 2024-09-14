@@ -42,7 +42,7 @@
                 android:singleLine="true"
                 android:textSize="@dimen/size_text_title"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/DateEventPostTV"
+                app:layout_constraintBottom_toTopOf="@+id/PublishedEventTV"
                 app:layout_constraintEnd_toStartOf="@id/MenuIB"
                 app:layout_constraintStart_toEndOf="@id/AvatarIV"
                 app:layout_constraintTop_toTopOf="parent"
@@ -50,7 +50,7 @@
                 tools:text="Albert Ablyaev" />
 
             <TextView
-                android:id="@+id/DateEventPostTV"
+                android:id="@+id/PublishedEventTV"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/element_spacing"
@@ -76,7 +76,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:barrierDirection="bottom"
-                app:constraint_referenced_ids="AvatarIV,DateEventPostTV,MenuIB" />
+                app:constraint_referenced_ids="AvatarIV,PublishedEventTV,MenuIB" />
 
             <TextView
                 android:id="@+id/TextEventTV"

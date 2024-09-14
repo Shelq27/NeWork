@@ -32,6 +32,8 @@
     <string name="title_new_item">New item</string>
     <string name="date_format" translatable="false">dd.MM.yy HH:mm</string>
     <string name="title_post">Post</string>
+    <string name="online" translatable="false">Online</string>
+    <string name="offline" translatable="false">Offline</string>
     <string name="title_speakers">Speakers</string>
     <string name="mention_item_menu">Mention</string>
     <string name="load_attachment_item_menu">Load Attachment</string>

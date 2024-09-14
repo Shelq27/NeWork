@@ -6,8 +6,8 @@ data class Event(
     override val id: Long,
     val authorId: Long,
     val author: String,
-    val authorJob: String? = "",
-    val authorAvatar: String? = "",
+    val authorJob: String?,
+    val authorAvatar: String?,
     val content: String,
     val datetime: String,
     val published: String,
@@ -21,5 +21,4 @@ data class Event(
     val attachment: Attachment? = null,
     val link: String? = null,
     val users: Map<String, UserPreview>,
-    val ownedByMe: Boolean = false,
 ) : AppItem()

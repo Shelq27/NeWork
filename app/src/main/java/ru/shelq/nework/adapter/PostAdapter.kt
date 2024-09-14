@@ -1,5 +1,6 @@
 package ru.shelq.nework.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
@@ -27,8 +28,7 @@ class PostAdapter(
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
-        val binding =
-            PostCardBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = PostCardBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return PostViewHolder(binding, onInteractionListener)
     }
 
@@ -42,14 +42,15 @@ class PostAdapter(
 
 class PostViewHolder(
     private val binding: PostCardBinding,
-    private val onInteractionListener: PostOnInteractionListener
+    private val onInteractionListener: PostOnInteractionListener,
 ) : RecyclerView.ViewHolder(binding.root) {
     fun bing(post: Post) {
+
         binding.apply {
 
             AuthorTV.text = post.author
             AvatarIV.loadImgCircle(post.authorAvatar)
-            DatePostTV.text = AndroidUtils.dateFormatToText(post.published, root.context)
+            PublishedPostTV.text = AndroidUtils.dateFormatToText(post.published, root.context)
             TextPostTV.text = post.content
             LinkPostTV.text = post.link
             LikeIB.text = post.likeOwnerIds.toString()

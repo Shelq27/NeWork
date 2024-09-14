@@ -24,19 +24,22 @@ class EventDetailsFragment : Fragment() {
         val binding = EventDetailsFragmentBinding.inflate(inflater, container, false)
         val viewModelEvent: EventViewModel by activityViewModels()
         val eventId = arguments?.id ?: -1
-        viewModelEvent.data.observe(viewLifecycleOwner) { events ->
-            val event = events.find { it.id == eventId } ?: return@observe
-            with(binding) {
-                AuthorTV.text = event.author
-                TextEventTV.text = event.content
-                EventDetailsTTB.setOnClickListener {
-                    findNavController().navigateUp()
+        viewModelEvent.getEventById(eventId)
+        viewModelEvent.selectedEvent.observe(viewLifecycleOwner) { event ->
+            if (event != null)
+                binding.apply {
+
+                    AuthorTV.text = event.author
+                    TextEventTV.text = event.content
+                    DateEventTV.text = event.datetime
+                    EventDetailsTTB.setOnClickListener {
+                        findNavController().navigateUp()
+                    }
+
+                    LikeB.text = event.likeOwnerIds.toString()
+
+
                 }
-
-                LikeB.text = event.likeOwnerIds.toString()
-
-
-            }
         }
         return binding.root
     }
