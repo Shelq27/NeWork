@@ -64,4 +64,6 @@
     <string name="menu_options_remove">Удалить</string>
     <string name="retry_loading">Retry</string>
     <string name="error_loading">Error loading data</string>
+    <string name="desc_icon_add_new_event">Icon Add Event</string>
+    <string name="desc_icon_add_new_post">Icon Add Post</string>
 </resources>
