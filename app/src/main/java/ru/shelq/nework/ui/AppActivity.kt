@@ -35,7 +35,7 @@ class AppActivity : AppCompatActivity() {
         bottomNavigation.setupWithNavController(navController)
 
         appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.postFragment, R.id.eventNavigation, R.id.userFragment)
+            setOf(R.id.postFragment, R.id.eventFragment, R.id.userFragment)
         )
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
