@@ -58,6 +58,8 @@ class PostFragment : Fragment() {
             }
         })
 
+
+
         binding.ListPostView.adapter = adapter
 
         viewModelPost.newerPostCount.observe(viewLifecycleOwner){
