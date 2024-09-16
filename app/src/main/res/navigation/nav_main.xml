@@ -4,36 +4,71 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_main"
     app:startDestination="@id/postFragment">
-    <fragment
-        android:id="@+id/postFragment"
-        android:name="ru.shelq.nework.ui.post.PostFragment"
-        android:label="PostFragment" >
-        <action
-            android:id="@+id/action_postFragment_to_postDetailsFragment"
-            app:destination="@id/postDetailsFragment" />
-        <action
-            android:id="@+id/action_postFragment_to_postNewFragment"
-            app:destination="@id/postNewFragment" />
-        <action
-            android:id="@+id/action_postFragment_to_postEditFragment"
-            app:destination="@id/postEditFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/postDetailsFragment"
-        android:name="ru.shelq.nework.ui.post.PostDetailsFragment"
-        android:label="PostDetailsFragment" >
-        <action
-            android:id="@+id/action_postDetailsFragment_to_postEditFragment"
-            app:destination="@id/postEditFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/postEditFragment"
-        android:name="ru.shelq.nework.ui.post.PostEditFragment"
-        android:label="post_edit_fragment"
-        tools:layout="@layout/post_edit_fragment" />
-    <fragment
-        android:id="@+id/postNewFragment"
-        android:name="ru.shelq.nework.ui.post.PostNewFragment"
-        android:label="post_new_fragment"
-        tools:layout="@layout/post_new_fragment" />
+    <navigation android:id="@+id/postNavigation"
+        app:startDestination="@id/postFragment">
+        <fragment
+            android:id="@+id/postFragment"
+            android:name="ru.shelq.nework.ui.post.PostFragment"
+            android:label="PostFragment">
+            <action
+                android:id="@+id/action_postFragment_to_postDetailsFragment"
+                app:destination="@id/postDetailsFragment" />
+            <action
+                android:id="@+id/action_postFragment_to_postNewFragment"
+                app:destination="@id/postNewFragment" />
+            <action
+                android:id="@+id/action_postFragment_to_postEditFragment"
+                app:destination="@id/postEditFragment" />
+        </fragment>
+        <fragment
+            android:id="@+id/postDetailsFragment"
+            android:name="ru.shelq.nework.ui.post.PostDetailsFragment"
+            android:label="PostDetailsFragment">
+            <action
+                android:id="@+id/action_postDetailsFragment_to_postEditFragment"
+                app:destination="@id/postEditFragment" />
+        </fragment>
+        <fragment
+            android:id="@+id/postEditFragment"
+            android:name="ru.shelq.nework.ui.post.PostEditFragment"
+            android:label="post_edit_fragment"
+            tools:layout="@layout/post_edit_fragment" />
+        <fragment
+            android:id="@+id/postNewFragment"
+            android:name="ru.shelq.nework.ui.post.PostNewFragment"
+            android:label="post_new_fragment"
+            tools:layout="@layout/post_new_fragment" />
+    </navigation>
+    <navigation android:id="@+id/eventNavigation"
+        app:startDestination="@id/eventFragment">
+        <fragment
+            android:id="@+id/eventFragment"
+            android:name="ru.shelq.nework.ui.post.EventFragment"
+            android:label="EventFragment">
+            <action
+                android:id="@+id/action_eventFragment_to_eventEditFragment"
+                app:destination="@id/eventEditFragment" />
+            <action
+                android:id="@+id/action_eventFragment_to_eventNewFragment"
+                app:destination="@id/eventNewFragment" />
+        </fragment>
+        <fragment
+            android:id="@+id/eventEditFragment"
+            android:name="ru.shelq.nework.ui.event.EventEditFragment"
+            android:label="event_edit_fragment"
+            tools:layout="@layout/event_edit_fragment" />
+        <fragment
+            android:id="@+id/eventNewFragment"
+            android:name="ru.shelq.nework.ui.event.EventNewFragment"
+            android:label="event_new_fragment"
+            tools:layout="@layout/event_new_fragment" />
+        <fragment
+            android:id="@+id/eventDetailsFragment"
+            android:name="ru.shelq.nework.ui.event.EventDetailsFragment"
+            android:label="EventDetailsFragment">
+            <action
+                android:id="@+id/action_eventDetailsFragment_to_eventEditFragment"
+                app:destination="@id/eventEditFragment" />
+        </fragment>
+    </navigation>
 </navigation>
