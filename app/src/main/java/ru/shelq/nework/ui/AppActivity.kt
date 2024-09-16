@@ -2,6 +2,8 @@ package ru.shelq.nework.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -28,14 +30,28 @@ class AppActivity : AppCompatActivity() {
             supportFragmentManager.findFragmentById(R.id.NavHostFragment) as NavHostFragment
 
         navController = navHostFragment.navController
-
+        val appTopBar = binding.AppTB
         val bottomNavigation = findViewById<BottomNavigationView>(R.id.AppBN)
         bottomNavigation.setupWithNavController(navController)
 
         appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.postFragment, R.id.eventFragment, R.id.userFragment)
+            setOf(R.id.postFragment, R.id.eventNavigation, R.id.userFragment)
         )
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.postFragment,
+                R.id.eventFragment,
+                -> {
 
+                    bottomNavigation.isVisible = true
+                    appTopBar.isVisible = true
+                }
+                else -> {
+                    bottomNavigation.isGone = true
+                    appTopBar.isGone = true
+                }
+            }
+        }
         setupActionBarWithNavController(navController, appBarConfiguration)
 
     }
