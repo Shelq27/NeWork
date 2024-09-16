@@ -61,7 +61,7 @@ class EventFragment : Fragment() {
 
         binding.ListEventView.adapter = adapter
 
-        viewModel.newerEventCount.observe(viewLifecycleOwner){
+        viewModel.newerEventCount.observe(viewLifecycleOwner) {
             binding.NewEvent.isVisible = it > 0
             println(it)
         }
@@ -83,6 +83,9 @@ class EventFragment : Fragment() {
                     .setAction(R.string.retry_loading) { viewModel.loadEvent() }
                     .show()
             }
+        }
+        binding.SwipeRefresh.setOnRefreshListener {
+            viewModel.refreshEvents()
         }
         binding.AddNewEventIB.setOnClickListener {
             findNavController().navigate(R.id.action_postFragment_to_postNewFragment)

@@ -72,6 +72,7 @@ class PostFragment : Fragment() {
             binding.NewPost.isVisible = false
             binding.ListPostView.smoothScrollToPosition(0)
         }
+
         viewModel.data.observe(viewLifecycleOwner) { state ->
             adapter.submitList(state.data)
 
@@ -84,6 +85,9 @@ class PostFragment : Fragment() {
                     .setAction(R.string.retry_loading) { viewModel.loadPost() }
                     .show()
             }
+        }
+        binding.SwipeRefresh.setOnRefreshListener {
+            viewModel.refreshPosts()
         }
         binding.AddNewPostIB.setOnClickListener {
             findNavController().navigate(R.id.action_postFragment_to_postNewFragment)
