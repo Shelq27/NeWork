@@ -36,10 +36,7 @@ class AppActivity : AppCompatActivity() {
             setOf(R.id.postNavigation, R.id.eventNavigation, R.id.userNavigation)
         )
         navController.addOnDestinationChangedListener { _, destination, _ ->
-//            when (destination.id) {
-//                R.id.postFragment -> navController.navigate(R.id.postNavigation)
-//                R.id.eventFragment -> navController.navigate(R.id.eventNavigation)
-//            }
+
 
             when (destination.id) {
                 R.id.postFragment,
