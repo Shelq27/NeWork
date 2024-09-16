@@ -1,19 +1,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/postFragment"
+        android:id="@+id/postNavigation"
         android:enabled="true"
         android:icon="@drawable/ic_rss_feed_24dp"
         android:title="@string/posts_item_menu"
         app:showAsAction="always" />
     <item
-        android:id="@+id/eventFragment"
+        android:id="@+id/eventNavigation"
         android:enabled="true"
         android:icon="@drawable/ic_calendar_24dp"
         android:title="@string/events_item_menu"
         app:showAsAction="always" />
     <item
-        android:id="@+id/userFragment"
+        android:id="@+id/userNavigation"
         android:enabled="true"
         android:icon="@drawable/ic_people_24dp"
         android:title="@string/users_item_menu"

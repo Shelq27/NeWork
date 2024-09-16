@@ -10,7 +10,6 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import ru.shelq.nework.R
 import ru.shelq.nework.databinding.AppActivityBinding
 
@@ -31,13 +30,17 @@ class AppActivity : AppCompatActivity() {
 
         navController = navHostFragment.navController
         val appTopBar = binding.AppTB
-        val bottomNavigation = findViewById<BottomNavigationView>(R.id.AppBN)
-        bottomNavigation.setupWithNavController(navController)
+        val bottomNavigation = binding.AppBN
 
         appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.postFragment, R.id.eventFragment, R.id.userFragment)
+            setOf(R.id.postNavigation, R.id.eventNavigation, R.id.userNavigation)
         )
         navController.addOnDestinationChangedListener { _, destination, _ ->
+//            when (destination.id) {
+//                R.id.postFragment -> navController.navigate(R.id.postNavigation)
+//                R.id.eventFragment -> navController.navigate(R.id.eventNavigation)
+//            }
+
             when (destination.id) {
                 R.id.postFragment,
                 R.id.eventFragment,
@@ -46,13 +49,16 @@ class AppActivity : AppCompatActivity() {
                     bottomNavigation.isVisible = true
                     appTopBar.isVisible = true
                 }
+
                 else -> {
                     bottomNavigation.isGone = true
                     appTopBar.isGone = true
                 }
             }
+
         }
         setupActionBarWithNavController(navController, appBarConfiguration)
+        bottomNavigation.setupWithNavController(navController)
 
     }
 

@@ -3,13 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_main"
-    app:startDestination="@id/postNavigation">
-    <navigation android:id="@+id/postNavigation"
+    app:startDestination="@id/eventNavigation">
+    <navigation
+        android:id="@+id/postNavigation"
         app:startDestination="@id/postFragment">
         <fragment
             android:id="@+id/postFragment"
             android:name="ru.shelq.nework.ui.post.PostFragment"
-            android:label="PostFragment">
+            android:label="PostFragment"
+            tools:layout="@layout/post_fragment">
             <action
                 android:id="@+id/action_postFragment_to_postDetailsFragment"
                 app:destination="@id/postDetailsFragment" />
@@ -23,7 +25,8 @@
         <fragment
             android:id="@+id/postDetailsFragment"
             android:name="ru.shelq.nework.ui.post.PostDetailsFragment"
-            android:label="PostDetailsFragment">
+            android:label="PostDetailsFragment"
+            tools:layout="@layout/post_details_fragment_">
             <action
                 android:id="@+id/action_postDetailsFragment_to_postEditFragment"
                 app:destination="@id/postEditFragment" />
@@ -39,18 +42,23 @@
             android:label="post_new_fragment"
             tools:layout="@layout/post_new_fragment" />
     </navigation>
-    <navigation android:id="@+id/eventNavigation"
+    <navigation
+        android:id="@+id/eventNavigation"
         app:startDestination="@id/eventFragment">
         <fragment
             android:id="@+id/eventFragment"
             android:name="ru.shelq.nework.ui.post.EventFragment"
-            android:label="EventFragment">
+            android:label="EventFragment"
+            tools:layout="@layout/event_fragment">
             <action
                 android:id="@+id/action_eventFragment_to_eventEditFragment"
                 app:destination="@id/eventEditFragment" />
             <action
                 android:id="@+id/action_eventFragment_to_eventNewFragment"
                 app:destination="@id/eventNewFragment" />
+            <action
+                android:id="@+id/action_eventFragment_to_eventDetailsFragment"
+                app:destination="@id/eventDetailsFragment" />
         </fragment>
         <fragment
             android:id="@+id/eventEditFragment"
@@ -65,7 +73,8 @@
         <fragment
             android:id="@+id/eventDetailsFragment"
             android:name="ru.shelq.nework.ui.event.EventDetailsFragment"
-            android:label="EventDetailsFragment">
+            android:label="EventDetailsFragment"
+            tools:layout="@layout/event_new_fragment">
             <action
                 android:id="@+id/action_eventDetailsFragment_to_eventEditFragment"
                 app:destination="@id/eventEditFragment" />

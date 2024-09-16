@@ -25,7 +25,7 @@ class PostFragment : Fragment() {
 
     }
 
-    val viewModelPost: PostViewModel by activityViewModels()
+    val viewModel: PostViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,18 +36,18 @@ class PostFragment : Fragment() {
 
         val adapter = PostAdapter(object : PostOnInteractionListener {
             override fun onLike(post: Post) {
-                viewModelPost.likeByPost(post)
+                viewModel.likeByPost(post)
             }
 
             override fun onRemove(post: Post) {
-                viewModelPost.removeById(post.id)
+                viewModel.removeById(post.id)
             }
 
             override fun onEdit(post: Post) {
                 findNavController().navigate(
                     R.id.action_postFragment_to_postEditFragment,
                     Bundle().also { it.text = post.content })
-                viewModelPost.edit(post)
+                viewModel.edit(post)
             }
 
             override fun onOpen(post: Post) {
@@ -62,26 +62,26 @@ class PostFragment : Fragment() {
 
         binding.ListPostView.adapter = adapter
 
-        viewModelPost.newerPostCount.observe(viewLifecycleOwner){
+        viewModel.newerPostCount.observe(viewLifecycleOwner){
             binding.NewPost.isVisible = it > 0
             println(it)
         }
 
         binding.NewPost.setOnClickListener {
-            viewModelPost.readNewPosts()
+            viewModel.readNewPosts()
             binding.NewPost.isVisible = false
             binding.ListPostView.smoothScrollToPosition(0)
         }
-        viewModelPost.data.observe(viewLifecycleOwner) { state ->
+        viewModel.data.observe(viewLifecycleOwner) { state ->
             adapter.submitList(state.data)
 
         }
-        viewModelPost.dataState.observe(viewLifecycleOwner) { state ->
+        viewModel.dataState.observe(viewLifecycleOwner) { state ->
             binding.ProgressBar.isVisible = state.loading
             binding.SwipeRefresh.isRefreshing = state.refreshing
             if (state.error) {
                 Snackbar.make(binding.root, R.string.error_loading, Snackbar.LENGTH_LONG)
-                    .setAction(R.string.retry_loading) { viewModelPost.loadPost() }
+                    .setAction(R.string.retry_loading) { viewModel.loadPost() }
                     .show()
             }
         }
