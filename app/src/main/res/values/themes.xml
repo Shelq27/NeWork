@@ -3,10 +3,15 @@
     <style name="Theme.NeWork" parent="Theme.Material3.Light.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="actionOverflowButtonStyle">@style/OverFlow</item>
+        <item name="toolbarStyle">@style/Toolbar</item>
+
     </style>
 
     <style name="ThemeOverlay.NeWork.FullscreenContainer" parent="">
         <item name="fullscreenBackgroundColor">@color/light_blue_600</item>
         <item name="fullscreenTextColor">@color/light_blue_A200</item>
     </style>
+
+
 </resources>
