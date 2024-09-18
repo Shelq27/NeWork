@@ -3,6 +3,7 @@ package ru.shelq.nework.ui
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toolbar
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isGone
@@ -25,6 +26,7 @@ class AppActivity : AppCompatActivity() {
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: AppActivityBinding
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -79,6 +81,7 @@ class AppActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_app_top_bar, menu)
+
         menu?.let {
             it.setGroupVisible(R.id.unauthenticated, !viewModel.authenticated && showMenu)
             it.setGroupVisible(R.id.authenticated, viewModel.authenticated && showMenu)
