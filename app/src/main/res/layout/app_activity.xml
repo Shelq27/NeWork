@@ -15,11 +15,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+
             <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/AppMTB"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:minHeight="?attr/actionBarSize"
-                app:menu="@menu/menu_app_top_bar"
                 app:title="@string/app_name" />
         </com.google.android.material.appbar.AppBarLayout>
 

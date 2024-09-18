@@ -5,6 +5,7 @@ import android.content.Context
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
+import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import ru.shelq.nework.R
 import java.text.SimpleDateFormat
@@ -41,6 +42,7 @@ object AndroidUtils {
         sdf.timeZone = TimeZone.getTimeZone("UTC")
         return sdf.format(date)
     }
+
 
 }
 

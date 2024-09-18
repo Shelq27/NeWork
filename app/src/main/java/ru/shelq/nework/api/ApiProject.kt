@@ -1,6 +1,8 @@
 package ru.shelq.nework.api
 
+import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
+import okhttp3.RequestBody
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
 import retrofit2.Retrofit
@@ -8,6 +10,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
 import ru.shelq.nework.dto.Post
 import ru.shelq.nework.BuildConfig
+import ru.shelq.nework.auth.AppAuth
+import ru.shelq.nework.auth.AuthState
 import ru.shelq.nework.dto.Event
 import ru.shelq.nework.dto.User
 import java.util.concurrent.TimeUnit
@@ -30,6 +34,15 @@ private val client = OkHttpClient.Builder()
                 val request = requestBuilder.build()
                 chain.proceed(request)
             }
+            it.addInterceptor { chain ->
+                AppAuth.getInstance().authState.value.token?.let { token ->
+                    val newRequest = chain.request().newBuilder()
+                        .addHeader("Authorization", token)
+                        .build()
+                    return@addInterceptor chain.proceed(newRequest)
+                }
+                chain.proceed(chain.request())
+            }
 
 
         } else {
@@ -48,6 +61,7 @@ interface ApiProject {
     // POST
     @GET("posts")
     suspend fun getAllPosts(): Response<List<Post>>
+
     @GET("posts/{id}/newer")
 
     suspend fun getNewerPosts(@Path("id") id: Long): Response<List<Post>>
@@ -89,6 +103,8 @@ interface ApiProject {
 
     @GET("events/{id}")
     suspend fun getEventById(@Path("id") id: Long): Response<Event>
+
+
 }
 
 object ApiService {

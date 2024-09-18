@@ -82,13 +82,38 @@
             android:layout_marginTop="@dimen/element_spacing"
             android:hint="@string/hint_password_edit_text"
             app:endIconMode="password_toggle"
-            app:layout_constraintBottom_toTopOf="@id/RegistrationB"
+            app:layout_constraintBottom_toTopOf="@id/PasswordRepeatET"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/NameET">
 
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/pass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword" />
+
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/PasswordRepeatET"
+            style="?attr/textInputFilledStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/element_spacing"
+            android:hint="@string/hint_password_repeat_edit_text"
+            app:endIconMode="password_toggle"
+            app:layout_constraintBottom_toTopOf="@id/RegistrationB"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/PasswordET">
+
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/pass_repeat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword" />
@@ -101,7 +126,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/element_spacing"
-            android:text="@string/name_login_button"
+            android:text="@string/title_login_button"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

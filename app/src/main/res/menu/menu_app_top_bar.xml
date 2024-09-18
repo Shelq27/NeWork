@@ -1,12 +1,27 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item
-        android:id="@+id/profile"
-        android:contentDescription="@string/desc_icon_profile"
-        android:icon="@drawable/ic_account_circle_24dp"
-        android:title="@string/profile_item_menu"
-        app:showAsAction="always" />
+
+    <group android:id="@+id/unauthenticated">
+        <item
+            android:id="@+id/signIn"
+            android:title="@string/sign_in"
+            app:showAsAction="never" />
+        <item
+            android:id="@+id/signUp"
+            android:title="@string/sign_up"
+            app:showAsAction="never" />
+    </group>
+    <group android:id="@+id/authenticated">
+        <item
+            android:id="@+id/profile"
+            android:title="@string/my_profile"
+            app:showAsAction="never" />
+        <item
+            android:id="@+id/signOut"
+            android:title="@string/sign_out"
+            app:showAsAction="never" />
+    </group>
 
 
 </menu>
