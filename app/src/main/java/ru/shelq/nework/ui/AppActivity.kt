@@ -32,7 +32,6 @@ class AppActivity : AppCompatActivity() {
         binding = AppActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
         viewModel.data.observe(this) {
             invalidateOptionsMenu()
         }
