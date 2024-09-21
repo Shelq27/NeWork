@@ -46,14 +46,14 @@ class EventFragment : Fragment() {
 
             override fun onEdit(event: Event) {
                 findNavController().navigate(
-                    R.id.action_postFragment_to_postEditFragment,
+                    R.id.action_eventFragment_to_eventEditFragment,
                     Bundle().also { it.text = event.content })
                 viewModel.edit(event)
             }
 
             override fun onOpen(event: Event) {
                 findNavController().navigate(
-                    R.id.action_postFragment_to_postDetailsFragment,
+                    R.id.action_eventFragment_to_eventDetailsFragment,
                     Bundle().also { it.id = event.id })
 
             }
@@ -88,7 +88,7 @@ class EventFragment : Fragment() {
             viewModel.refreshEvents()
         }
         binding.AddNewEventIB.setOnClickListener {
-            findNavController().navigate(R.id.action_postFragment_to_postNewFragment)
+            findNavController().navigate(R.id.action_eventFragment_to_eventNewFragment)
 
         }
         return binding.root

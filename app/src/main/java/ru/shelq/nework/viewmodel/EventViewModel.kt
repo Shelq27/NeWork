@@ -7,9 +7,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import ru.shelq.nework.auth.AppAuth
 import ru.shelq.nework.db.AppDb
 import ru.shelq.nework.dto.Event
 import ru.shelq.nework.dto.Post
@@ -21,6 +23,7 @@ import ru.shelq.nework.repository.EventRepositoryImpl
 import ru.shelq.nework.util.AndroidUtils
 import ru.shelq.nework.util.SingleLiveEvent
 import java.util.Calendar
+import javax.inject.Inject
 
 private val empty = Event(
     id = 0,
@@ -40,9 +43,12 @@ private val empty = Event(
     users = emptyMap()
 )
 
-class EventViewModel(application: Application) : AndroidViewModel(application) {
-    private val repository: EventRepository =
-        EventRepositoryImpl(AppDb.getInstance(context = application).eventDao)
+@HiltViewModel
+class EventViewModel @Inject constructor(
+    private val repository: EventRepository,
+    application: Application
+) : AndroidViewModel(application) {
+
     val data: LiveData<FeedModel<Event>> = repository.data
         .map(::FeedModel)
         .asLiveData(Dispatchers.Default)

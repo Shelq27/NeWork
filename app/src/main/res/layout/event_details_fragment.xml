@@ -13,7 +13,7 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/EventDetailsTTB"
+            android:id="@+id/EventDetailsMTB"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="?attr/actionBarSize"
@@ -41,7 +41,7 @@
                 android:layout_marginTop="@dimen/element_spacing"
                 android:layout_marginBottom="@dimen/common_spacing"
                 android:contentDescription="@string/desc_avatar_image"
-                android:src="@drawable/img_test_avatar"
+                tools:src="@drawable/img_test_avatar"
                 app:layout_constraintBottom_toBottomOf="@id/barrier_top"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

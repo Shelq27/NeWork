@@ -5,6 +5,7 @@ import dagger.hilt.android.HiltAndroidApp
 import ru.shelq.nework.auth.AppAuth
 import javax.inject.Inject
 
+@HiltAndroidApp
 class NeWorkApplication : Application() {
     @Inject
     lateinit var auth: AppAuth

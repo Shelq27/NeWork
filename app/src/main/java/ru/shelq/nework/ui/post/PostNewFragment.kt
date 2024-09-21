@@ -23,9 +23,7 @@ class PostNewFragment : Fragment() {
         val viewModelPost by activityViewModels<PostViewModel>()
         val binding = PostNewFragmentBinding.inflate(layoutInflater)
         binding.ContentPostET.requestFocus()
-        binding.NewPostTTB.setOnClickListener {
-            findNavController().navigateUp()
-        }
+
         binding.NewPostTTB.setOnMenuItemClickListener {
             val content = binding.ContentPostET.text.toString()
             if (content.isBlank()) {
@@ -35,6 +33,10 @@ class PostNewFragment : Fragment() {
             AndroidUtils.hideKeyboard(requireView())
             findNavController().navigateUp()
         }
+        binding.NewPostTTB.setNavigationOnClickListener {
+            findNavController().navigateUp()
+        }
+
         return binding.root
     }
 }

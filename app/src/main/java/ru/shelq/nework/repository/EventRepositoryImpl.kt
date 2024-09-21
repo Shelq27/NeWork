@@ -18,16 +18,20 @@ import ru.shelq.nework.error.AppError
 import ru.shelq.nework.error.NetworkError
 import ru.shelq.nework.error.UnknownError
 import java.io.IOException
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class EventRepositoryImpl(
+@Singleton
+class EventRepositoryImpl @Inject constructor(
     private val eventDao: EventDao,
+    private val apiService: ApiService,
 ) : EventRepository {
     override val data = eventDao.getAll()
         .map(List<EventEntity>::toDto)
 
     override suspend fun getAll() {
         try {
-            val response = ApiService.service.getAllEvents()
+            val response = apiService.getAllEvents()
             if (!response.isSuccessful) {
                 throw ApiError(response.code(), response.message())
             }
@@ -45,9 +49,9 @@ class EventRepositoryImpl(
         eventDao.likeById(event.id)
         try {
             val response = if (event.likedByMe) {
-                ApiService.service.dislikeEventById(event.id)
+                apiService.dislikeEventById(event.id)
             } else {
-                ApiService.service.likeEventById(event.id)
+                apiService.likeEventById(event.id)
             }
             if (!response.isSuccessful) {
                 throw ApiError(response.code(), response.message())
@@ -63,7 +67,7 @@ class EventRepositoryImpl(
     override suspend fun removeById(id: Long) {
         eventDao.removeById(id)
         try {
-            val response = ApiService.service.deleteEventById(id)
+            val response = apiService.deleteEventById(id)
             if (!response.isSuccessful) {
                 throw ApiError(response.code(), response.message())
             }
@@ -77,7 +81,7 @@ class EventRepositoryImpl(
 
     override suspend fun save(event: Event) {
         try {
-            val response = ApiService.service.saveEvent(event)
+            val response = apiService.saveEvent(event)
             if (!response.isSuccessful) {
                 throw ApiError(response.code(), response.message())
             }
@@ -93,7 +97,7 @@ class EventRepositoryImpl(
 
     override suspend fun getEventById(eventId: Long): Event {
         try {
-            val response = ApiService.service.getEventById(eventId)
+            val response = apiService.getEventById(eventId)
             if (!response.isSuccessful) {
                 throw ApiError(response.code(), response.message())
             }
@@ -112,7 +116,7 @@ class EventRepositoryImpl(
     override fun getNewerEvent(id: Long): Flow<Int> = flow {
         while (true) {
             delay(10_000L)
-            val response = ApiService.service.getNewerEvent(id)
+            val response = apiService.getNewerEvent(id)
             if (!response.isSuccessful) {
                 throw ApiError(response.code(), response.message())
             }

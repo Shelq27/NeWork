@@ -3,8 +3,8 @@ package ru.shelq.nework.ui
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toolbar
 import androidx.activity.viewModels
+import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
@@ -14,19 +14,23 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import dagger.hilt.android.AndroidEntryPoint
 import ru.shelq.nework.R
 import ru.shelq.nework.auth.AppAuth
 import ru.shelq.nework.databinding.AppActivityBinding
 import ru.shelq.nework.viewmodel.AuthViewModel
+import javax.inject.Inject
 
+
+@AndroidEntryPoint
 class AppActivity : AppCompatActivity() {
-    private lateinit var appAuth: AppAuth
+    @Inject
+    lateinit var appAuth: AppAuth
     private val viewModel: AuthViewModel by viewModels()
     private var showMenu: Boolean = true
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: AppActivityBinding
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,9 +53,9 @@ class AppActivity : AppCompatActivity() {
 
 
 
-
         appBarConfiguration = AppBarConfiguration(
             setOf(R.id.postNavigation, R.id.eventNavigation, R.id.userNavigation)
+
         )
         navController.addOnDestinationChangedListener { _, destination, _ ->
 
@@ -60,7 +64,6 @@ class AppActivity : AppCompatActivity() {
                 R.id.postFragment,
                 R.id.eventFragment,
                 -> {
-
                     bottomNavigation.isVisible = true
                     appTopBar.isVisible = true
                 }
@@ -75,6 +78,7 @@ class AppActivity : AppCompatActivity() {
 
         setupActionBarWithNavController(navController, appBarConfiguration)
         bottomNavigation.setupWithNavController(navController)
+
 
 
     }

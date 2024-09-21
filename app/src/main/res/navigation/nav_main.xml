@@ -28,7 +28,7 @@
         <fragment
             android:id="@+id/postFragment"
             android:name="ru.shelq.nework.ui.post.PostFragment"
-            android:label="PostFragment"
+            android:label="@string/app_name"
             tools:layout="@layout/post_fragment">
             <action
                 android:id="@+id/action_postFragment_to_postDetailsFragment"
@@ -66,7 +66,7 @@
         <fragment
             android:id="@+id/eventFragment"
             android:name="ru.shelq.nework.ui.post.EventFragment"
-            android:label="EventFragment"
+            android:label="@string/app_name"
             tools:layout="@layout/event_fragment">
             <action
                 android:id="@+id/action_eventFragment_to_eventEditFragment"

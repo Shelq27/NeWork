@@ -9,6 +9,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import ru.shelq.nework.databinding.PostDetailsFragmentBinding
+import ru.shelq.nework.util.AndroidUtils
+import ru.shelq.nework.util.AndroidUtils.loadImgCircle
 import ru.shelq.nework.util.idArg
 import ru.shelq.nework.viewmodel.PostViewModel
 
@@ -31,9 +33,10 @@ class PostDetailsFragment : Fragment() {
 
             if (post != null)
                 binding.apply {
-                    PostDetailsTBL.setOnClickListener {
+                    PostDetailsTBL.setNavigationOnClickListener {
                         findNavController().navigateUp()
                     }
+                    AvatarIV.loadImgCircle(post.authorAvatar)
                     AuthorTV.text = post.content
                     DatePublicationPostTV.text = post.published
                     TextPostTV.text = post.content

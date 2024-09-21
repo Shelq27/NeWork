@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import ru.shelq.nework.databinding.EventDetailsFragmentBinding
+import ru.shelq.nework.util.AndroidUtils.loadImgCircle
 import ru.shelq.nework.util.idArg
 import ru.shelq.nework.viewmodel.EventViewModel
 
@@ -30,9 +31,10 @@ class EventDetailsFragment : Fragment() {
                 binding.apply {
 
                     AuthorTV.text = event.author
+                    AvatarIV.loadImgCircle(event.authorAvatar)
                     TextEventTV.text = event.content
                     DateEventTV.text = event.datetime
-                    EventDetailsTTB.setOnClickListener {
+                    EventDetailsMTB.setNavigationOnClickListener {
                         findNavController().navigateUp()
                     }
 

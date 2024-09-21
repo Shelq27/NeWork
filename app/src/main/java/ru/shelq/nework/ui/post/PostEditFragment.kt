@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.navigateUp
 import ru.shelq.nework.databinding.PostEditFragmentBinding
 import ru.shelq.nework.util.AndroidUtils
 import ru.shelq.nework.util.StringArg
@@ -40,6 +41,10 @@ class PostEditFragment : Fragment() {
             AndroidUtils.hideKeyboard(requireView())
             findNavController().navigateUp()
         }
+        bindingEdit.NewPostTTB.setNavigationOnClickListener {
+            findNavController().navigateUp()
+        }
+
 
         return binding.root
     }

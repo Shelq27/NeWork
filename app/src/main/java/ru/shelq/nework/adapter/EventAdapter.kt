@@ -49,13 +49,13 @@ class EventViewHolder(
 ) : RecyclerView.ViewHolder(binding.root) {
     fun bind(event: Event) {
         binding.apply {
+            EventCard.setOnClickListener{
+                onInteractionListener.onOpen(event)
+            }
             AuthorTV.text = event.author
             AvatarIV.loadImgCircle(event.authorAvatar)
             PublishedEventTV.text = AndroidUtils.dateFormatToText(event.published, root.context)
             TextEventTV.text = event.content
-            TextEventTV.setOnClickListener {
-                onInteractionListener.onOpen(event)
-            }
             LinkEventTV.text = event.link
 
             TypeEventTV.text = when (event.type) {
@@ -63,7 +63,7 @@ class EventViewHolder(
                 EventType.OFFLINE -> root.context.getString(R.string.offline)
             }
             DateEventTV.text = AndroidUtils.dateFormatToText(event.datetime, root.context)
-            LikeIB.text = event.likeOwnerIds.toString()
+            LikeIB.text = event.likeOwnerIds.size.toString()
             LikeIB.isChecked = event.likedByMe
             LikeIB.setOnClickListener {
                 onInteractionListener.onLike(event)

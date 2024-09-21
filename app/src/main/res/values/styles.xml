@@ -16,6 +16,7 @@
     <style name="OverFlow" parent="Widget.AppCompat.ActionButton.Overflow">
         <item name="android:src">@drawable/ic_account_circle_24dp</item>
     </style>
+
     <style name="Toolbar" parent="@style/Widget.MaterialComponents.Toolbar.Primary">
         <item name="android:background">@color/appbar_color</item>
         <item name="titleTextColor">@color/header_text_color</item>

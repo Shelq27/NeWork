@@ -1,4 +1,4 @@
-package ru.shelq.nework.ui
+package ru.shelq.nework.ui.users
 
 import androidx.fragment.app.Fragment
 

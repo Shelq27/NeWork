@@ -1,3 +1,7 @@
 package ru.shelq.nework.viewmodel
 
-class SignInViewModel() {}
+import dagger.hilt.android.lifecycle.HiltViewModel
+
+
+class SignInViewModel() {
+}

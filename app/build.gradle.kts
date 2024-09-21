@@ -89,6 +89,8 @@ dependencies {
     implementation(libs.androidx.swiperefreshlayout)
     implementation(libs.glide)
     implementation(libs.androidx.lifecycle.livedata.ktx)
+    implementation(libs.androidx.paging.runtime.ktx)
+    implementation(libs.androidx.room.paging)
 
 
 }

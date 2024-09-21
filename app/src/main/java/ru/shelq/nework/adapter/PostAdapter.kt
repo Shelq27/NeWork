@@ -4,6 +4,8 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
+import androidx.core.view.isVisible
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -24,7 +26,7 @@ interface PostOnInteractionListener {
 
 class PostAdapter(
     private val onInteractionListener: PostOnInteractionListener,
-) : ListAdapter<Post, PostViewHolder>(PostDiffCallback()) {
+) : PagingDataAdapter<Post, PostViewHolder>(PostDiffCallback()) {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
@@ -33,7 +35,7 @@ class PostAdapter(
     }
 
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
-        val post = getItem(position)
+        val post = getItem(position) ?: return
         holder.bing(post)
     }
 
@@ -45,22 +47,23 @@ class PostViewHolder(
     private val onInteractionListener: PostOnInteractionListener,
 ) : RecyclerView.ViewHolder(binding.root) {
     fun bing(post: Post) {
-
         binding.apply {
+            CardPost.setOnClickListener {
+                onInteractionListener.onOpen(post)
+            }
 
             AuthorTV.text = post.author
             AvatarIV.loadImgCircle(post.authorAvatar)
             PublishedPostTV.text = AndroidUtils.dateFormatToText(post.published, root.context)
             TextPostTV.text = post.content
             LinkPostTV.text = post.link
-            LikeIB.text = post.likeOwnerIds.toString()
+            LikeIB.text = post.likeOwnerIds.size.toString()
             LikeIB.isChecked = post.likedByMe
-            TextPostTV.setOnClickListener {
-                onInteractionListener.onOpen(post)
-            }
+
             LikeIB.setOnClickListener {
                 onInteractionListener.onLike(post)
             }
+            MenuIB.isVisible = post.ownedByMe
             MenuIB.setOnClickListener {
                 PopupMenu(it.context, it).apply {
                     inflate(R.menu.menu_options_card)
