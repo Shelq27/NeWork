@@ -7,7 +7,8 @@ import ru.shelq.nework.dto.Post
 interface PostRepository {
     val data: Flow<PagingData<Post>>
     suspend fun getAll()
-    suspend fun likeByPost(post: Post)
+    suspend fun likeById(post: Post): Post
+    suspend fun likeByIdLocal(post: Post)
     suspend fun removeById(id: Long)
     suspend fun save(post: Post)
     suspend fun getPostById(postId: Long): Post

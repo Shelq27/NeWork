@@ -1,12 +1,8 @@
 package ru.shelq.nework.viewmodel
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
-import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.map
@@ -18,16 +14,12 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.switchMap
 import kotlinx.coroutines.launch
 import ru.shelq.nework.auth.AppAuth
-import ru.shelq.nework.db.AppDb
 import ru.shelq.nework.dto.Post
 import ru.shelq.nework.error.AppError
-import ru.shelq.nework.model.FeedModel
 import ru.shelq.nework.model.FeedModelState
 import ru.shelq.nework.repository.PostRepository
-import ru.shelq.nework.repository.PostRepositoryImpl
 import ru.shelq.nework.util.SingleLiveEvent
 import javax.inject.Inject
 
@@ -66,6 +58,7 @@ class PostViewModel @Inject constructor(
         .catch { it.printStackTrace() }.flowOn(Dispatchers.Default)
 
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     val newerPostCount : Flow<Int> = data.flatMapLatest {
         repository.getNewerPost(repository.latestReadPostId())
             .catch { e -> throw AppError.from(e) }
@@ -106,15 +99,6 @@ class PostViewModel @Inject constructor(
         }
     }
 
-    fun refreshPosts() = viewModelScope.launch {
-        try {
-            _dataState.value = FeedModelState(refreshing = true)
-            repository.getAll()
-            _dataState.value = FeedModelState()
-        } catch (e: Exception) {
-            _dataState.value = FeedModelState(error = true)
-        }
-    }
 
     fun changeContentAndSave(content: String) {
         val text = content.trim()
@@ -142,7 +126,7 @@ class PostViewModel @Inject constructor(
     fun likeByPost(post: Post) = viewModelScope.launch {
         try {
             _dataState.value = FeedModelState(error = false)
-            repository.likeByPost(post)
+            repository.likeById(post)
             _dataState.value = FeedModelState()
         } catch (e: Exception) {
             _dataState.value = FeedModelState(error = true)

@@ -43,7 +43,7 @@ class PostFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val binding = PostFragmentBinding.inflate(inflater, container, false)
 
         val adapter = PostAdapter(object : PostOnInteractionListener {

@@ -10,10 +10,10 @@ import ru.shelq.nework.auth.AuthState
 import javax.inject.Inject
 
 @HiltViewModel
-class AuthViewModel @Inject constructor(auth: AppAuth) : ViewModel() {
+class AuthViewModel @Inject constructor(private val auth: AppAuth) : ViewModel() {
     val data: LiveData<AuthState> = auth
         .authState
         .asLiveData(Dispatchers.Default)
     val authenticated: Boolean
-        get() = AppAuth.getInstance().authState.value.id != 0L
+        get() = auth.authState.value.id != 0L
 }

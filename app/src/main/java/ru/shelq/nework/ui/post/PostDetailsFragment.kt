@@ -41,7 +41,7 @@ class PostDetailsFragment : Fragment() {
                     DatePublicationPostTV.text = post.published
                     TextPostTV.text = post.content
                     LinkPostTV.text = post.link
-                    LikeB.text = post.likeOwnerIds.toString()
+                    LikeB.text = post.likeOwnerIds.size.toString()
 
                 }
         }

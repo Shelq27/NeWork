@@ -15,20 +15,15 @@ interface PostDao {
     @Query("SELECT * FROM PostEntity ORDER BY id DESC")
     fun pagingSource(): PagingSource<Int, PostEntity>
 
-    @Query("SELECT * FROM PostEntity ORDER BY id DESC")
-    fun getAll(): Flow<List<PostEntity>>
-
     @Upsert
     suspend fun save(post: PostEntity): Long
-
-    @Query(
-        """
-         UPDATE PostEntity SET
-                    likedByMe = CASE WHEN likedByMe THEN 0 ELSE 1 END,
-                    likeOwnerIds = :likeOwnerIds
-                WHERE id = :id;
-    """
-    )
+    @Query("""
+        UPDATE PostEntity SET
+        likes = likes + CASE WHEN likedByMe THEN -1 ELSE 1 END,
+        likedByMe = CASE WHEN likedByMe THEN 0 ELSE 1 END,
+        likeOwnerIds = :likeOwnerIds
+        WHERE id = :id
+        """)
     suspend fun likeById(id: Long, likeOwnerIds: List<Long>)
 
     @Query("DELETE FROM PostEntity WHERE id = :id")

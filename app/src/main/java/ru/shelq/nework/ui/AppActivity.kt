@@ -27,7 +27,6 @@ class AppActivity : AppCompatActivity() {
     @Inject
     lateinit var appAuth: AppAuth
     private val viewModel: AuthViewModel by viewModels()
-    private var showMenu: Boolean = true
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: AppActivityBinding
@@ -87,8 +86,8 @@ class AppActivity : AppCompatActivity() {
         menuInflater.inflate(R.menu.menu_app_top_bar, menu)
 
         menu?.let {
-            it.setGroupVisible(R.id.unauthenticated, !viewModel.authenticated && showMenu)
-            it.setGroupVisible(R.id.authenticated, viewModel.authenticated && showMenu)
+            it.setGroupVisible(R.id.unauthenticated, !viewModel.authenticated)
+            it.setGroupVisible(R.id.authenticated, viewModel.authenticated)
         }
         return true
     }
@@ -130,4 +129,3 @@ class AppActivity : AppCompatActivity() {
     }
 
 }
-

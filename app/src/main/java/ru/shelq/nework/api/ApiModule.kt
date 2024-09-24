@@ -50,7 +50,7 @@ class ApiModule {
                     chain.proceed(request)
                 }
                 it.addInterceptor { chain ->
-                    AppAuth.getInstance().authState.value.token?.let { token ->
+                    appAuth.authState.value.token?.let { token ->
                         val newRequest = chain.request().newBuilder()
                             .addHeader("Authorization", token)
                             .build()
@@ -59,11 +59,11 @@ class ApiModule {
                     chain.proceed(chain.request())
                 }
 
-
             } else {
                 it
             }
         }
+        .addInterceptor(logging)
         .build()
 
     @Provides

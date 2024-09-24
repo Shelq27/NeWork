@@ -32,12 +32,13 @@ import javax.inject.Singleton
 class PostRepositoryImpl @Inject constructor(
     private val apiService: ApiService,
     private val postDao: PostDao,
+    private val auth: AppAuth,
     postRemoteKeyDao: PostRemoteKeyDao,
     appDb: AppDb
 ) : PostRepository {
     @OptIn(ExperimentalPagingApi::class)
     override val data = Pager(
-        config = PagingConfig(pageSize = 25, enablePlaceholders = false),
+        config = PagingConfig(pageSize = 25),
         pagingSourceFactory = { postDao.pagingSource() },
         remoteMediator = PostRemoteMediator(apiService, appDb, postDao, postRemoteKeyDao)
     ).flow.map { it.map(PostEntity::toDto) }
@@ -58,20 +59,40 @@ class PostRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun likeByPost(post: Post) {
+    override suspend fun likeById(post: Post): Post {
+        try {
+            likeByIdLocal(post)
+            val response = if (!post.likedByMe) {
+                apiService.likePostById(post.id)
+            } else {
+                apiService.dislikePostById(post.id)
+            }
+            if (!response.isSuccessful) {
+                throw ApiError(response.code(), response.message())
+            }
+            return response.body() ?: throw ApiError(response.code(), response.message())
+        } catch (e: IOException) {
+            likeByIdLocal(post)
+            throw NetworkError
+        } catch (e: Exception) {
+            likeByIdLocal(post)
+            throw UnknownError
+        }
+    }
+
+    override suspend fun likeByIdLocal(post: Post) {
         return if (post.likedByMe) {
             val list = post.likeOwnerIds.filter {
-                it != AppAuth.getInstance().authState.value.id
+                it != auth.authState.value.id
             }
-            apiService.dislikePostById(post.id)
             postDao.likeById(post.id, list)
         } else {
-            val list = post.likeOwnerIds.plus(AppAuth.getInstance().authState.value.id)
-            apiService.likePostById(post.id)
+            val list = post.likeOwnerIds.plus(auth.authState.value.id)
             postDao.likeById(post.id, list)
         }
 
     }
+
 
     override suspend fun removeById(id: Long) {
         postDao.removeById(id)

@@ -77,4 +77,6 @@
     <string name="authentication">Authentication</string>
     <string name="don_t_have_account">Don\'t have an account? Register</string>
     <string name="password_empty">Password cannot empty</string>
+    <string name="error_user_exist">The user already exists</string>
+    <string name="error_format_image">Invalid image format</string>
 </resources>

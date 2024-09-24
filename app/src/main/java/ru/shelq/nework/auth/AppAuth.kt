@@ -27,7 +27,7 @@ class AppAuth @Inject constructor(@ApplicationContext private val  context: Cont
         with(prefs.edit()) {
             putLong(KEY_ID, id)
             putString(KEY_TOKEN, token)
-            commit()
+            apply()
         }
     }
 
