@@ -30,13 +30,13 @@
 
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/LoginET"
+            android:id="@+id/LoginETL"
             style="?attr/textInputFilledStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:hint="@string/hint_login_edit_text"
-            app:layout_constraintBottom_toTopOf="@id/PasswordET"
+            app:layout_constraintBottom_toTopOf="@id/PasswordETL"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -51,7 +51,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/PasswordET"
+            android:id="@+id/PasswordETL"
             style="?attr/textInputFilledStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -62,7 +62,7 @@
             app:layout_constraintBottom_toTopOf="@id/SignIn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/LoginET">
+            app:layout_constraintTop_toBottomOf="@id/LoginETL">
 
 
             <com.google.android.material.textfield.TextInputEditText
@@ -83,10 +83,10 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/PasswordET" />
+            app:layout_constraintTop_toBottomOf="@id/PasswordETL" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/SignUp"
+            android:id="@+id/SignUpB"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

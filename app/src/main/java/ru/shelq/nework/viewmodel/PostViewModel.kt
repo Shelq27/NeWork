@@ -55,11 +55,11 @@ class PostViewModel @Inject constructor(
 
                 }
         }
-        .catch { it.printStackTrace() }.flowOn(Dispatchers.Default)
+        .catch { it.printStackTrace() }
 
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    val newerPostCount : Flow<Int> = data.flatMapLatest {
+    val newerPostCount: Flow<Int> = data.flatMapLatest {
         repository.getNewerPost(repository.latestReadPostId())
             .catch { e -> throw AppError.from(e) }
             .flowOn(Dispatchers.Default)

@@ -34,7 +34,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/NewPostABL">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
+            android:padding="@dimen/element_spacing"
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -46,37 +48,42 @@
                 android:inputType="textMultiLine"
                 android:padding="@dimen/common_spacing"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="@tools:sample/lorem[100]" />
+                tools:text="@tools:sample/lorem[20]" />
 
-            <androidx.constraintlayout.widget.Group
-                android:id="@+id/AttachmentPostGroup"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                app:constraint_referenced_ids="AttachmentIV,RemoveAttachmentB" />
-
-            <ImageView
-                android:id="@+id/AttachmentIV"
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scaleType="centerCrop"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintHeight="@dimen/max_height_attachment_container"
-                app:layout_constraintTop_toBottomOf="@id/ContentPostET"
-                tools:src="@drawable/img_test_avatar" />
+                android:hint="@string/link"
 
-            <Button
-                android:id="@+id/RemoveAttachmentB"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/desc_button_remove"
-                android:text="@string/text_button_remove"
-                app:layout_constraintBottom_toBottomOf="@id/AttachmentIV"
-                app:layout_constraintEnd_toEndOf="@id/AttachmentIV"
-                app:layout_constraintStart_toStartOf="@id/AttachmentIV" />
+                app:boxStrokeColor="@color/primary"
+                app:boxStrokeWidth="1dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/Link"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <include
+                    android:id="@+id/image_container"
+                    layout="@layout/image_load" />
+
+                <include
+                    android:id="@+id/audio_container"
+                    layout="@layout/audio_load" />
+
+                <include
+                    android:id="@+id/video_container"
+                    layout="@layout/video_load" />
+            </FrameLayout>
 
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
 

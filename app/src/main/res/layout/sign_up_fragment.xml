@@ -27,14 +27,16 @@
 
         <ImageButton
             android:id="@+id/LoadAvatarIB"
+
             android:layout_width="@dimen/background_circle_reg"
             android:layout_height="@dimen/background_circle_reg"
-            android:background="@color/transparent"
-            android:src="@drawable/avatar_load_background"
+            android:background="@drawable/circle_button_background"
             android:contentDescription="@string/avatar_load_button"
+            android:src="@drawable/ic_photo_camera_60dp"
             app:layout_constraintBottom_toTopOf="@id/LoginETL"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            android:clipToOutline="true"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed" />
 

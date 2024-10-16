@@ -1,6 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/audio_load"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <include
+        android:id="@+id/audio_play"
+        layout="@layout/audio_play" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/removeAudio"
+        android:layout_width="100dp"
+        android:layout_height="@dimen/icon_min_size"
+        android:text="@string/text_button_remove"
+        android:textAllCaps="false"
+        app:cornerRadius="100dp"
+        app:layout_constraintBottom_toBottomOf="@id/audio_play"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

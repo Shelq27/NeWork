@@ -7,7 +7,6 @@
     <string name="hint_name_edit_text">Name</string>
     <string name="avatar_load_button">Avatar Load Button</string>
     <string name="avatar_image">Avatar Image</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="posts_item_menu">Posts</string>
     <string name="events_item_menu">Events</string>
@@ -59,9 +58,9 @@
     <string name="title_new_job">New job</string>
     <string name="hint_position_edit_text">Position</string>
     <string name="name_create_job_button">Create</string>
-    <string name="hint_link_edit_text">Link</string>
-    <string name="menu_options_edit">Изменить</string>
-    <string name="menu_options_remove">Удалить</string>
+    <string name="link">Link</string>
+    <string name="menu_options_edit">Edit</string>
+    <string name="menu_options_remove">Remove</string>
     <string name="retry_loading">Retry</string>
     <string name="error_loading">Error loading data</string>
     <string name="desc_icon_add_new_event">Icon Add Event</string>
@@ -79,4 +78,7 @@
     <string name="password_empty">Password cannot empty</string>
     <string name="error_user_exist">The user already exists</string>
     <string name="error_format_image">Invalid image format</string>
+    <string name="pass_don_t_match">Passwords don\'t match</string>
+    <string name="cancelled">Task cancelled</string>
+    <string name="desc_take_date">Take Date</string>
 </resources>

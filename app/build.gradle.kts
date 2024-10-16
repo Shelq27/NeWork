@@ -3,7 +3,7 @@ import java.util.*
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
-    id ("org.jetbrains.kotlin.kapt")
+    id("org.jetbrains.kotlin.kapt")
     id("com.google.dagger.hilt.android")
 }
 
@@ -13,7 +13,7 @@ android {
     compileSdk = 34
     defaultConfig {
         applicationId = "ru.shelq.nework"
-        minSdk = 28
+        minSdk = 31
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -65,6 +65,7 @@ android {
 
 
 dependencies {
+    implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.navigation.fragment.ktx.v280)
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.core.ktx)
@@ -91,13 +92,11 @@ dependencies {
     implementation(libs.androidx.swiperefreshlayout)
     implementation(libs.glide)
     implementation(libs.androidx.lifecycle.livedata.ktx)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.paging.runtime.ktx)
     implementation(libs.androidx.room.paging)
     implementation(libs.github.glide)
-
-
-
-
+    implementation(libs.imagepicker)
 
 
 }

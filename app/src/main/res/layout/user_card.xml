@@ -1,74 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/spacing_user_list"
-    >
+    android:checkable="true"
+    android:clickable="true"
+    android:focusable="true"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
 
 
-    <com.google.android.material.card.MaterialCardView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:checkable="true"
-        android:clickable="true"
-        android:focusable="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:padding="@dimen/common_spacing">
 
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/AvatarIV"
+            android:layout_width="@dimen/posts_avatar_size"
+            android:layout_height="@dimen/posts_avatar_size"
+            android:layout_marginBottom="@dimen/common_spacing"
+            android:contentDescription="@string/avatar_image"
+            android:src="@drawable/img_test_avatar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
+            />
+
+        <TextView
+            android:id="@+id/AuthorTV"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:padding="@dimen/common_spacing">
+            android:layout_marginStart="@dimen/common_spacing"
+            android:layout_marginEnd="@dimen/common_spacing"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textSize="@dimen/size_text_title"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/LoginTV"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/AvatarIV"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:text="Albert Ablyaev" />
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/AvatarIV"
-                android:layout_width="@dimen/posts_avatar_size"
-                android:layout_height="@dimen/posts_avatar_size"
-                android:layout_marginBottom="@dimen/common_spacing"
-                android:contentDescription="@string/avatar_image"
-                android:src="@drawable/img_test_avatar"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+        <TextView
+            android:id="@+id/LoginTV"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/common_spacing"
+            android:layout_marginTop="@dimen/element_spacing"
+            android:layout_marginEnd="@dimen/common_spacing"
+            android:layout_marginBottom="@dimen/common_spacing"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/AvatarIV"
+            app:layout_constraintTop_toBottomOf="@id/AuthorTV"
+            tools:text="albiberio" />
 
-                />
-
-            <TextView
-                android:id="@+id/AuthorTV"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/common_spacing"
-                android:layout_marginEnd="@dimen/common_spacing"
-                android:ellipsize="end"
-                android:singleLine="true"
-                android:textSize="@dimen/size_text_title"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/LoginTV"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/AvatarIV"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_chainStyle="packed"
-                tools:text="Albert Ablyaev" />
-
-            <TextView
-                android:id="@+id/LoginTV"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/common_spacing"
-                android:layout_marginTop="@dimen/element_spacing"
-                android:layout_marginEnd="@dimen/common_spacing"
-                android:layout_marginBottom="@dimen/common_spacing"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/AvatarIV"
-                app:layout_constraintTop_toBottomOf="@id/AuthorTV"
-                tools:text="albiberio" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </com.google.android.material.card.MaterialCardView>
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>
 

@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,7 +27,7 @@ class SingInFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = SignInFragmentBinding.inflate(layoutInflater)
 
         binding.Login.doOnTextChanged{text, start, before, count ->
@@ -41,7 +40,7 @@ class SingInFragment : Fragment() {
                 passError()
             }
             else{
-                binding.PasswordET.error = null
+                binding.PasswordETL.error = null
             }
             enableLogin()
         }
@@ -65,7 +64,7 @@ class SingInFragment : Fragment() {
             }
         }
 
-        binding.SignUp.setOnClickListener{
+        binding.SignUpB.setOnClickListener{
             findNavController().navigate(R.id.action_signInFragment_to_signUpFragment)
         }
         binding.LoginMTB.setNavigationOnClickListener{
@@ -75,7 +74,7 @@ class SingInFragment : Fragment() {
     }
 
     private fun passError(){
-        binding.PasswordET.error = getString(R.string.password_empty)
+        binding.PasswordETL.error = getString(R.string.password_empty)
     }
 
     private fun enableLogin(){

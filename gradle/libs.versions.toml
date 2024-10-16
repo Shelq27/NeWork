@@ -1,29 +1,25 @@
 [versions]
-agp = "8.5.0"
-artifactid = "version"
+agp = "8.6.1"
 circleimageview = "3.1.0"
-daggerCompiler = "2.51.1"
+fragmentKtx = "1.8.3"
 glide = "4.16.0"
-gson = "2.11.0"
-hiltAndroid = "2.44"
-hiltAndroidCompiler = "2.44"
 hiltAndroidVersion = "2.52"
 hiltCompiler = "2.52"
-hiltCompilerVersion = "2.5.2"
+imagepicker = "2.1"
 kotlin = "1.9.0"
 coreKtx = "1.13.1"
 junit = "4.13.2"
-junitVersion = "1.1.5"
-espressoCore = "3.5.1"
-appcompat = "1.6.1"
+junitVersion = "1.2.1"
+espressoCore = "3.6.1"
+appcompat = "1.7.0"
 kotlinxCoroutinesCore = "1.8.1"
-lifecycleLivedataKtx = "2.8.5"
+lifecycleLivedataKtx = "2.8.6"
 material = "1.12.0"
-activity = "1.8.0"
+activity = "1.9.2"
 constraintlayout = "2.1.4"
-materialVersion = "1.5.0"
-navigationFragmentKtx = "2.7.7"
-navigationFragmentKtxVersion = "2.8.0"
+materialVersion = "1.12.0"
+navigationFragmentKtx = "2.8.1"
+navigationFragmentKtxVersion = "2.8.1"
 okhttp = "4.12.0"
 pagingRuntimeKtx = "3.3.2"
 retrofit = "2.9.0"
@@ -32,7 +28,9 @@ swiperefreshlayout = "1.1.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "fragmentKtx" }
 androidx-lifecycle-livedata-ktx = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycleLivedataKtx" }
+androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycleLivedataKtx" }
 androidx-navigation-fragment-ktx-v280 = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigationFragmentKtxVersion" }
 androidx-navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigationFragmentKtxVersion" }
 androidx-paging-runtime-ktx = { module = "androidx.paging:paging-runtime-ktx", version.ref = "pagingRuntimeKtx" }
@@ -47,6 +45,7 @@ github-glide = { module = "com.github.bumptech.glide:glide" }
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 hilt-android-v252 = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroidVersion" }
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hiltCompiler" }
+imagepicker = { module = "com.github.dhaval2404:imagepicker", version.ref = "imagepicker" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }

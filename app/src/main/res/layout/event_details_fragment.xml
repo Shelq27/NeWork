@@ -82,43 +82,32 @@
                 app:barrierDirection="bottom"
                 app:constraint_referenced_ids="AvatarIV,NameJobTV" />
 
-            <ImageView
-                android:id="@+id/AttachmentIV"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:contentDescription="@string/desc_attachment_image"
-                android:padding="@dimen/element_spacing"
-                android:visibility="gone"
-                app:layout_constraintBottom_toTopOf="@id/TypeEventTV"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/barrier_top"
-                app:layout_constraintVertical_bias="0.0"
-                app:layout_constraintVertical_chainStyle="packed"
-                tools:layout_height="200dp"
-                tools:src="@drawable/ic_people_outline_24dp" />
-
-            <ImageButton
-                android:id="@+id/PlayIB"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:contentDescription="@string/desc_image_play_button"
-                android:src="@drawable/ic_play_80dp"
-                app:layout_constraintBottom_toBottomOf="@id/AttachmentIV"
-                app:layout_constraintEnd_toEndOf="@id/AttachmentIV"
-                app:layout_constraintStart_toStartOf="@id/AttachmentIV"
-                app:layout_constraintTop_toTopOf="@id/AttachmentIV" />
-
-            <androidx.constraintlayout.widget.Group
+            <FrameLayout
                 android:id="@+id/AttachmentGroup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                app:constraint_referenced_ids="AttachmentIV,PlayIB"
-                tools:visibility="visible" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/barrier_top">
+
+                <ImageView
+                    android:id="@+id/imageAttachment"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/max_size_attachment"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@string/desc_attachment_image"
+                    android:padding="@dimen/element_spacing"
+                    android:visibility="visible"
+                    tools:src="@drawable/ic_people_outline_24dp" />
+
+                <include
+                    android:id="@+id/audio_attachment"
+                    layout="@layout/audio_play" />
+
+                <include
+                    android:id="@+id/video_attachment"
+                    layout="@layout/video_play" />
+            </FrameLayout>
 
             <TextView
                 android:id="@+id/TypeEventTV"
@@ -130,7 +119,7 @@
                 android:textSize="@dimen/size_text_title"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@id/DateEventTV"
-                app:layout_constraintTop_toBottomOf="@id/AttachmentIV" />
+                app:layout_constraintTop_toBottomOf="@id/AttachmentGroup" />
 
             <TextView
                 android:id="@+id/DateEventTV"
@@ -140,7 +129,7 @@
                 android:layout_marginTop="@dimen/element_spacing"
                 android:layout_marginEnd="@dimen/element_spacing"
                 app:layout_constraintTop_toBottomOf="@id/TypeEventTV"
-                tools:text="12.02.2021 10:45" />
+                tools:text="12.02.21 10:45" />
 
 
             <TextView

@@ -1,6 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/audio_play"
+    android:visibility="visible"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <ImageButton
+        android:id="@+id/playAudioIB"
+        android:layout_width="@dimen/icon_min_size"
+        android:layout_height="@dimen/icon_min_size"
+        android:layout_marginStart="@dimen/common_spacing"
+        android:background="@drawable/ic_play_48dp"
+        android:backgroundTint="@color/primary"
+        android:contentDescription="@string/desc_image_play_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <SeekBar
+        android:id="@+id/audioSB"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_marginEnd="@dimen/common_spacing"
+        android:backgroundTint="@color/primary"
+        android:foregroundTint="@color/primary"
+        android:indeterminate="false"
+        android:indeterminateBehavior="repeat"
+        android:padding="8dp"
+        android:progressTint="@color/primary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/playAudioIB"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
