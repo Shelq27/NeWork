@@ -78,7 +78,7 @@ class PostViewModel @Inject constructor(
         loadPost()
     }
 
-    fun loadPost() = viewModelScope.launch {
+    private fun loadPost() = viewModelScope.launch {
         try {
             _dataState.value = FeedModelState(loading = true)
             repository.getAll()
