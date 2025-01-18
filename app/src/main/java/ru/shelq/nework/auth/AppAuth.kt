@@ -39,6 +39,9 @@ class AppAuth @Inject constructor(@ApplicationContext private val  context: Cont
             commit()
         }
     }
+    fun authenticated(): Boolean {
+        return _authState.value.id != 0L
+    }
 
 
     companion object {

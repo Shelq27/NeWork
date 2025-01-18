@@ -28,13 +28,13 @@ interface ApiService {
 
 
     @GET("posts/latest")
-    suspend fun getLatest(@Query("count") count: Int): Response<List<Post>>
+    suspend fun getPostLatest(@Query("count") count: Int): Response<List<Post>>
 
     @GET("posts/{id}/before")
-    suspend fun getBefore(@Path("id") id: Long, @Query("count") count: Int): Response<List<Post>>
+    suspend fun getPostBefore(@Path("id") id: Long, @Query("count") count: Int): Response<List<Post>>
 
     @GET("posts/{id}/after")
-    suspend fun getAfter(@Path("id") id: Long, @Query("count") count: Int): Response<List<Post>>
+    suspend fun getPostAfter(@Path("id") id: Long, @Query("count") count: Int): Response<List<Post>>
 
     @GET("posts")
     suspend fun savePost(@Body post: Post): Response<Post>
@@ -56,6 +56,12 @@ interface ApiService {
     @GET("events")
     suspend fun getAllEvents(): Response<List<Event>>
 
+    @GET("events/latest")
+    suspend fun getEventLatest(@Query("count") count: Int): Response<List<Event>>
+    @GET("events/{id}/after")
+    suspend fun getEventAfter(@Path("id") id: Long, @Query("count") count: Int): Response<List<Event>>
+    @GET("events/{id}/before")
+    suspend fun getEventBefore(@Path("id") id: Long, @Query("count") count: Int): Response<List<Event>>
     @GET("events/{id}/newer")
     suspend fun getNewerEvent(@Path("id") id: Long): Response<List<Event>>
 
@@ -76,14 +82,15 @@ interface ApiService {
 
     // Reg/Auth
 
-            //Auth
+    //Auth
     @FormUrlEncoded
     @POST("users/authentication")
     suspend fun updateUser(
         @Field("login") login: String,
         @Field("pass") pass: String
     ): Response<AuthState>
-        //Reg No Avatar
+
+    //Reg No Avatar
     @FormUrlEncoded
     @POST("users/registration")
     suspend fun registerUser(
@@ -91,15 +98,16 @@ interface ApiService {
         @Field("pass") pass: String,
         @Field("name") name: String
     ): Response<AuthState>
-        //Reg Avatar
-        @Multipart
-        @POST("users/registration")
-        suspend fun registerUserAvatar(
-            @Part("login") login: RequestBody,
-            @Part("pass") pass: RequestBody,
-            @Part("name") name: RequestBody,
-            @Part media: MultipartBody.Part
-        ): Response<AuthState>
+
+    //Reg Avatar
+    @Multipart
+    @POST("users/registration")
+    suspend fun registerUserAvatar(
+        @Part("login") login: RequestBody,
+        @Part("pass") pass: RequestBody,
+        @Part("name") name: RequestBody,
+        @Part media: MultipartBody.Part
+    ): Response<AuthState>
 
 
 }

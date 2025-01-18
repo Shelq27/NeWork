@@ -1,5 +1,9 @@
 package ru.shelq.nework.repository
 
+import androidx.paging.ExperimentalPagingApi
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.map
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -8,10 +12,12 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import ru.shelq.nework.api.ApiService
+import ru.shelq.nework.auth.AppAuth
 import ru.shelq.nework.dao.EventDao
+import ru.shelq.nework.dao.EventRemoteKeyDao
+import ru.shelq.nework.db.AppDb
 import ru.shelq.nework.dto.Event
 import ru.shelq.nework.entity.EventEntity
-import ru.shelq.nework.entity.toDto
 import ru.shelq.nework.entity.toEntity
 import ru.shelq.nework.error.ApiError
 import ru.shelq.nework.error.AppError
@@ -23,11 +29,18 @@ import javax.inject.Singleton
 
 @Singleton
 class EventRepositoryImpl @Inject constructor(
-    private val eventDao: EventDao,
     private val apiService: ApiService,
+    private val eventDao: EventDao,
+    private val auth: AppAuth,
+    eventRemoteKeyDao: EventRemoteKeyDao,
+    appDb: AppDb
 ) : EventRepository {
-    override val data = eventDao.getAll()
-        .map(List<EventEntity>::toDto)
+    @OptIn(ExperimentalPagingApi::class)
+    override val data = Pager(
+        config = PagingConfig(pageSize = 25),
+        pagingSourceFactory = { eventDao.pagingSource() },
+        remoteMediator = EventRemoteMediator(apiService, appDb, eventDao, eventRemoteKeyDao)
+    ).flow.map { it.map(EventEntity::toDto) }
 
     override suspend fun getAll() {
         try {
@@ -45,23 +58,38 @@ class EventRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun likeByEvent(event: Event) {
-        eventDao.likeById(event.id)
+    override suspend fun likeById(event: Event): Event {
         try {
-            val response = if (event.likedByMe) {
-                apiService.dislikeEventById(event.id)
-            } else {
+            likeByIdLocal(event)
+            val response = if (!event.likedByMe) {
                 apiService.likeEventById(event.id)
+            } else {
+                apiService.dislikeEventById(event.id)
             }
             if (!response.isSuccessful) {
                 throw ApiError(response.code(), response.message())
             }
+            return response.body() ?: throw ApiError(response.code(), response.message())
         } catch (e: IOException) {
-            eventDao.likeById(event.id)
+            likeByIdLocal(event)
             throw NetworkError
         } catch (e: Exception) {
+            likeByIdLocal(event)
             throw UnknownError
         }
+    }
+
+    override suspend fun likeByIdLocal(event: Event) {
+        return if (event.likedByMe) {
+            val list = event.likeOwnerIds.filter {
+                it != auth.authState.value.id
+            }
+            eventDao.likeById(event.id, list)
+        } else {
+            val list = event.likeOwnerIds.plus(auth.authState.value.id)
+            eventDao.likeById(event.id, list)
+        }
+
     }
 
     override suspend fun removeById(id: Long) {
@@ -127,6 +155,10 @@ class EventRepositoryImpl @Inject constructor(
         }
     }.catch { e -> throw AppError.from(e) }
         .flowOn(Dispatchers.Default)
+
+    override suspend fun latestReadEventId(): Long {
+        return eventDao.latestReadEventId() ?: 0L
+    }
 
     override suspend fun readNewEvents() {
         eventDao.readNewEvents()

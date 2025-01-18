@@ -1,27 +1,32 @@
 package ru.shelq.nework.viewmodel
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.asLiveData
-import androidx.lifecycle.switchMap
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.map
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import ru.shelq.nework.auth.AppAuth
-import ru.shelq.nework.db.AppDb
 import ru.shelq.nework.dto.Event
-import ru.shelq.nework.dto.Post
+import ru.shelq.nework.enumer.AttachmentType
 import ru.shelq.nework.enumer.EventType
-import ru.shelq.nework.model.FeedModel
+import ru.shelq.nework.error.AppError
+import ru.shelq.nework.model.AttachmentModel
 import ru.shelq.nework.model.FeedModelState
 import ru.shelq.nework.repository.EventRepository
-import ru.shelq.nework.repository.EventRepositoryImpl
 import ru.shelq.nework.util.AndroidUtils
 import ru.shelq.nework.util.SingleLiveEvent
+import java.io.File
 import java.util.Calendar
 import javax.inject.Inject
 
@@ -42,36 +47,54 @@ private val empty = Event(
     type = EventType.ONLINE,
     users = emptyMap()
 )
+private val noAttachment: AttachmentModel? = null
 
 @HiltViewModel
 class EventViewModel @Inject constructor(
     private val repository: EventRepository,
-    application: Application
-) : AndroidViewModel(application) {
+    appAuth: AppAuth
+) : ViewModel() {
 
-    val data: LiveData<FeedModel<Event>> = repository.data
-        .map(::FeedModel)
-        .asLiveData(Dispatchers.Default)
 
-    val newerEventCount = data.switchMap {
-        repository.getNewerEvent(it.data.firstOrNull()?.id ?: 0L)
-            .asLiveData(Dispatchers.Default)
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val data: Flow<PagingData<Event>> = appAuth
+        .authState
+        .flatMapLatest { auth ->
+            repository.data
+                .map { events ->
+                    events.map { it.copy(ownedByMe = auth.id == it.authorId) }
+
+                }
+        }
+        .catch { it.printStackTrace() }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val newerEventCount: Flow<Int> = data.flatMapLatest {
+        repository.getNewerEvent(repository.latestReadEventId())
+            .catch { e -> throw AppError.from(e) }
+            .flowOn(Dispatchers.Default)
     }
+
+
+
     private val _dataState = MutableLiveData<FeedModelState>()
     val dataState: LiveData<FeedModelState>
         get() = _dataState
-    val edited = MutableLiveData(empty)
+    private val edited = MutableLiveData(empty)
     val selectedEvent = MutableLiveData<Event?>()
     private val _eventCreated = SingleLiveEvent<Unit>()
     val eventCreated: LiveData<Unit>
         get() = _eventCreated
-
+    private val _attachment = MutableLiveData(noAttachment)
+    val attachment: LiveData<AttachmentModel?>
+        get() = _attachment
+    private val _changed = MutableLiveData<Boolean>()
 
     init {
         loadEvent()
     }
 
-    fun loadEvent() = viewModelScope.launch {
+    private fun loadEvent() = viewModelScope.launch {
         try {
             _dataState.value = FeedModelState(loading = true)
             repository.getAll()
@@ -92,15 +115,7 @@ class EventViewModel @Inject constructor(
         }
     }
 
-    fun refreshEvents() = viewModelScope.launch {
-        try {
-            _dataState.value = FeedModelState(refreshing = true)
-            repository.getAll()
-            _dataState.value = FeedModelState()
-        } catch (e: Exception) {
-            _dataState.value = FeedModelState(error = true)
-        }
-    }
+
 
     fun changeContentAndSave(content: String) {
         val text = content.trim()
@@ -120,7 +135,18 @@ class EventViewModel @Inject constructor(
         }
         edited.value = empty
     }
-
+    fun changeAttachment(url: String?, uri: Uri?, file: File?, attachmentType: AttachmentType?) {
+        if (uri == null) {
+            if (url != null) { //редактирование поста с вложением
+                _attachment.value = AttachmentModel(url, null, null, attachmentType)
+            } else {
+                _attachment.value = null //удалили вложение
+            }
+        } else {
+            _attachment.value = AttachmentModel(null, uri, file, attachmentType)
+        }
+        _changed.value = true
+    }
     fun edit(event: Event) {
         edited.value = event
     }
@@ -128,7 +154,7 @@ class EventViewModel @Inject constructor(
     fun likeByEvent(event: Event) = viewModelScope.launch {
         try {
             _dataState.value = FeedModelState(error = false)
-            repository.likeByEvent(event)
+            repository.likeById(event)
             _dataState.value = FeedModelState()
         } catch (e: Exception) {
             _dataState.value = FeedModelState(error = true)
@@ -146,5 +172,8 @@ class EventViewModel @Inject constructor(
         } catch (e: Exception) {
             _dataState.value = FeedModelState(error = true)
         }
+    }
+    fun resetError(){
+        _dataState.value = FeedModelState()
     }
 }

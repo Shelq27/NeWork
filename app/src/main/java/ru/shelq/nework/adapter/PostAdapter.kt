@@ -2,6 +2,7 @@ package ru.shelq.nework.adapter
 
 import android.net.Uri
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.MediaController
 import android.widget.PopupMenu
@@ -25,58 +26,56 @@ interface PostOnInteractionListener {
     fun onRemove(post: Post) {}
     fun onEdit(post: Post) {}
     fun onOpen(post: Post) {}
+    fun onShare(post: Post) {}
 }
 
 class PostAdapter(
     private val onInteractionListener: PostOnInteractionListener,
-
 ) : PagingDataAdapter<Post, PostViewHolder>(PostDiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
         val binding = PostCardBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return PostViewHolder(
-            binding, onInteractionListener
-        )
+        return PostViewHolder(binding, onInteractionListener)
     }
 
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
         val post = getItem(position)
         if (post != null) {
             holder.bing(post, position)
-
         }
 
     }
 }
 
-
 class PostViewHolder(
     private val binding: PostCardBinding,
     private val onInteractionListener: PostOnInteractionListener,
-
-    ) : RecyclerView.ViewHolder(binding.root) {
+) : RecyclerView.ViewHolder(binding.root) {
     private var previousPosition = -1
     private val mediaLifecycleObserver = MediaLifecycleObserver()
     fun bing(post: Post, position: Int) {
-
         binding.apply {
             CardPost.setOnClickListener {
                 onInteractionListener.onOpen(post)
             }
-
             AuthorTV.text = post.author
             AvatarIV.loadImgCircle(post.authorAvatar)
 
-
             if (post.link != null) {
-                LinkPostTV.isVisible = true
+                LinkPostTV.visibility = View.VISIBLE
                 LinkPostTV.text = post.link
             } else {
-                LinkPostTV.isGone = true
+                LinkPostTV.visibility = View.GONE
             }
-
-            imageAttachment.isVisible = false
-            audioAttachment.audioPlay.isVisible = false
-            videoAttachment.videoPlay.isVisible = false
+            PublishedPostTV.text = AndroidUtils.dateFormatToText(post.published, root.context)
+            TextPostTV.text = post.content
+            LikeIB.text = post.likeOwnerIds.size.toString()
+            LikeIB.isChecked = post.likedByMe
+            LikeIB.setOnClickListener {
+                onInteractionListener.onLike(post)
+            }
+            imageAttachment.visibility = View.GONE
+            audioAttachment.audioPlay.visibility = View.GONE
+            videoAttachment.videoPlay.visibility = View.GONE
             Glide.with(imageAttachment).clear(binding.imageAttachment)
             Glide.with(videoAttachment.videoThumb).clear(binding.videoAttachment.videoThumb)
             audioAttachment.playAudioIB.setBackgroundResource(R.drawable.ic_play_80dp)
@@ -87,9 +86,9 @@ class PostViewHolder(
             if (post.attachment != null) {
                 when (post.attachment.type) {
                     AttachmentType.IMAGE -> {
-                        imageAttachment.isVisible = true
-                        audioAttachment.audioPlay.isVisible = false
-                        videoAttachment.videoPlay.isVisible = false
+                        imageAttachment.visibility = View.VISIBLE
+                        audioAttachment.audioPlay.visibility = View.GONE
+                        videoAttachment.videoPlay.visibility = View.GONE
                         Glide.with(imageAttachment).load(post.attachment.url)
                             .placeholder(R.drawable.ic_downloading_100dp)
                             .error(R.drawable.ic_error_outline_100dp).timeout(10_000).centerCrop()
@@ -97,19 +96,17 @@ class PostViewHolder(
                     }
 
                     AttachmentType.VIDEO -> {
-                        audioAttachment.audioPlay.isVisible = false
-                        imageAttachment.isVisible = false
-                        videoAttachment.videoPlay.isVisible = true
+                        videoAttachment.videoPlay.visibility = View.VISIBLE
+                        audioAttachment.audioPlay.visibility = View.GONE
+                        imageAttachment.visibility = View.GONE
                         Glide.with(videoAttachment.videoThumb).load(post.attachment.url)
                             .centerCrop().into(binding.videoAttachment.videoThumb)
                     }
-                    //аудио
+
                     AttachmentType.AUDIO -> {
-
-
-                        audioAttachment.audioPlay.isVisible = true
-                        imageAttachment.isVisible = false
-                        videoAttachment.videoPlay.isVisible = false
+                        audioAttachment.audioPlay.visibility = View.VISIBLE
+                        imageAttachment.visibility = View.GONE
+                        videoAttachment.videoPlay.visibility = View.GONE
                         if (position != previousPosition) {
                             audioAttachment.playAudioIB.setBackgroundResource(R.drawable.ic_play_48dp)
                             audioAttachment.audioSB.progress = 0
@@ -131,20 +128,20 @@ class PostViewHolder(
             }
 
             videoAttachment.playVideoIB.setOnClickListener {
-                videoAttachment.videoView.isVisible = true
+                videoAttachment.videoView.visibility = View.VISIBLE
                 videoAttachment.videoView.apply {
                     setMediaController(MediaController(context))
                     setVideoURI(Uri.parse(post.attachment?.url))
                     setOnPreparedListener {
-                        videoAttachment.videoThumb.isVisible = false
-                        videoAttachment.playVideoIB.isVisible = false
+                        videoAttachment.videoThumb.visibility = View.GONE
+                        videoAttachment.playVideoIB.visibility = View.GONE
                         start()
                     }
                     setOnCompletionListener {
                         stopPlayback()
-                        videoAttachment.videoView.isVisible = false
-                        videoAttachment.playVideoIB.isVisible = true
-                        videoAttachment.videoThumb.isVisible = true
+                        videoAttachment.videoView.visibility = View.GONE
+                        videoAttachment.playVideoIB.visibility = View.VISIBLE
+                        videoAttachment.videoThumb.visibility = View.VISIBLE
                     }
                 }
             }
@@ -178,17 +175,8 @@ class PostViewHolder(
                     }
                 }
                 previousPosition = position
-
             }
-
-
-            PublishedPostTV.text = AndroidUtils.dateFormatToText(post.published, root.context)
-            TextPostTV.text = post.content
-            LikeIB.text = post.likeOwnerIds.size.toString()
-            LikeIB.isChecked = post.likedByMe
-            LikeIB.setOnClickListener {
-                onInteractionListener.onLike(post)
-            }
+            ShareIB.setOnClickListener { onInteractionListener.onShare(post) }
             MenuIB.isVisible = post.ownedByMe
             MenuIB.setOnClickListener {
                 PopupMenu(it.context, it).apply {

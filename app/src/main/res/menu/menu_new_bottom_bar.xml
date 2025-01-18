@@ -22,7 +22,7 @@
         android:title="@string/mention_item_menu"
         app:showAsAction="always" />
     <item
-        android:id="@+id/post_geolocation"
+        android:id="@+id/geolocation"
         android:contentDescription="@string/desc_screen_geo_location"
         android:icon="@drawable/ic_location_pin_24dp"
         android:title="@string/post_geolocation_item_menu"

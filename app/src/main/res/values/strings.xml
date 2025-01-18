@@ -81,4 +81,7 @@
     <string name="pass_don_t_match">Passwords don\'t match</string>
     <string name="cancelled">Task cancelled</string>
     <string name="desc_take_date">Take Date</string>
+    <string name="attachment_no_more_15mb">Attachment no more 15Mb</string>
+    <string name="hint_text">Text</string>
+    <string name="share">Share</string>
 </resources>

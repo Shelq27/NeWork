@@ -1,5 +1,6 @@
 package ru.shelq.nework.ui.post
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -32,16 +33,16 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class PostFragment : Fragment() {
+    companion object {
+        var Bundle.text by StringArg
+        var Bundle.id by idArg
+    }
 
     @Inject
     lateinit var appAuth: AppAuth
     val viewModel: PostViewModel by activityViewModels()
     private val mediaObserver = MediaLifecycleObserver()
 
-    companion object {
-        var Bundle.text by StringArg
-        var Bundle.id by idArg
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -71,6 +72,18 @@ class PostFragment : Fragment() {
                     R.id.action_postFragment_to_postDetailsFragment,
                     Bundle().also { it.id = post.id })
 
+            }
+
+            override fun onShare(post: Post) {
+                val intent = Intent().apply {
+                    action = Intent.ACTION_SEND
+                    putExtra(Intent.EXTRA_TEXT, post.content)
+                    type = "text/plain"
+                }
+
+                val shareIntent =
+                    Intent.createChooser(intent, getString(R.string.share))
+                startActivity(shareIntent)
             }
         })
 

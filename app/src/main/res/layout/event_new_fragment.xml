@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="?attr/actionBarSize"
-            app:menu="@menu/menu_new_post_top_bar"
+            app:menu="@menu/menu_new_top_bar"
             app:navigationIcon="@drawable/ic_arrow_back_24dp"
             app:title="@string/title_new_event" />
 
@@ -62,25 +62,37 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/Link"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/element_spacing"
+                    android:layout_marginTop="@dimen/element_spacing"
+                    />
 
             </com.google.android.material.textfield.TextInputLayout>
 
+
             <FrameLayout
+                android:id="@+id/AttachmentGroup"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
+
                 <include
                     android:id="@+id/image_container"
-                    layout="@layout/image_load" />
+                    layout="@layout/image_load"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
 
                 <include
                     android:id="@+id/audio_container"
-                    layout="@layout/audio_load" />
+                    layout="@layout/audio_load"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
 
                 <include
                     android:id="@+id/video_container"
-                    layout="@layout/video_load" />
+                    layout="@layout/video_load"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
             </FrameLayout>
 
         </LinearLayout>
@@ -100,7 +112,7 @@
             android:id="@+id/NewEventBB"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:menu="@menu/menu_new_post_bottom_bar" />
+            app:menu="@menu/menu_new_bottom_bar" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:layout_width="wrap_content"

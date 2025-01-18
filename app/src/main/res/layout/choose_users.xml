@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="?attr/actionBarSize"
-            app:menu="@menu/menu_new_post_top_bar"
+            app:menu="@menu/menu_new_top_bar"
             app:navigationIcon="@drawable/ic_arrow_back_24dp"
             app:title="Choose users" />
     </com.google.android.material.appbar.AppBarLayout>

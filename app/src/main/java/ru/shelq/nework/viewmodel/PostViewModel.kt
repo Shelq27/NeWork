@@ -1,5 +1,6 @@
 package ru.shelq.nework.viewmodel
 
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -17,10 +18,13 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import ru.shelq.nework.auth.AppAuth
 import ru.shelq.nework.dto.Post
+import ru.shelq.nework.enumer.AttachmentType
 import ru.shelq.nework.error.AppError
+import ru.shelq.nework.model.AttachmentModel
 import ru.shelq.nework.model.FeedModelState
 import ru.shelq.nework.repository.PostRepository
 import ru.shelq.nework.util.SingleLiveEvent
+import java.io.File
 import javax.inject.Inject
 
 private val empty = Post(
@@ -38,6 +42,7 @@ private val empty = Post(
     likedByMe = false,
     users = emptyMap()
 )
+private val noAttachment: AttachmentModel? = null
 
 @HiltViewModel
 class PostViewModel @Inject constructor(
@@ -72,7 +77,10 @@ class PostViewModel @Inject constructor(
     private val _postCreated = SingleLiveEvent<Unit>()
     val postCreated: LiveData<Unit>
         get() = _postCreated
-
+    private val _attachment = MutableLiveData(noAttachment)
+    val attachment: LiveData<AttachmentModel?>
+        get() = _attachment
+    private val _changed = MutableLiveData<Boolean>()
 
     init {
         loadPost()
@@ -117,6 +125,19 @@ class PostViewModel @Inject constructor(
             }
         }
         edited.value = empty
+    }
+
+    fun changeAttachment(url: String?, uri: Uri?, file: File?, attachmentType: AttachmentType?) {
+        if (uri == null) {
+            if (url != null) { //редактирование поста с вложением
+                _attachment.value = AttachmentModel(url, null, null, attachmentType)
+            } else {
+                _attachment.value = null //удалили вложение
+            }
+        } else {
+            _attachment.value = AttachmentModel(null, uri, file, attachmentType)
+        }
+        _changed.value = true
     }
 
     fun edit(post: Post) {

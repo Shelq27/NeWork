@@ -13,7 +13,7 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/EventDetailsMTB"
+            android:id="@+id/EventDetailsTBL"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="?attr/actionBarSize"
@@ -41,10 +41,10 @@
                 android:layout_marginTop="@dimen/element_spacing"
                 android:layout_marginBottom="@dimen/common_spacing"
                 android:contentDescription="@string/desc_avatar_image"
-                tools:src="@drawable/img_test_avatar"
                 app:layout_constraintBottom_toBottomOf="@id/barrier_top"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/img_test_avatar" />
 
 
             <TextView
@@ -89,7 +89,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/barrier_top">
-
                 <ImageView
                     android:id="@+id/imageAttachment"
                     android:layout_width="match_parent"
@@ -97,13 +96,14 @@
                     android:adjustViewBounds="true"
                     android:contentDescription="@string/desc_attachment_image"
                     android:padding="@dimen/element_spacing"
-                    android:visibility="visible"
-                    tools:src="@drawable/ic_people_outline_24dp" />
-
+                    android:visibility="gone"
+                    tools:src="@drawable/ic_people_outline_24dp"
+                    tools:visibility="visible" />
                 <include
                     android:id="@+id/audio_attachment"
-                    layout="@layout/audio_play" />
-
+                    layout="@layout/audio_play"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
                 <include
                     android:id="@+id/video_attachment"
                     layout="@layout/video_play" />
@@ -196,13 +196,16 @@
                 app:layout_constraintTop_toBottomOf="@id/TitleLikersTV">
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/LikeB"
+                    android:id="@+id/LikeIB"
                     style="@style/Widget.AppTheme.LikeButton"
                     android:layout_width="wrap_content"
-                    android:layout_height="@dimen/posts_avatar_size"
+                    android:layout_height="wrap_content"
                     android:checkable="true"
-                    app:icon="@drawable/ic_like_24dp"
+                    android:contentDescription="@string/desc_icon_like"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/barrier_middle"
                     tools:text="10" />
+
                 <include
                     android:id="@+id/list_avatars_likers"
                     layout="@layout/avatars_multiple" />
