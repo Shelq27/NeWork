@@ -1,36 +1,50 @@
 package ru.shelq.nework.ui.event
 
 import android.app.Activity
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.MediaController
+import android.widget.RadioButton
+import android.widget.RadioGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.widget.ButtonBarLayout
 import androidx.core.net.toFile
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.github.dhaval2404.imagepicker.ImagePicker
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.internal.CheckableImageButton
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint
 import ru.shelq.nework.R
+import ru.shelq.nework.databinding.EventBottomSheetDialogBinding
 import ru.shelq.nework.databinding.EventNewFragmentBinding
 import ru.shelq.nework.dto.Attachment
 import ru.shelq.nework.enumer.AttachmentType
+import ru.shelq.nework.enumer.EventType
 import ru.shelq.nework.ui.post.PostNewFragment
-import ru.shelq.nework.ui.post.PostNewFragment.Companion
 import ru.shelq.nework.util.AndroidUtils
+import ru.shelq.nework.util.AndroidUtils.calendarToUTCDate
+import ru.shelq.nework.util.AndroidUtils.dateUTCToCalendar
 import ru.shelq.nework.util.AndroidUtils.getFile
 import ru.shelq.nework.util.MediaLifecycleObserver
 import ru.shelq.nework.viewmodel.EventViewModel
-import ru.shelq.nework.viewmodel.PostViewModel
 import java.io.FileNotFoundException
 import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 @AndroidEntryPoint
 class EventNewFragment : Fragment() {
@@ -245,7 +259,7 @@ class EventNewFragment : Fragment() {
                 R.id.take_photo -> {
                     ImagePicker.with(this)
                         .crop()
-                        .compress(ru.shelq.nework.ui.post.PostNewFragment.MAX_SIZE)
+                        .compress(MAX_SIZE)
                         .galleryMimeTypes(
                             arrayOf(
                                 "image/png",
@@ -273,6 +287,74 @@ class EventNewFragment : Fragment() {
                 else -> false
             }
 
+        }
+        binding.CalendarFAB.setOnClickListener {
+            val bindingCalendar = EventBottomSheetDialogBinding.inflate(layoutInflater)
+            val bottomSheetDialog = BottomSheetDialog(requireContext())
+            val view = layoutInflater.inflate(R.layout.event_bottom_sheet_dialog, null)
+            val date = view.findViewById<TextInputEditText>(R.id.DataInput)
+            val dataPicker = view.findViewById<TextInputLayout>(R.id.DateEventET);
+            val calendar = if (viewModel.datetime.value?.equals("") == true) {
+                Calendar.getInstance()
+            } else {
+                dateUTCToCalendar(viewModel.datetime.value!!)
+            }
+            date.setText(
+                SimpleDateFormat(
+                    "dd/MM/yyyy HH:mm",
+                    Locale.getDefault()
+                ).format(calendar.time)
+            )
+
+            dataPicker.setEndIconOnClickListener {
+                val datePickerDialog = DatePickerDialog(
+                    requireContext(), R.style.calendar,
+                    { _, year, month, day ->
+                        calendar.set(year, month, day)
+                        val timePicker = TimePickerDialog(
+                            requireContext(), R.style.calendar,
+
+                            { _, hour, minute ->
+                                calendar.set(Calendar.HOUR_OF_DAY, hour)
+                                calendar.set(Calendar.MINUTE, minute)
+                                date.setText(
+                                    SimpleDateFormat(
+                                        "dd/MM/yyyy HH:mm",
+                                        Locale.getDefault()
+                                    ).format(calendar.time)
+                                )
+                                viewModel.changeDateTime(calendarToUTCDate(calendar))
+                            },
+                            calendar.get(Calendar.HOUR_OF_DAY),
+                            calendar.get(Calendar.MINUTE),
+                            true
+                        )
+                        timePicker.show()
+                    }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(
+                        Calendar.DAY_OF_MONTH
+                    )
+                )
+                datePickerDialog.show()
+            }
+            val radioGroup = bindingCalendar.CalendarRG
+            when (viewModel.eventType.value) {
+                EventType.ONLINE -> {
+                    bindingCalendar.OnlineRB.isChecked = true
+                }
+
+                EventType.OFFLINE -> {
+                    bindingCalendar.OfflineRB.isChecked = true
+                }
+
+                else -> Unit
+            }
+            radioGroup.setOnCheckedChangeListener { _, checkedId ->
+                val radioButton = view.findViewById<RadioButton>(checkedId)
+                val typeStr = radioButton.text
+                viewModel.changeType(if (typeStr.equals(getString(R.string.online))) EventType.ONLINE else EventType.OFFLINE)
+            }
+            bottomSheetDialog.setContentView(view)
+            bottomSheetDialog.show()
         }
         return binding.root
     }

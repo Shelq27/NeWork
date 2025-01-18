@@ -25,4 +25,8 @@
         <item name="android:layout_height">?attr/actionBarSize</item>
         <item name="actionOverflowButtonStyle">@style/OverFlow</item>
     </style>
+    <style name="calendar" parent="@style/ThemeOverlay.MaterialComponents.Dialog">
+        <item name="colorSecondary">@color/primary</item>
+        <item name="colorPrimary">@color/primary</item> <!-- button text color -->
+    </style>
 </resources>

@@ -18,6 +18,7 @@ import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Calendar
+import java.util.Date
 import java.util.TimeZone
 
 object AndroidUtils {
@@ -75,6 +76,20 @@ object AndroidUtils {
     fun showSignInDialog(fragment: Fragment){
         val dialog = SignInDialogFragment()
         dialog.show(fragment.parentFragmentManager, fragment.getString(R.string.authentication))
+    }
+    fun dateUTCToCalendar(dateStr: String): Calendar{
+        val zonedDateTime = ZonedDateTime.parse(dateStr)
+        val date = Date.from(zonedDateTime.toInstant())
+        val calendar = Calendar.getInstance()
+        calendar.time = date
+        return calendar
+    }
+    @SuppressLint("SimpleDateFormat")
+    fun calendarToUTCDate(calendar: Calendar): String{
+        val date = calendar.time
+        val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+        sdf.timeZone = TimeZone.getTimeZone("UTC")
+        return sdf.format(date)
     }
 
 

@@ -48,6 +48,9 @@ private val empty = Event(
     users = emptyMap()
 )
 private val noAttachment: AttachmentModel? = null
+private const val emptyDateTime = ""
+private val defaultType = EventType.ONLINE
+
 
 @HiltViewModel
 class EventViewModel @Inject constructor(
@@ -76,7 +79,6 @@ class EventViewModel @Inject constructor(
     }
 
 
-
     private val _dataState = MutableLiveData<FeedModelState>()
     val dataState: LiveData<FeedModelState>
         get() = _dataState
@@ -89,6 +91,9 @@ class EventViewModel @Inject constructor(
     val attachment: LiveData<AttachmentModel?>
         get() = _attachment
     private val _changed = MutableLiveData<Boolean>()
+    private val _datetime = MutableLiveData(emptyDateTime)
+    val datetime: LiveData<String>
+        get() = _datetime
 
     init {
         loadEvent()
@@ -116,7 +121,6 @@ class EventViewModel @Inject constructor(
     }
 
 
-
     fun changeContentAndSave(content: String) {
         val text = content.trim()
         edited.value?.let {
@@ -135,6 +139,7 @@ class EventViewModel @Inject constructor(
         }
         edited.value = empty
     }
+
     fun changeAttachment(url: String?, uri: Uri?, file: File?, attachmentType: AttachmentType?) {
         if (uri == null) {
             if (url != null) { //редактирование поста с вложением
@@ -147,6 +152,7 @@ class EventViewModel @Inject constructor(
         }
         _changed.value = true
     }
+
     fun edit(event: Event) {
         edited.value = event
     }
@@ -173,7 +179,20 @@ class EventViewModel @Inject constructor(
             _dataState.value = FeedModelState(error = true)
         }
     }
-    fun resetError(){
+
+    fun resetError() {
         _dataState.value = FeedModelState()
+    }
+
+    fun changeDateTime(dateTime: String) {
+        _datetime.value = dateTime
+        _changed.value = true
+    }
+    private val _eventType = MutableLiveData(defaultType)
+    val eventType: LiveData<EventType>
+        get() = _eventType
+    fun changeType(eventType: EventType) {
+        _eventType.value = eventType
+        _changed.value = true
     }
 }
