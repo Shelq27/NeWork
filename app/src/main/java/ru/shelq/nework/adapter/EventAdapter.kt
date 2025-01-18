@@ -76,6 +76,7 @@ class EventViewHolder(
             LikeIB.isChecked = event.likedByMe
             LikeIB.setOnClickListener {
                 onInteractionListener.onLike(event)
+                LikeIB.isChecked = event.likedByMe
             }
             imageAttachment.visibility = View.GONE
             audioAttachment.audioPlay.visibility = View.GONE

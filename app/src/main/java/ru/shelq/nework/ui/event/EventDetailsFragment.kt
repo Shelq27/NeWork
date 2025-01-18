@@ -80,6 +80,7 @@ class EventDetailsFragment : Fragment() {
                         if (auth.authenticated()) {
                             viewModel.likeByEvent(event)
                         } else {
+                            LikeIB.isChecked = event.likedByMe
                             AndroidUtils.showSignInDialog(this@EventDetailsFragment)
                         }
                     }

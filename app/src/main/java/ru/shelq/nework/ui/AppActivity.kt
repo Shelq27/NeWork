@@ -1,11 +1,9 @@
 package ru.shelq.nework.ui
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
-import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
@@ -37,10 +35,6 @@ class AppActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = AppActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-
-
-
 
         viewModel.data.observe(this) {
             invalidateOptionsMenu()

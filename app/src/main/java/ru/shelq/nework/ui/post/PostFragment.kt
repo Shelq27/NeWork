@@ -25,6 +25,7 @@ import ru.shelq.nework.adapter.PostOnInteractionListener
 import ru.shelq.nework.auth.AppAuth
 import ru.shelq.nework.databinding.PostFragmentBinding
 import ru.shelq.nework.dto.Post
+import ru.shelq.nework.util.AndroidUtils
 import ru.shelq.nework.util.MediaLifecycleObserver
 import ru.shelq.nework.util.StringArg
 import ru.shelq.nework.util.idArg
@@ -33,16 +34,16 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class PostFragment : Fragment() {
-    companion object {
-        var Bundle.text by StringArg
-        var Bundle.id by idArg
-    }
 
     @Inject
     lateinit var appAuth: AppAuth
     val viewModel: PostViewModel by activityViewModels()
     private val mediaObserver = MediaLifecycleObserver()
 
+    companion object {
+        var Bundle.text by StringArg
+        var Bundle.id by idArg
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -53,7 +54,11 @@ class PostFragment : Fragment() {
         lifecycle.addObserver(mediaObserver)
         val adapter = PostAdapter(object : PostOnInteractionListener {
             override fun onLike(post: Post) {
-                viewModel.likeByPost(post)
+                if (appAuth.authenticated()) {
+                    viewModel.likeByPost(post)
+                } else {
+                    AndroidUtils.showSignInDialog(this@PostFragment)
+                }
             }
 
             override fun onRemove(post: Post) {
@@ -131,11 +136,16 @@ class PostFragment : Fragment() {
         }
 
         binding.AddNewPostIB.setOnClickListener {
-            findNavController().navigate(R.id.action_postFragment_to_postNewFragment)
+            if (appAuth.authenticated()) {
+                findNavController().navigate(R.id.action_postFragment_to_postNewFragment)
+            } else {
+                AndroidUtils.showSignInDialog(this)
+            }
         }
 
         binding.SwipeRefresh.setOnRefreshListener(adapter::refresh)
         return binding.root
     }
+
 
 }

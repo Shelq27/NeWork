@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.MediaController
 import android.widget.PopupMenu
-import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -36,6 +35,7 @@ class PostAdapter(
         val binding = PostCardBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return PostViewHolder(binding, onInteractionListener)
     }
+
 
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
         val post = getItem(position)
@@ -72,6 +72,7 @@ class PostViewHolder(
             LikeIB.isChecked = post.likedByMe
             LikeIB.setOnClickListener {
                 onInteractionListener.onLike(post)
+                LikeIB.isChecked = post.likedByMe
             }
             imageAttachment.visibility = View.GONE
             audioAttachment.audioPlay.visibility = View.GONE

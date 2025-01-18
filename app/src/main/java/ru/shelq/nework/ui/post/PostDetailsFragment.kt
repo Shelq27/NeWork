@@ -17,6 +17,7 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import ru.shelq.nework.R
+import ru.shelq.nework.auth.AppAuth
 import ru.shelq.nework.databinding.PostDetailsFragmentBinding
 import ru.shelq.nework.enumer.AttachmentType
 import ru.shelq.nework.util.AndroidUtils
@@ -24,7 +25,9 @@ import ru.shelq.nework.util.AndroidUtils.loadImgCircle
 import ru.shelq.nework.util.AndroidUtils.share
 import ru.shelq.nework.util.MediaLifecycleObserver
 import ru.shelq.nework.util.idArg
+import ru.shelq.nework.viewmodel.EventViewModel
 import ru.shelq.nework.viewmodel.PostViewModel
+import javax.inject.Inject
 
 @Suppress("DEPRECATION")
 @AndroidEntryPoint
@@ -33,7 +36,10 @@ class PostDetailsFragment : Fragment() {
         var Bundle.id by idArg
     }
 
+    @Inject
+    lateinit var auth: AppAuth
     private val mediaObserver = MediaLifecycleObserver()
+    private val viewModel: PostViewModel by activityViewModels()
 
 
     override fun onCreateView(
@@ -44,10 +50,9 @@ class PostDetailsFragment : Fragment() {
 
         val binding = PostDetailsFragmentBinding.inflate(inflater, container, false)
         lifecycle.addObserver(mediaObserver)
-        val viewModelPost: PostViewModel by activityViewModels()
         val postId = arguments?.id ?: -1
-        viewModelPost.getPostById(postId)
-        viewModelPost.selectedPost.observe(viewLifecycleOwner) { post ->
+        viewModel.getPostById(postId)
+        viewModel.selectedPost.observe(viewLifecycleOwner) { post ->
 
             if (post != null)
                 binding.apply {
@@ -61,6 +66,7 @@ class PostDetailsFragment : Fragment() {
                                 share(requireContext(), binding.TextPostTV.text.toString())
                                 true
                             }
+
                             else -> super.onOptionsItemSelected(menuItem)
                         }
 
@@ -73,6 +79,15 @@ class PostDetailsFragment : Fragment() {
                     TextPostTV.text = post.content
                     LinkPostTV.text = post.link
                     LikeIB.text = post.likeOwnerIds.size.toString()
+                    LikeIB.isChecked = post.likedByMe
+                    LikeIB.setOnClickListener {
+                        if (auth.authenticated()) {
+                            viewModel.likeByPost(post)
+                        } else {
+                            LikeIB.isChecked = post.likedByMe
+                            AndroidUtils.showSignInDialog(this@PostDetailsFragment)
+                        }
+                    }
 
 
                     if (post.attachment?.url != null) {
