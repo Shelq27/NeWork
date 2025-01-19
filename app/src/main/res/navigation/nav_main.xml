@@ -20,8 +20,6 @@
         tools:layout="@layout/sign_up_fragment" />
 
 
-
-
     <navigation
         android:id="@+id/postNavigation"
         app:startDestination="@id/postFragment">
@@ -97,5 +95,16 @@
                 android:id="@+id/action_eventDetailsFragment_to_eventEditFragment"
                 app:destination="@id/eventEditFragment" />
         </fragment>
+    </navigation>
+    <navigation
+        android:id="@+id/userNavigation"
+        app:startDestination="@id/userFragment"
+        tools:ignore="InvalidNavigation">
+            <fragment
+                android:id="@+id/userFragment"
+                android:name="ru.shelq.nework.ui.users.UserFragment"
+                android:label="@string/app_name"
+                tools:layout="@layout/user_fragment"
+                />
     </navigation>
 </navigation>

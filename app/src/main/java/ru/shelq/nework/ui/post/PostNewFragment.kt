@@ -49,6 +49,7 @@ class PostNewFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val binding = PostNewFragmentBinding.inflate(layoutInflater)
+        lifecycle.addObserver(mediaObserver)
         binding.ContentPostET.requestFocus()
         binding.NewPostTTB.setOnMenuItemClickListener {
             val content = binding.ContentPostET.text.toString()
@@ -165,6 +166,7 @@ class PostNewFragment : Fragment() {
                         Glide.with(binding.videoContainer.videoPlay.videoThumb)
                             .load(it.url ?: it.uri)
                             .into(binding.videoContainer.videoPlay.videoThumb)
+
                     }
 
                     else -> Unit
@@ -213,12 +215,14 @@ class PostNewFragment : Fragment() {
                     videoContainer.videoPlay.videoView.visibility = View.VISIBLE
                     videoContainer.videoPlay.videoView.apply {
                         setMediaController(MediaController(context))
+
                         if (attachment.url != null) {
                             val uri = Uri.parse(attachment.url)
                             setVideoURI(uri)
                         } else {
                             setVideoURI(attachment.uri)
                         }
+
                         setOnPreparedListener {
                             videoContainer.videoPlay.videoThumb.visibility = View.GONE
                             videoContainer.videoPlay.playVideoIB.visibility = View.GONE

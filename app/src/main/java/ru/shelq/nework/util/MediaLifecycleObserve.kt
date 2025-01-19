@@ -1,4 +1,5 @@
 package ru.shelq.nework.util
+
 import android.content.res.AssetFileDescriptor
 import android.media.MediaPlayer
 import android.os.Handler
@@ -10,7 +11,8 @@ import androidx.lifecycle.LifecycleOwner
 import ru.shelq.nework.R
 import ru.shelq.nework.dto.Attachment
 
-class MediaLifecycleObserver: LifecycleEventObserver {
+@Suppress("DEPRECATION")
+class MediaLifecycleObserver : LifecycleEventObserver {
 
     var mediaPlayer: MediaPlayer? = MediaPlayer()
     var runnable: Runnable? = null
@@ -43,6 +45,7 @@ class MediaLifecycleObserver: LifecycleEventObserver {
 
 
             }
+
             Lifecycle.Event.ON_DESTROY -> source.lifecycle.removeObserver(this)
             else -> Unit
         }
@@ -73,6 +76,7 @@ class MediaLifecycleObserver: LifecycleEventObserver {
                 }
                 mediaPlayer!!.prepareAsync()
                 mediaPlayer!!.setOnPreparedListener {
+                    it.setVolume(15F,15F)
                     it.start()
                     seekBar.progress = 0
                     seekBar.max = it.duration
@@ -112,6 +116,7 @@ class MediaLifecycleObserver: LifecycleEventObserver {
                 }
                 mediaPlayer!!.prepareAsync()
                 mediaPlayer!!.setOnPreparedListener {
+                    it.setVolume(15F,15F)
                     it.start()
                     seekBar.progress = 0
                     seekBar.max = it.duration
@@ -139,6 +144,7 @@ class MediaLifecycleObserver: LifecycleEventObserver {
             }
             seekBar?.postDelayed(runnable!!, 1000)
             mediaPlayer?.setOnCompletionListener {
+
                 mediaPlayer?.pause()
                 playButton?.setBackgroundResource(R.drawable.ic_play_48dp)
             }
@@ -150,12 +156,13 @@ class MediaLifecycleObserver: LifecycleEventObserver {
     }
 }
 
-class SeekBarListener(private val mediaPlayer: MediaPlayer): SeekBar.OnSeekBarChangeListener {
+class SeekBarListener(private val mediaPlayer: MediaPlayer) : SeekBar.OnSeekBarChangeListener {
     override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
         if (p2) {
             mediaPlayer.seekTo(p1)
         }
     }
+
     override fun onStartTrackingTouch(p0: SeekBar?) {
     }
 

@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide
 import ru.shelq.nework.R
 import ru.shelq.nework.databinding.PostCardBinding
 import ru.shelq.nework.dto.Post
+import ru.shelq.nework.dto.User
 import ru.shelq.nework.enumer.AttachmentType
 import ru.shelq.nework.util.AndroidUtils
 import ru.shelq.nework.util.AndroidUtils.loadImgCircle
@@ -26,6 +27,7 @@ interface PostOnInteractionListener {
     fun onEdit(post: Post) {}
     fun onOpen(post: Post) {}
     fun onShare(post: Post) {}
+    fun onUserClick (user: User) {}
 }
 
 class PostAdapter(
@@ -53,7 +55,9 @@ class PostViewHolder(
     private var previousPosition = -1
     private val mediaLifecycleObserver = MediaLifecycleObserver()
     fun bing(post: Post, position: Int) {
+
         binding.apply {
+
             CardPost.setOnClickListener {
                 onInteractionListener.onOpen(post)
             }

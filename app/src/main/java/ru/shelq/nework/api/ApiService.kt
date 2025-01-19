@@ -16,6 +16,7 @@ import retrofit2.http.Query
 import ru.shelq.nework.auth.AuthState
 import ru.shelq.nework.dto.Event
 import ru.shelq.nework.dto.Post
+import ru.shelq.nework.dto.User
 
 
 interface ApiService {
@@ -108,6 +109,76 @@ interface ApiService {
         @Part("name") name: RequestBody,
         @Part media: MultipartBody.Part
     ): Response<AuthState>
+
+    //User
+    @GET("users")
+    suspend fun getAllUsers(): Response<List<User>>
+
+    @GET("users/{id}")
+    suspend fun getUserById(@Path("id") id: Long): Response<User>
+
+    //WAll
+    @GET("{authorId}/wall")
+    suspend fun getUserWall(@Path("authorId") id: Long): Response<List<Post>>
+
+    @GET("{authorId}/wall/latest")
+    suspend fun getUserWallLatest(
+        @Path("authorId") authorId: Long,
+        @Query("count") count: Int
+    ): Response<List<Post>>
+
+    @GET("{authorId}/wall/{id}/newer")
+    suspend fun getUserWallNewer(
+        @Path("authorId") authorId: Long,
+        @Path("id") id: Long
+    ): Response<List<Post>>
+
+    @GET("{authorId}/wall/{id}/before")
+    suspend fun getUserWallBefore(
+        @Path("authorId") authorId: Long,
+        @Path("id") id: Long,
+        @Query("count") count: Int
+    ): Response<List<Post>>
+
+    @GET("{authorId}/wall/{id}/after")
+    suspend fun getUserWallAfter(
+        @Path("authorId") authorId: Long,
+        @Path("id") id: Long,
+        @Query("count") count: Int
+    ): Response<List<Post>>
+
+    @GET("my/wall")
+    suspend fun getMyWall(): Response<List<Post>>
+
+    @GET("my/wall/latest")
+    suspend fun getMyWallLatest(@Query("count") count: Int): Response<List<Post>>
+
+    @GET("my/wall/{id}/newer")
+    suspend fun getMyWallNewer(@Path("id") id: Long): Response<List<Post>>
+
+    @GET("my/wall/{id}/before")
+    suspend fun getMyWallBefore(
+        @Path("id") id: Long,
+        @Query("count") count: Int
+    ): Response<List<Post>>
+
+    @GET("my/wall/{id}/after")
+    suspend fun getMyWallAfter(
+        @Path("id") id: Long,
+        @Query("count") count: Int
+    ): Response<List<Post>>
+
+    @POST("{authorId}/wall/{id}/likes")
+    suspend fun likeUserPostById(
+        @Path("authorId") authorId: Long,
+        @Path("id") id: Long
+    ): Response<Post>
+
+    @DELETE("{authorId}/wall/{id}/likes")
+    suspend fun dislikeUserPostById(
+        @Path("authorId") authorId: Long,
+        @Path("id") id: Long
+    ): Response<Post>
 
 
 }

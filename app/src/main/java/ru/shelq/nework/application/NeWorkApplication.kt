@@ -12,5 +12,6 @@ class NeWorkApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         AppAuth.initApp(this)
+        AppAuth.getInstance()
     }
 }

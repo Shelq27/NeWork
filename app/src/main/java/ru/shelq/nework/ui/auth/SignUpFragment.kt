@@ -24,6 +24,7 @@ import ru.shelq.nework.util.AndroidUtils
 import ru.shelq.nework.viewmodel.SignUpViewModel
 import javax.inject.Inject
 
+@Suppress("DEPRECATION")
 @AndroidEntryPoint
 class SignUpFragment : Fragment() {
     @Inject

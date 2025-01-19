@@ -30,10 +30,10 @@ class AppActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: AppActivityBinding
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = AppActivityBinding.inflate(layoutInflater)
+
         setContentView(binding.root)
 
         viewModel.data.observe(this) {
@@ -61,6 +61,7 @@ class AppActivity : AppCompatActivity() {
             when (destination.id) {
                 R.id.postFragment,
                 R.id.eventFragment,
+                R.id.userFragment
                 -> {
                     bottomNavigation.isVisible = true
                     appTopBar.isVisible = true
@@ -76,7 +77,6 @@ class AppActivity : AppCompatActivity() {
 
         setupActionBarWithNavController(navController, appBarConfiguration)
         bottomNavigation.setupWithNavController(navController)
-
 
 
     }
