@@ -4,8 +4,11 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Qualifier
 import javax.inject.Singleton
 
+@Qualifier
+annotation class PostRepositoryUserWall
 
 @InstallIn(SingletonComponent::class)
 @Module
@@ -13,6 +16,11 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindPostRepository(impl: PostRepositoryImpl): PostRepository
+
+    @Binds
+    @Singleton
+    @PostRepositoryUserWall
+    abstract fun bindPostRepoUserWall(impl: PostRepositoryUserWallImpl): PostRepository
 
     @Binds
     @Singleton

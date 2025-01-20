@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Upsert
+import kotlinx.coroutines.flow.Flow
 import ru.shelq.nework.entity.PostEntity
 
 @Dao
@@ -13,16 +14,25 @@ interface PostDao {
     @Query("SELECT * FROM PostEntity ORDER BY id DESC")
     fun pagingSource(): PagingSource<Int, PostEntity>
 
+    @Query("SELECT * FROM PostEntity where authorId = :authorId ORDER BY id DESC")
+    fun pagingSourceUserWall(authorId: Long): PagingSource<Int, PostEntity>
+
     @Upsert
     suspend fun save(post: PostEntity): Long
-    @Query("""
+
+    @Query(
+        """
         UPDATE PostEntity SET
         likes = likes + CASE WHEN likedByMe THEN -1 ELSE 1 END,
         likedByMe = CASE WHEN likedByMe THEN 0 ELSE 1 END,
         likeOwnerIds = :likeOwnerIds
         WHERE id = :id
-        """)
+        """
+    )
     suspend fun likeById(id: Long, likeOwnerIds: List<Long>)
+
+    @Query("SELECT * FROM PostEntity WHERE id = :id")
+    fun getPost(id: Long): Flow<PostEntity?>
 
     @Query("DELETE FROM PostEntity WHERE id = :id")
     suspend fun removeById(id: Long)
@@ -44,6 +54,9 @@ interface PostDao {
 
     @Query("SELECT MAX(id) FROM PostEntity where read = 1")
     suspend fun latestReadPostId(): Long?
+
+    @Query("SELECT MAX(id) FROM PostEntity where read = 1 AND authorId = :authorId")
+    suspend fun latestUserReadPostId(authorId: Long): Long?
 
     @Query("DELETE FROM PostEntity")
     suspend fun clear()

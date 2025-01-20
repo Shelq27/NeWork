@@ -4,8 +4,10 @@ import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.MediaController
 import android.widget.PopupMenu
+import android.widget.SeekBar
 import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -14,7 +16,6 @@ import com.bumptech.glide.Glide
 import ru.shelq.nework.R
 import ru.shelq.nework.databinding.PostCardBinding
 import ru.shelq.nework.dto.Post
-import ru.shelq.nework.dto.User
 import ru.shelq.nework.enumer.AttachmentType
 import ru.shelq.nework.util.AndroidUtils
 import ru.shelq.nework.util.AndroidUtils.loadImgCircle
@@ -27,7 +28,9 @@ interface PostOnInteractionListener {
     fun onEdit(post: Post) {}
     fun onOpen(post: Post) {}
     fun onShare(post: Post) {}
-    fun onUserClick (user: User) {}
+    fun onItemClick (post: Post) {}
+    fun onPlayAudio (post: Post, seekBar: SeekBar, playAudio: ImageButton) {}
+
 }
 
 class PostAdapter(

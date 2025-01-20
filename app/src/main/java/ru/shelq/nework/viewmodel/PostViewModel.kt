@@ -10,6 +10,7 @@ import androidx.paging.map
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flatMapLatest
@@ -43,15 +44,15 @@ private val empty = Post(
     users = emptyMap()
 )
 private val noAttachment: AttachmentModel? = null
-
+private var getPostJob: Job? = null
 @HiltViewModel
-class PostViewModel @Inject constructor(
+open class PostViewModel @Inject constructor(
     private val repository: PostRepository,
     appAuth: AppAuth
 ) : ViewModel() {
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    val data: Flow<PagingData<Post>> = appAuth
+    open val data: Flow<PagingData<Post>> = appAuth
         .authState
         .flatMapLatest { auth ->
             repository.data
@@ -96,14 +97,17 @@ class PostViewModel @Inject constructor(
         }
     }
 
-    fun getPostById(postId: Long) = viewModelScope.launch {
-        try {
-            _dataState.value = FeedModelState(loading = true)
-            selectedPost.value = repository.getPostById(postId)
-            _dataState.value = FeedModelState()
 
-        } catch (e: Exception) {
-            _dataState.value = FeedModelState(error = true)
+    fun getPostById(postId: Long) = viewModelScope.launch {
+        getPostJob?.cancel()
+        getPostJob = viewModelScope.launch {
+            try {
+                repository.getPostById(postId).collect {
+                    selectedPost.value = it
+                }
+            } catch (e: Exception) {
+                _dataState.value = FeedModelState(error = true)
+            }
         }
     }
 
@@ -165,6 +169,9 @@ class PostViewModel @Inject constructor(
         } catch (e: Exception) {
             _dataState.value = FeedModelState(error = true)
         }
+    }
+    fun resetError(){
+        _dataState.value = FeedModelState()
     }
 
 

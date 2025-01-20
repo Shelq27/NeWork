@@ -11,13 +11,22 @@ import ru.shelq.nework.R
 import ru.shelq.nework.databinding.UserCardBinding
 import ru.shelq.nework.dto.User
 
-class UserAdapter (private val onInteractionListener: PostOnInteractionListener, private val context: Context) : ListAdapter<User, UserViewHolder>(UserDiffCallback()){
+interface UserOnInteractionListener {
+    fun onUserClick(user: User) {}
+
+}
+
+class UserAdapter(
+    private val onInteractionListener: UserOnInteractionListener,
+    private val context: Context
+) : ListAdapter<User, UserViewHolder>(UserDiffCallback()) {
 
 
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
         val user = getItem(position)
         holder.bind(user)
     }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         return UserViewHolder(
@@ -30,7 +39,7 @@ class UserAdapter (private val onInteractionListener: PostOnInteractionListener,
 
 class UserViewHolder(
     private val binding: UserCardBinding,
-    private val onInteractionListener: PostOnInteractionListener,
+    private val onInteractionListener: UserOnInteractionListener,
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(user: User) {

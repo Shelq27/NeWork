@@ -67,6 +67,10 @@ class MediaLifecycleObserver : LifecycleEventObserver {
             mediaPlayer = MediaPlayer()
         }
         try {
+
+
+
+
             if (!mediaPlayer!!.isPlaying) {
                 mediaPlayer!!.reset()
                 try {
@@ -74,9 +78,9 @@ class MediaLifecycleObserver : LifecycleEventObserver {
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
-                mediaPlayer!!.prepareAsync()
+                    mediaPlayer!!.prepareAsync()
                 mediaPlayer!!.setOnPreparedListener {
-                    it.setVolume(15F,15F)
+                    it.setVolume(15F, 15F)
                     it.start()
                     seekBar.progress = 0
                     seekBar.max = it.duration
@@ -116,7 +120,7 @@ class MediaLifecycleObserver : LifecycleEventObserver {
                 }
                 mediaPlayer!!.prepareAsync()
                 mediaPlayer!!.setOnPreparedListener {
-                    it.setVolume(15F,15F)
+                    it.setVolume(15F, 15F)
                     it.start()
                     seekBar.progress = 0
                     seekBar.max = it.duration

@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -21,7 +21,7 @@ import javax.inject.Inject
 class SingInFragment : Fragment() {
     @Inject
     lateinit var appAuth: AppAuth
-    private val viewModel: SignInViewModel by activityViewModels()
+    private val viewModel: SignInViewModel by viewModels()
     private lateinit var binding: SignInFragmentBinding
     override fun onCreateView(
         inflater: LayoutInflater,

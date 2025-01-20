@@ -10,6 +10,7 @@
     <dimen name="spacing_user_list">4dp</dimen>
     <dimen name="spaccing_login_reg">40dp</dimen>
     <dimen name="max_size_attachment">258dp</dimen>
+    <dimen name="title_size_margin_start">56dp</dimen>
 
 
 </resources>

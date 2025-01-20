@@ -291,9 +291,8 @@ class EventNewFragment : Fragment() {
         binding.CalendarFAB.setOnClickListener {
             val bindingCalendar = EventBottomSheetDialogBinding.inflate(layoutInflater)
             val bottomSheetDialog = BottomSheetDialog(requireContext())
-            val view = layoutInflater.inflate(R.layout.event_bottom_sheet_dialog, null)
-            val date = view.findViewById<TextInputEditText>(R.id.DataInput)
-            val dataPicker = view.findViewById<TextInputLayout>(R.id.DateEventET);
+            val date = bindingCalendar.DataInput
+            val dataPicker = bindingCalendar.DateEventET
             val calendar = if (viewModel.datetime.value?.equals("") == true) {
                 Calendar.getInstance()
             } else {
@@ -349,12 +348,13 @@ class EventNewFragment : Fragment() {
                 else -> Unit
             }
             radioGroup.setOnCheckedChangeListener { _, checkedId ->
-                val radioButton = view.findViewById<RadioButton>(checkedId)
+                val radioButton = bindingCalendar.root.findViewById<RadioButton>(checkedId)
                 val typeStr = radioButton.text
                 viewModel.changeType(if (typeStr.equals(getString(R.string.online))) EventType.ONLINE else EventType.OFFLINE)
             }
-            bottomSheetDialog.setContentView(view)
+            bottomSheetDialog.setContentView(bindingCalendar.root)
             bottomSheetDialog.show()
+
         }
         return binding.root
     }

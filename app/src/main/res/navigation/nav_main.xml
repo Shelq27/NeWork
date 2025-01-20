@@ -98,13 +98,22 @@
     </navigation>
     <navigation
         android:id="@+id/userNavigation"
-        app:startDestination="@id/userFragment"
-        tools:ignore="InvalidNavigation">
-            <fragment
-                android:id="@+id/userFragment"
-                android:name="ru.shelq.nework.ui.users.UserFragment"
-                android:label="@string/app_name"
-                tools:layout="@layout/user_fragment"
-                />
+        app:startDestination="@id/userFragment">
+        <fragment
+            android:id="@+id/userFragment"
+            android:name="ru.shelq.nework.ui.users.UserFragment"
+            android:label="@string/app_name"
+            tools:layout="@layout/user_fragment" >
+            <action
+                android:id="@+id/action_userFragment_to_userDetailsFragment"
+                app:destination="@id/userDetailsFragment" />
+        </fragment>
+
+        <fragment
+            android:id="@+id/userDetailsFragment"
+            android:name="ru.shelq.nework.ui.users.UserDetailsFragment"
+            android:label="user_details_fragment"
+            tools:layout="@layout/user_details_fragment" />
     </navigation>
+
 </navigation>

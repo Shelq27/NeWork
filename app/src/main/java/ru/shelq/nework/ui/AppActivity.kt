@@ -17,6 +17,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import ru.shelq.nework.R
 import ru.shelq.nework.auth.AppAuth
 import ru.shelq.nework.databinding.AppActivityBinding
+import ru.shelq.nework.ui.post.PostDetailsFragment.Companion.id
 import ru.shelq.nework.viewmodel.AuthViewModel
 import javax.inject.Inject
 
@@ -61,7 +62,7 @@ class AppActivity : AppCompatActivity() {
             when (destination.id) {
                 R.id.postFragment,
                 R.id.eventFragment,
-                R.id.userFragment
+                R.id.userFragment,
                 -> {
                     bottomNavigation.isVisible = true
                     appTopBar.isVisible = true
@@ -115,7 +116,14 @@ class AppActivity : AppCompatActivity() {
             }
 
             R.id.profile -> {
-                // TODO()
+                val navHostFragment =
+                    supportFragmentManager.findFragmentById(R.id.NavHostFragment) as NavHostFragment
+                val navController = navHostFragment.navController
+                navController.navigate(R.id.userDetailsFragment) {
+                    Bundle().apply {
+                        id = appAuth.authState.value.id
+                    }
+                }
                 true
             }
 

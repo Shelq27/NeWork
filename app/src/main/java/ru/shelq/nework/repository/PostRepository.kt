@@ -11,10 +11,10 @@ interface PostRepository {
     suspend fun likeByIdLocal(post: Post)
     suspend fun removeById(id: Long)
     suspend fun save(post: Post)
-    suspend fun getPostById(postId: Long): Post
+    suspend fun getPostById(postId: Long): Flow<Post?>
     fun getNewerPost(id: Long): Flow<Int>
     suspend fun latestReadPostId(): Long
     suspend fun readNewPosts()
-
+    fun setUser(userId: Long)
 
 }

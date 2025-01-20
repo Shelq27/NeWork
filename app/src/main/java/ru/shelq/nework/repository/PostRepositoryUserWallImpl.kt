@@ -3,6 +3,7 @@ package ru.shelq.nework.repository
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import androidx.paging.map
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -14,7 +15,7 @@ import kotlinx.coroutines.flow.map
 import ru.shelq.nework.api.ApiService
 import ru.shelq.nework.auth.AppAuth
 import ru.shelq.nework.dao.PostDao
-import ru.shelq.nework.dao.PostRemoteKeyDao
+import ru.shelq.nework.dao.WallRemoteKeyDao
 import ru.shelq.nework.db.AppDb
 import ru.shelq.nework.dto.Post
 import ru.shelq.nework.entity.PostEntity
@@ -28,29 +29,53 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-open class PostRepositoryImpl @Inject constructor(
+class PostRepositoryUserWallImpl @Inject constructor(
+    private val appDb: AppDb,
+    private val dao: PostDao,
     private val apiService: ApiService,
-    private val postDao: PostDao,
     private val auth: AppAuth,
-    postRemoteKeyDao: PostRemoteKeyDao,
-    appDb: AppDb
+    private val wallRemoteKeyDao: WallRemoteKeyDao,
 ) : PostRepository {
+
+    var userId: Long = 0
+
+    override lateinit var data: Flow<PagingData<Post>>
+
     @OptIn(ExperimentalPagingApi::class)
-    override val data = Pager(
-        config = PagingConfig(pageSize = 25),
-        pagingSourceFactory = { postDao.pagingSource() },
-        remoteMediator = PostRemoteMediator(apiService, appDb, postDao, postRemoteKeyDao)
-    ).flow.map { it.map(PostEntity::toDto) }
+    override fun setUser(userId: Long) {
+        this.userId = userId
+        data = Pager(
+            config = PagingConfig(pageSize = 25),
+            remoteMediator = WallRemoteMediator(
+                apiService,
+                appDb,
+                dao,
+                wallRemoteKeyDao,
+                auth,
+                userId
+            ),
+            pagingSourceFactory = {
+                dao.pagingSourceUserWall(userId)
+            }
+        ).flow.map { pagingData ->
+            pagingData.map(PostEntity::toDto)
+        }
+    }
+
 
     override suspend fun getAll() {
         try {
-            val response = apiService.getAllPosts()
+            val response =
+                if (isMyWall()) {
+                    apiService.getMyWall()
+                } else {
+                    apiService.getUserWall(userId)
+                }
             if (!response.isSuccessful) {
                 throw ApiError(response.code(), response.message())
             }
-
             val body = response.body() ?: throw ApiError(response.code(), response.message())
-            postDao.insert(body.toEntity())
+            dao.insert(body.toEntity())
         } catch (e: IOException) {
             throw NetworkError
         } catch (e: Exception) {
@@ -62,9 +87,9 @@ open class PostRepositoryImpl @Inject constructor(
         try {
             likeByIdLocal(post)
             val response = if (!post.likedByMe) {
-                apiService.likePostById(post.id)
+                apiService.likeUserPostById(userId, post.id)
             } else {
-                apiService.dislikePostById(post.id)
+                apiService.dislikeUserPostById(userId, post.id)
             }
             if (!response.isSuccessful) {
                 throw ApiError(response.code(), response.message())
@@ -84,17 +109,15 @@ open class PostRepositoryImpl @Inject constructor(
             val list = post.likeOwnerIds.filter {
                 it != auth.authState.value.id
             }
-            postDao.likeById(post.id, list)
+            dao.likeById(post.id, list)
         } else {
             val list = post.likeOwnerIds.plus(auth.authState.value.id)
-            postDao.likeById(post.id, list)
+            dao.likeById(post.id, list)
         }
-
     }
 
-
     override suspend fun removeById(id: Long) {
-        postDao.removeById(id)
+        dao.removeById(id)
         try {
             val response = apiService.deletePostById(id)
             if (!response.isSuccessful) {
@@ -116,7 +139,7 @@ open class PostRepositoryImpl @Inject constructor(
             }
 
             val body = response.body() ?: throw ApiError(response.code(), response.message())
-            postDao.insert(PostEntity.fromDto(body))
+            dao.insert(PostEntity.fromDto(body))
         } catch (e: IOException) {
             throw NetworkError
         } catch (e: Exception) {
@@ -132,41 +155,47 @@ open class PostRepositoryImpl @Inject constructor(
             }
             val body = response.body() ?: throw ApiError(response.code(), response.message())
             val postEntity = PostEntity.fromDto(body)
-            postDao.insert(postEntity)
-            return postDao.getPost(postId).map { it?.toDto() }
+            dao.insert(postEntity)
+            return dao.getPost(postId).map { it?.toDto() }
         } catch (e: IOException) {
             throw NetworkError
         } catch (e: Exception) {
             throw UnknownError
         }
-
     }
 
     override fun getNewerPost(id: Long): Flow<Int> = flow {
         while (true) {
             delay(10_000L)
-            val response = apiService.getNewerPosts(id)
+            val response =
+                if (isMyWall()) {
+                    apiService.getMyWallNewer(id)
+                } else {
+                    apiService.getUserWallNewer(userId, id)
+                }
             if (!response.isSuccessful) {
                 throw ApiError(response.code(), response.message())
             }
 
             val body = response.body() ?: throw ApiError(response.code(), response.message())
-            postDao.insert(body.toEntity())
+            //записываем новые посты с признаком read = false
+            dao.insert(body.toEntity())
             emit(body.size)
         }
-    }.catch { e -> throw AppError.from(e) }
+    }
+        .catch { e -> throw AppError.from(e) }
         .flowOn(Dispatchers.Default)
 
     override suspend fun latestReadPostId(): Long {
-        return postDao.latestReadPostId() ?: 0L
+        return dao.latestUserReadPostId(userId) ?: 0L
     }
 
     override suspend fun readNewPosts() {
-        postDao.readNewPosts()
-    }
 
-    override fun setUser(userId: Long) {
     }
 
 
+    fun isMyWall(): Boolean {
+        return userId == auth.authState.value.id
+    }
 }
