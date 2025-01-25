@@ -41,7 +41,6 @@ class AppActivity : AppCompatActivity() {
             invalidateOptionsMenu()
         }
 
-
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.NavHostFragment) as NavHostFragment
 
@@ -52,12 +51,7 @@ class AppActivity : AppCompatActivity() {
 
 
 
-        appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.postNavigation, R.id.eventNavigation, R.id.userNavigation)
-
-        )
         navController.addOnDestinationChangedListener { _, destination, _ ->
-
 
             when (destination.id) {
                 R.id.postFragment,
@@ -76,6 +70,10 @@ class AppActivity : AppCompatActivity() {
 
         }
 
+        appBarConfiguration = AppBarConfiguration(
+            setOf(R.id.postNavigation, R.id.eventNavigation, R.id.userNavigation)
+
+        )
         setupActionBarWithNavController(navController, appBarConfiguration)
         bottomNavigation.setupWithNavController(navController)
 
@@ -119,11 +117,9 @@ class AppActivity : AppCompatActivity() {
                 val navHostFragment =
                     supportFragmentManager.findFragmentById(R.id.NavHostFragment) as NavHostFragment
                 val navController = navHostFragment.navController
-                navController.navigate(R.id.userDetailsFragment) {
-                    Bundle().apply {
-                        id = appAuth.authState.value.id
-                    }
-                }
+                navController.navigate(R.id.userDetailsFragment, args = Bundle().apply {
+                    id = appAuth.authState.value.id
+                })
                 true
             }
 

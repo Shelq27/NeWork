@@ -1,10 +1,11 @@
 <resources>
+
     <style name="Widget.Theme.NeWork.ButtonBar.Fullscreen" parent="">
         <item name="android:background">@color/black_overlay</item>
         <item name="android:buttonBarStyle">?android:attr/buttonBarStyle</item>
     </style>
 
-    <style name="Widget.AppTheme.LikeButton" parent="@style/Widget.MaterialComponents.Button.TextButton.Icon" >
+    <style name="Widget.AppTheme.LikeButton" parent="@style/Widget.MaterialComponents.Button.TextButton.Icon">
         <item name="icon">@drawable/sel_likes_24dp</item>
         <item name="iconTint">@color/primary</item>
         <item name="android:textColor">@color/primary</item>
@@ -14,6 +15,7 @@
         </item>
         <item name="android:insetBottom">0dp</item>
     </style>
+
     <style name="OverFlow" parent="Widget.AppCompat.ActionButton.Overflow">
         <item name="android:src">@drawable/ic_account_circle_24dp</item>
     </style>
@@ -25,8 +27,15 @@
         <item name="android:layout_height">?attr/actionBarSize</item>
         <item name="actionOverflowButtonStyle">@style/OverFlow</item>
     </style>
+
     <style name="calendar" parent="@style/ThemeOverlay.MaterialComponents.Dialog">
         <item name="colorSecondary">@color/primary</item>
         <item name="colorPrimary">@color/primary</item> <!-- button text color -->
+    </style>
+
+    <style name="button_job_date_picker" parent="Widget.Material3.Button.TextButton">
+        <item name="titleTextColor">@color/primary</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/size_text_title</item>
     </style>
 </resources>

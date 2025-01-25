@@ -13,6 +13,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import dagger.hilt.android.AndroidEntryPoint
 import ru.shelq.nework.R
 import ru.shelq.nework.adapter.FragmentPageAdapter
 import ru.shelq.nework.auth.AppAuth
@@ -21,6 +22,7 @@ import ru.shelq.nework.util.idArg
 import ru.shelq.nework.viewmodel.UserViewModel
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class UserDetailsFragment : Fragment() {
     @Inject
     lateinit var auth: AppAuth
@@ -70,9 +72,9 @@ class UserDetailsFragment : Fragment() {
         tabLayout = binding.UserDetailsTL
         viewPager2 = binding.viewPager
         adapter = FragmentPageAdapter(childFragmentManager, viewLifecycleOwner.lifecycle)
+
         tabLayout.addTab(tabLayout.newTab().setText("Wall"))
         tabLayout.addTab(tabLayout.newTab().setText("Jobs"))
-
         viewPager2.adapter = adapter
         TabLayoutMediator(tabLayout, viewPager2) { tab, index ->
             when (index) {
@@ -108,7 +110,7 @@ class UserDetailsFragment : Fragment() {
             }
         })
         binding.AddNewJobsIB.setOnClickListener {
-//            findNavController().navigate(R.id.)
+            findNavController().navigate(R.id.jobNewFragment)
         }
         return binding.root
     }

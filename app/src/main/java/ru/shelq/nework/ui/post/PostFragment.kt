@@ -5,11 +5,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
-import android.widget.SeekBar
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -37,7 +35,7 @@ class PostFragment : Fragment() {
 
     @Inject
     lateinit var appAuth: AppAuth
-    val viewModel: PostViewModel by activityViewModels()
+    val viewModel: PostViewModel by viewModels()
     private val mediaObserver = MediaLifecycleObserver()
 
     companion object {

@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -42,7 +43,7 @@ class EventFragment : Fragment() {
     @Inject
     lateinit var appAuth: AppAuth
     private val mediaObserver = MediaLifecycleObserver()
-    val viewModel: EventViewModel by activityViewModels()
+    val viewModel: EventViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,

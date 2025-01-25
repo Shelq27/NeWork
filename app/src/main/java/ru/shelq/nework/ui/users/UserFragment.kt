@@ -32,8 +32,7 @@ class UserFragment : Fragment() {
         val adapter = UserAdapter(object : UserOnInteractionListener {
             override fun onUserClick(user: User) {
                 findNavController().navigate(
-                    R.id.action_userFragment_to_userDetailsFragment,
-                    Bundle().apply{
+                    R.id.action_userFragment_to_userDetailsFragment, args = Bundle().apply {
                         id = user.id
                     })
             }

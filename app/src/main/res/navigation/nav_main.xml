@@ -109,11 +109,16 @@
                 app:destination="@id/userDetailsFragment" />
         </fragment>
 
-        <fragment
-            android:id="@+id/userDetailsFragment"
-            android:name="ru.shelq.nework.ui.users.UserDetailsFragment"
-            android:label="user_details_fragment"
-            tools:layout="@layout/user_details_fragment" />
-    </navigation>
 
+    </navigation>
+    <fragment
+        android:id="@+id/userDetailsFragment"
+        android:name="ru.shelq.nework.ui.users.UserDetailsFragment"
+        android:label="user_details_fragment"
+        tools:layout="@layout/user_details_fragment" />
+    <fragment
+        android:id="@+id/jobNewFragment"
+        android:name="ru.shelq.nework.ui.users.JobNewFragment"
+        android:label="job_new_fragment"
+        tools:layout="@layout/job_new_fragment" />
 </navigation>

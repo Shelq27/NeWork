@@ -41,28 +41,20 @@ object AndroidUtils {
         val date = ZonedDateTime.parse(dateStr).withZoneSameInstant(ZoneId.systemDefault())
         return date.format(DateTimeFormatter.ofPattern(context.getString(R.string.date_format)))
     }
-    @SuppressLint("SimpleDateFormat")
-    fun calendarFormatDate(calendar: Calendar): String{
-        val date = calendar.time
-        val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-        sdf.timeZone = TimeZone.getTimeZone("UTC")
-        return sdf.format(date)
-    }
-     fun Uri.getFile(context: Context): File? {
-        val inputStream = context.contentResolver.openInputStream(this)
-        val tempFile = File.createTempFile("temp", ".jpg")
 
-        val outputStream = FileOutputStream(tempFile)
-        inputStream?.use { input ->
-            outputStream.use { output ->
-                input.copyTo(output)
-            }
-        }
-        return tempFile
+    fun dateRangeToText(dateStartStr: String, dateEndStr: String?): String {
+        val dateStartRes = dateUTCToLongDateText(dateStartStr)
+        val dateEndRes = if (dateEndStr == null) "НВ" else dateUTCToLongDateText(dateEndStr)
+        return ("$dateStartRes - $dateEndRes")
     }
 
-    
-    fun share(context: Context, content: String){
+    private fun dateUTCToLongDateText(dateStr: String): String {
+        val date = ZonedDateTime.parse(dateStr).withZoneSameInstant(ZoneId.systemDefault())
+        return date.format(DateTimeFormatter.ofPattern("d MMMM yyyy"))
+    }
+
+
+    fun share(context: Context, content: String) {
         val intent = Intent().apply {
             action = Intent.ACTION_SEND
             putExtra(Intent.EXTRA_TEXT, content)
@@ -73,23 +65,47 @@ object AndroidUtils {
             Intent.createChooser(intent, context.getString(R.string.share))
         startActivity(context, shareIntent, null)
     }
-    fun showSignInDialog(fragment: Fragment){
+
+    fun showSignInDialog(fragment: Fragment) {
         val dialog = SignInDialogFragment()
         dialog.show(fragment.parentFragmentManager, fragment.getString(R.string.authentication))
     }
-    fun dateUTCToCalendar(dateStr: String): Calendar{
+
+    fun dateUTCToCalendar(dateStr: String): Calendar {
         val zonedDateTime = ZonedDateTime.parse(dateStr)
         val date = Date.from(zonedDateTime.toInstant())
         val calendar = Calendar.getInstance()
         calendar.time = date
         return calendar
     }
+
     @SuppressLint("SimpleDateFormat")
-    fun calendarToUTCDate(calendar: Calendar): String{
+    fun calendarToUTCDate(calendar: Calendar): String {
         val date = calendar.time
         val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
         sdf.timeZone = TimeZone.getTimeZone("UTC")
         return sdf.format(date)
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    fun calendarFormatDate(calendar: Calendar): String {
+        val date = calendar.time
+        val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+        sdf.timeZone = TimeZone.getTimeZone("UTC")
+        return sdf.format(date)
+    }
+
+    fun Uri.getFile(context: Context): File? {
+        val inputStream = context.contentResolver.openInputStream(this)
+        val tempFile = File.createTempFile("temp", ".jpg")
+
+        val outputStream = FileOutputStream(tempFile)
+        inputStream?.use { input ->
+            outputStream.use { output ->
+                input.copyTo(output)
+            }
+        }
+        return tempFile
     }
 
 

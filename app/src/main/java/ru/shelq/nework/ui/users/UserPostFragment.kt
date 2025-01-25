@@ -54,7 +54,6 @@ class UserPostFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
         binding = PostFragmentBinding.inflate(layoutInflater, container, false)
 
         val adapter = PostAdapter(object : PostOnInteractionListener {
@@ -127,7 +126,7 @@ class UserPostFragment : Fragment() {
                 wallViewModel.resetError()
             }
         }
-
+        binding.AddNewPostIB.visibility = View.GONE
         binding.SwipeRefresh.setOnRefreshListener(adapter::refresh)
         return binding.root
     }

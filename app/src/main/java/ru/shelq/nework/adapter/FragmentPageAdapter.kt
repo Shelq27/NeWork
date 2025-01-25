@@ -4,7 +4,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import ru.shelq.nework.ui.users.UserJobsFragment
+import ru.shelq.nework.ui.users.UserJobFragment
 import ru.shelq.nework.ui.users.UserPostFragment
 
 class FragmentPageAdapter(
@@ -19,7 +19,7 @@ class FragmentPageAdapter(
         return if(position == 0)
             UserPostFragment()
         else
-            UserJobsFragment()
+            UserJobFragment()
     }
 
 }
