@@ -28,8 +28,8 @@ interface PostOnInteractionListener {
     fun onEdit(post: Post) {}
     fun onOpen(post: Post) {}
     fun onShare(post: Post) {}
-    fun onItemClick (post: Post) {}
-    fun onPlayAudio (post: Post, seekBar: SeekBar, playAudio: ImageButton) {}
+    fun onItemClick(post: Post) {}
+    fun onPlayAudio(post: Post, seekBar: SeekBar, playAudio: ImageButton) {}
 
 }
 
@@ -67,20 +67,26 @@ class PostViewHolder(
             AuthorTV.text = post.author
             AvatarIV.loadImgCircle(post.authorAvatar)
 
-            if (post.link != null) {
+            if (post.link.equals("")) {
+                LinkPostTV.visibility = View.GONE
+            } else {
                 LinkPostTV.visibility = View.VISIBLE
                 LinkPostTV.text = post.link
+            }
+            if (post.content == "") {
+                TextPostTV.visibility = View.GONE
             } else {
-                LinkPostTV.visibility = View.GONE
+                TextPostTV.visibility = View.VISIBLE
+                TextPostTV.text = post.content
             }
             PublishedPostTV.text = AndroidUtils.dateFormatToText(post.published, root.context)
-            TextPostTV.text = post.content
             LikeIB.text = post.likeOwnerIds.size.toString()
             LikeIB.isChecked = post.likedByMe
             LikeIB.setOnClickListener {
                 onInteractionListener.onLike(post)
                 LikeIB.isChecked = post.likedByMe
             }
+
             imageAttachment.visibility = View.GONE
             audioAttachment.audioPlay.visibility = View.GONE
             videoAttachment.videoPlay.visibility = View.GONE
@@ -92,6 +98,7 @@ class PostViewHolder(
             audioAttachment.audioSB.progress = 0
 
             if (post.attachment != null) {
+                AttachmentGroup.visibility = View.VISIBLE
                 when (post.attachment.type) {
                     AttachmentType.IMAGE -> {
                         imageAttachment.visibility = View.VISIBLE

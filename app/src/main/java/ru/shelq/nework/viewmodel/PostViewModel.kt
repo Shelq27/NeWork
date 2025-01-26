@@ -18,14 +18,18 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import ru.shelq.nework.auth.AppAuth
+import ru.shelq.nework.dto.Coordinates
+import ru.shelq.nework.dto.MediaUpload
 import ru.shelq.nework.dto.Post
 import ru.shelq.nework.enumer.AttachmentType
 import ru.shelq.nework.error.AppError
 import ru.shelq.nework.model.AttachmentModel
 import ru.shelq.nework.model.FeedModelState
 import ru.shelq.nework.repository.PostRepository
+import ru.shelq.nework.util.AndroidUtils
 import ru.shelq.nework.util.SingleLiveEvent
 import java.io.File
+import java.util.Calendar
 import javax.inject.Inject
 
 private val empty = Post(
@@ -45,6 +49,7 @@ private val empty = Post(
 )
 private val noAttachment: AttachmentModel? = null
 private var getPostJob: Job? = null
+
 @HiltViewModel
 open class PostViewModel @Inject constructor(
     private val repository: PostRepository,
@@ -52,16 +57,14 @@ open class PostViewModel @Inject constructor(
 ) : ViewModel() {
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    open val data: Flow<PagingData<Post>> = appAuth
-        .authState
-        .flatMapLatest { auth ->
-            repository.data
-                .map { posts ->
-                    posts.map { it.copy(ownedByMe = auth.id == it.authorId) }
-
+    open var data: Flow<PagingData<Post>> = appAuth.authState
+        .flatMapLatest { (myId, _) ->
+            repository.data.map { pagingData ->
+                pagingData.map { post ->
+                    post.copy(ownedByMe = post.authorId == myId)
                 }
+            }
         }
-        .catch { it.printStackTrace() }
 
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -75,13 +78,21 @@ open class PostViewModel @Inject constructor(
         get() = _dataState
     val edited = MutableLiveData(empty)
     val selectedPost = MutableLiveData<Post?>()
-    private val _postCreated = SingleLiveEvent<Unit>()
-    val postCreated: LiveData<Unit>
-        get() = _postCreated
     private val _attachment = MutableLiveData(noAttachment)
     val attachment: LiveData<AttachmentModel?>
         get() = _attachment
+
     private val _changed = MutableLiveData<Boolean>()
+    private val _coords = MutableLiveData<Coordinates?>()
+    private val _postCreated = SingleLiveEvent<Unit>()
+    val postCreated: LiveData<Unit>
+        get() = _postCreated
+
+    val coords: LiveData<Coordinates?>
+        get() = _coords
+    private val _mentionedNewPost = MutableLiveData<List<Long>>(emptyList())
+    val mentionedNewPost: LiveData<List<Long>>
+        get() = _mentionedNewPost
 
     init {
         loadPost()
@@ -111,24 +122,66 @@ open class PostViewModel @Inject constructor(
         }
     }
 
-
-    fun changeContentAndSave(content: String) {
+    fun changeContent(content: String) {
         val text = content.trim()
+        if (edited.value?.content == text) {
+            return
+        }
+        edited.value = edited.value?.copy(content = text)
+        _changed.value = true
+    }
+
+    fun save() {
         edited.value?.let {
-            if (it.content == text) {
-                return
+            val newPost = it.copy(
+                published = AndroidUtils.calendarToUTCDate(Calendar.getInstance()),
+                coords = _coords.value,
+                mentionIds = _mentionedNewPost.value!!
+            )
+            _postCreated.value = Unit
+            viewModelScope.launch {
+                try {
+                    when (_attachment.value) {
+                        null -> {
+                            repository.save(newPost.copy(attachment = null))
+                        }
+
+                        else -> {
+
+                            if (_attachment.value?.url != null) {
+                                repository.save(newPost)
+                            } else {
+                                _attachment.value!!.file?.let {
+                                    repository.saveWithAttachment(
+                                        newPost,
+                                        MediaUpload(_attachment.value!!.file!!),
+                                        _attachment.value!!.attachmentType!!
+                                    )
+                                }
+                            }
+                        }
+                    }
+                    _dataState.value = FeedModelState()
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    _dataState.value = FeedModelState(error = true)
+                }
             }
-            edited.value = it.copy(content = text)
         }
-        viewModelScope.launch {
-            try {
-                _dataState.value = FeedModelState()
-                _postCreated.value = Unit
-            } catch (e: Exception) {
-                _dataState.value = FeedModelState(error = true)
-            }
+        clearEdit()
+    }
+
+    fun changeLink(link: String) {
+        val text = link.trim()
+        if (edited.value?.link == text) {
+            return
         }
-        edited.value = empty
+        if (text == "") {
+            edited.value = edited.value?.copy(link = null)
+        } else {
+            edited.value = edited.value?.copy(link = text)
+        }
+        _changed.value = true
     }
 
     fun changeAttachment(url: String?, uri: Uri?, file: File?, attachmentType: AttachmentType?) {
@@ -144,8 +197,21 @@ open class PostViewModel @Inject constructor(
         _changed.value = true
     }
 
-    fun edit(post: Post) {
-        edited.value = post
+    fun edit(post: Post?) {
+        if (post != null) {
+            edited.value = post
+        } else {
+            clearEdit()
+        }
+    }
+
+    private fun clearEdit() {
+        edited.value = empty
+        _attachment.value = null
+        _coords.value = null
+        _mentionedNewPost.value = emptyList()
+        _changed.value = false
+
     }
 
     fun likeByPost(post: Post) = viewModelScope.launch {
@@ -170,7 +236,8 @@ open class PostViewModel @Inject constructor(
             _dataState.value = FeedModelState(error = true)
         }
     }
-    fun resetError(){
+
+    fun resetError() {
         _dataState.value = FeedModelState()
     }
 

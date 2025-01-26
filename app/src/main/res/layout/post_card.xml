@@ -75,9 +75,10 @@
             android:id="@+id/TextPostTV"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/common_spacing"
             android:autoLink="web"
             android:padding="@dimen/element_spacing"
+            android:visibility="gone"
+            tools:visibility="visible"
             app:layout_constraintBottom_toTopOf="@id/LinkPostTV"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -87,6 +88,8 @@
 
         <FrameLayout
             android:id="@+id/AttachmentGroup"
+            android:visibility="gone"
+            tools:visibility="visible"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"

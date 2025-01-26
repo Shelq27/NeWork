@@ -24,7 +24,6 @@ class EventEditFragment : Fragment() {
     ): View {
         val binding = EventEditFragmentBinding.inflate(inflater, container, false)
         val bindingEdit = binding.EventEditFragment
-        val viewModelPost: PostViewModel by activityViewModels()
 
         val text = arguments?.text
         if (text != null) {
@@ -36,7 +35,6 @@ class EventEditFragment : Fragment() {
         }
         bindingEdit.NewEventTTB.setOnMenuItemClickListener {
             val content = bindingEdit.ContentEventET.text.toString()
-            viewModelPost.changeContentAndSave(content)
             AndroidUtils.hideKeyboard(requireView())
             findNavController().navigateUp()
         }

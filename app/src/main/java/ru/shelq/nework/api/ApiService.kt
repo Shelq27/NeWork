@@ -16,7 +16,9 @@ import retrofit2.http.Query
 import ru.shelq.nework.auth.AuthState
 import ru.shelq.nework.dto.Event
 import ru.shelq.nework.dto.Job
+import ru.shelq.nework.dto.Media
 import ru.shelq.nework.dto.Post
+import ru.shelq.nework.dto.PostApi
 import ru.shelq.nework.dto.User
 
 
@@ -33,13 +35,16 @@ interface ApiService {
     suspend fun getPostLatest(@Query("count") count: Int): Response<List<Post>>
 
     @GET("posts/{id}/before")
-    suspend fun getPostBefore(@Path("id") id: Long, @Query("count") count: Int): Response<List<Post>>
+    suspend fun getPostBefore(
+        @Path("id") id: Long,
+        @Query("count") count: Int
+    ): Response<List<Post>>
 
     @GET("posts/{id}/after")
     suspend fun getPostAfter(@Path("id") id: Long, @Query("count") count: Int): Response<List<Post>>
 
-    @GET("posts")
-    suspend fun savePost(@Body post: Post): Response<Post>
+    @POST("posts")
+    suspend fun savePost(@Body post: PostApi): Response<Post>
 
     @DELETE("posts/{id}")
     suspend fun deletePostById(@Path("id") id: Long): Response<Unit>
@@ -53,6 +58,10 @@ interface ApiService {
     @GET("posts/{id}")
     suspend fun getPostById(@Path("id") id: Long): Response<Post>
 
+    @Multipart
+    @POST("media")
+    suspend fun upload(@Part media: MultipartBody.Part): Response<Media>
+
     // EVENTS
 
     @GET("events")
@@ -60,10 +69,19 @@ interface ApiService {
 
     @GET("events/latest")
     suspend fun getEventLatest(@Query("count") count: Int): Response<List<Event>>
+
     @GET("events/{id}/after")
-    suspend fun getEventAfter(@Path("id") id: Long, @Query("count") count: Int): Response<List<Event>>
+    suspend fun getEventAfter(
+        @Path("id") id: Long,
+        @Query("count") count: Int
+    ): Response<List<Event>>
+
     @GET("events/{id}/before")
-    suspend fun getEventBefore(@Path("id") id: Long, @Query("count") count: Int): Response<List<Event>>
+    suspend fun getEventBefore(
+        @Path("id") id: Long,
+        @Query("count") count: Int
+    ): Response<List<Event>>
+
     @GET("events/{id}/newer")
     suspend fun getNewerEvent(@Path("id") id: Long): Response<List<Event>>
 
@@ -190,7 +208,6 @@ interface ApiService {
 
     @DELETE("my/jobs/{id}")
     suspend fun removeJobById(@Path("id") jobId: Long): Response<Unit>
-
 
 
 }

@@ -99,6 +99,7 @@ class PostFragment : Fragment() {
                 viewModel.data.collectLatest(adapter::submitData)
             }
         }
+
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 adapter.loadStateFlow.collectLatest { state ->
@@ -114,7 +115,6 @@ class PostFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.newerPostCount.collectLatest {
                 binding.NewPost.isVisible = it > 0
-                println(it)
             }
         }
 

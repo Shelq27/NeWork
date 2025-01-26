@@ -17,9 +17,12 @@ import ru.shelq.nework.auth.AppAuth
 import ru.shelq.nework.dao.PostDao
 import ru.shelq.nework.dao.WallRemoteKeyDao
 import ru.shelq.nework.db.AppDb
+import ru.shelq.nework.dto.Media
+import ru.shelq.nework.dto.MediaUpload
 import ru.shelq.nework.dto.Post
 import ru.shelq.nework.entity.PostEntity
 import ru.shelq.nework.entity.toEntity
+import ru.shelq.nework.enumer.AttachmentType
 import ru.shelq.nework.error.ApiError
 import ru.shelq.nework.error.AppError
 import ru.shelq.nework.error.NetworkError
@@ -61,6 +64,8 @@ class PostRepositoryUserWallImpl @Inject constructor(
             pagingData.map(PostEntity::toDto)
         }
     }
+
+
 
 
     override suspend fun getAll() {
@@ -133,7 +138,7 @@ class PostRepositoryUserWallImpl @Inject constructor(
 
     override suspend fun save(post: Post) {
         try {
-            val response = apiService.savePost(post)
+            val response = apiService.savePost(post.toPostApi())
             if (!response.isSuccessful) {
                 throw ApiError(response.code(), response.message())
             }
@@ -146,6 +151,7 @@ class PostRepositoryUserWallImpl @Inject constructor(
             throw UnknownError
         }
     }
+
 
     override suspend fun getPostById(postId: Long): Flow<Post?> {
         try {
@@ -191,7 +197,17 @@ class PostRepositoryUserWallImpl @Inject constructor(
     }
 
     override suspend fun readNewPosts() {
+    }
+    override suspend fun saveWithAttachment(
+        post: Post,
+        upload: MediaUpload,
+        attachmentType: AttachmentType
+    ) {
+        TODO("Not yet implemented")
 
+    }
+    override suspend fun upload(upload: MediaUpload): Media {
+        TODO("Not yet implemented")
     }
 
 

@@ -4,6 +4,9 @@ import android.app.Activity
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.MediaController
@@ -11,7 +14,6 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.net.toFile
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
@@ -29,41 +31,31 @@ import ru.shelq.nework.viewmodel.PostViewModel
 import java.io.FileNotFoundException
 import java.io.IOException
 
+@Suppress("DEPRECATION")
 @AndroidEntryPoint
 class PostNewFragment : Fragment() {
     companion object {
         const val MAX_SIZE = 15728640
     }
 
+    private lateinit var binding: PostNewFragmentBinding
     private val viewModel: PostViewModel by viewModels(ownerProducer = ::requireActivity)
     private val mediaObserver = MediaLifecycleObserver()
-
     private fun removeAttachment() {
         viewModel.changeAttachment(null, null, null, null)
     }
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val binding = PostNewFragmentBinding.inflate(layoutInflater)
+        binding = PostNewFragmentBinding.inflate(layoutInflater)
         lifecycle.addObserver(mediaObserver)
         binding.ContentPostET.requestFocus()
-        binding.NewPostTTB.setOnMenuItemClickListener {
-            val content = binding.ContentPostET.text.toString()
-            if (content.isBlank()) {
-                Toast.makeText(context, "Error : can't empty", Toast.LENGTH_LONG).show()
-            }
-            viewModel.changeContentAndSave(content)
-            AndroidUtils.hideKeyboard(requireView())
-            findNavController().navigateUp()
-        }
         binding.NewPostTTB.setNavigationOnClickListener {
             findNavController().navigateUp()
         }
-
         val pickPhotoLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
                 when (it.resultCode) {
@@ -174,7 +166,6 @@ class PostNewFragment : Fragment() {
             }
 
         }
-
         binding.imageContainer.removePhoto.setOnClickListener {
             removeAttachment()
         }
@@ -239,9 +230,6 @@ class PostNewFragment : Fragment() {
             }
 
         }
-
-
-
         binding.NewPostBB.setNavigationOnClickListener { }
         binding.NewPostBB.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
@@ -277,6 +265,19 @@ class PostNewFragment : Fragment() {
                 else -> false
             }
 
+        }
+
+        binding.NewPostTTB.setOnMenuItemClickListener {
+            val content = binding.ContentPostET
+            val link = binding.Link
+            viewModel.changeContent(content.text.toString())
+            viewModel.changeLink(link.text.toString())
+            viewModel.save()
+            AndroidUtils.hideKeyboard(requireView())
+            true
+        }
+        viewModel.postCreated.observe(viewLifecycleOwner) {
+            findNavController().navigateUp()
         }
 
         return binding.root

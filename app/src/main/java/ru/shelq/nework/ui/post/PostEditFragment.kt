@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.navigateUp
 import ru.shelq.nework.databinding.PostEditFragmentBinding
 import ru.shelq.nework.util.AndroidUtils
 import ru.shelq.nework.util.StringArg
@@ -25,7 +24,7 @@ class PostEditFragment : Fragment() {
     ): View {
         val binding = PostEditFragmentBinding.inflate(inflater, container, false)
         val bindingEdit = binding.PostEditFragmnet
-        val viewModelPost: PostViewModel by activityViewModels()
+        val viewModel: PostViewModel by activityViewModels()
 
         val text = arguments?.text
         if (text != null) {
@@ -37,7 +36,7 @@ class PostEditFragment : Fragment() {
         }
         bindingEdit.NewPostTTB.setOnMenuItemClickListener {
             val content = bindingEdit.ContentPostET.text.toString()
-            viewModelPost.changeContentAndSave(content)
+
             AndroidUtils.hideKeyboard(requireView())
             findNavController().navigateUp()
         }

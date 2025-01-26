@@ -41,8 +41,6 @@ abstract class AppDb : RoomDatabase() {
     abstract val postRemoteKeyDao: PostRemoteKeyDao
     abstract val eventRemoteKeyDao: EventRemoteKeyDao
     abstract val wallRemoteKeyDao: WallRemoteKeyDao
-
-
     companion object {
 
         @Volatile

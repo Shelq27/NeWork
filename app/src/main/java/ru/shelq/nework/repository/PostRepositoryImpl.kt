@@ -11,14 +11,20 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import ru.shelq.nework.api.ApiService
 import ru.shelq.nework.auth.AppAuth
 import ru.shelq.nework.dao.PostDao
 import ru.shelq.nework.dao.PostRemoteKeyDao
 import ru.shelq.nework.db.AppDb
+import ru.shelq.nework.dto.Attachment
+import ru.shelq.nework.dto.Media
+import ru.shelq.nework.dto.MediaUpload
 import ru.shelq.nework.dto.Post
 import ru.shelq.nework.entity.PostEntity
 import ru.shelq.nework.entity.toEntity
+import ru.shelq.nework.enumer.AttachmentType
 import ru.shelq.nework.error.ApiError
 import ru.shelq.nework.error.AppError
 import ru.shelq.nework.error.NetworkError
@@ -110,7 +116,7 @@ open class PostRepositoryImpl @Inject constructor(
 
     override suspend fun save(post: Post) {
         try {
-            val response = apiService.savePost(post)
+            val response = apiService.savePost(post.toPostApi())
             if (!response.isSuccessful) {
                 throw ApiError(response.code(), response.message())
             }
@@ -123,6 +129,43 @@ open class PostRepositoryImpl @Inject constructor(
             throw UnknownError
         }
     }
+
+    override suspend fun saveWithAttachment(
+        post: Post,
+        upload: MediaUpload,
+        attachmentType: AttachmentType
+    ) {
+        try {
+            val media = upload(upload)
+            val postWithAttachment = post.copy(attachment = Attachment(media.url, attachmentType))
+            save(postWithAttachment)
+        } catch (e: AppError) {
+            throw e
+        } catch (e: IOException) {
+            throw NetworkError
+        } catch (e: Exception) {
+            throw UnknownError
+        }
+    }
+    override suspend fun upload(upload: MediaUpload): Media {
+        try {
+            val media = MultipartBody.Part.createFormData(
+                "file", upload.file.name, upload.file.asRequestBody()
+            )
+
+            val response = apiService.upload(media)
+            if (!response.isSuccessful) {
+                throw ApiError(response.code(), response.message())
+            }
+
+            return response.body() ?: throw ApiError(response.code(), response.message())
+        } catch (e: IOException) {
+            throw NetworkError
+        } catch (e: Exception) {
+            throw UnknownError
+        }
+    }
+
 
     override suspend fun getPostById(postId: Long): Flow<Post?> {
         try {
@@ -149,7 +192,6 @@ open class PostRepositoryImpl @Inject constructor(
             if (!response.isSuccessful) {
                 throw ApiError(response.code(), response.message())
             }
-
             val body = response.body() ?: throw ApiError(response.code(), response.message())
             postDao.insert(body.toEntity())
             emit(body.size)

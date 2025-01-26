@@ -5,7 +5,6 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.Upsert
 import kotlinx.coroutines.flow.Flow
 import ru.shelq.nework.entity.PostEntity
 
@@ -17,8 +16,12 @@ interface PostDao {
     @Query("SELECT * FROM PostEntity where authorId = :authorId ORDER BY id DESC")
     fun pagingSourceUserWall(authorId: Long): PagingSource<Int, PostEntity>
 
-    @Upsert
-    suspend fun save(post: PostEntity): Long
+
+    @Query("UPDATE PostEntity SET content = :content WHERE id = :id")
+    suspend fun updateContentById(id: Long, content: String)
+
+    suspend fun save(post: PostEntity) =
+        if (post.id == 0L) insert(post) else updateContentById(post.id, post.content)
 
     @Query(
         """
