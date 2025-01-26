@@ -85,7 +85,7 @@ interface ApiService {
     @GET("events/{id}/newer")
     suspend fun getNewerEvent(@Path("id") id: Long): Response<List<Event>>
 
-    @GET("events")
+    @POST("events")
     suspend fun saveEvent(@Body event: Event): Response<Event>
 
     @DELETE("events/{id}")

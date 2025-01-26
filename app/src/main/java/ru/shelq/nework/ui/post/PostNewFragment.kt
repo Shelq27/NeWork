@@ -268,10 +268,10 @@ class PostNewFragment : Fragment() {
         }
 
         binding.NewPostTTB.setOnMenuItemClickListener {
-            val content = binding.ContentPostET
-            val link = binding.Link
-            viewModel.changeContent(content.text.toString())
-            viewModel.changeLink(link.text.toString())
+            val content = binding.ContentPostET.text.toString()
+            val link = binding.Link.text.toString()
+            viewModel.changeContent(content)
+            viewModel.changeLink(link)
             viewModel.save()
             AndroidUtils.hideKeyboard(requireView())
             true

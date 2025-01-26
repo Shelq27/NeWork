@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide
 import ru.shelq.nework.R
 import ru.shelq.nework.databinding.PostCardBinding
 import ru.shelq.nework.dto.Post
+import ru.shelq.nework.dto.User
 import ru.shelq.nework.enumer.AttachmentType
 import ru.shelq.nework.util.AndroidUtils
 import ru.shelq.nework.util.AndroidUtils.loadImgCircle
@@ -96,7 +97,6 @@ class PostViewHolder(
             videoAttachment.videoView.setVideoURI(null)
             videoAttachment.videoView.stopPlayback()
             audioAttachment.audioSB.progress = 0
-
             if (post.attachment != null) {
                 AttachmentGroup.visibility = View.VISIBLE
                 when (post.attachment.type) {

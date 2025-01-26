@@ -17,7 +17,9 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import ru.shelq.nework.auth.AppAuth
+import ru.shelq.nework.dto.Coordinates
 import ru.shelq.nework.dto.Event
+import ru.shelq.nework.dto.MediaUpload
 import ru.shelq.nework.enumer.AttachmentType
 import ru.shelq.nework.enumer.EventType
 import ru.shelq.nework.error.AppError
@@ -90,6 +92,12 @@ class EventViewModel @Inject constructor(
     private val _attachment = MutableLiveData(noAttachment)
     val attachment: LiveData<AttachmentModel?>
         get() = _attachment
+    private val _coords = MutableLiveData<Coordinates?>()
+    val coords: LiveData<Coordinates?>
+        get() = _coords
+    private val _speakersNewEvent = MutableLiveData<List<Long>>(emptyList())
+    val speakersNewEvent: LiveData<List<Long>>
+        get() = _speakersNewEvent
     private val _changed = MutableLiveData<Boolean>()
     private val _datetime = MutableLiveData(emptyDateTime)
     val datetime: LiveData<String>
@@ -121,23 +129,68 @@ class EventViewModel @Inject constructor(
     }
 
 
-    fun changeContentAndSave(content: String) {
+    fun changeContent(content: String) {
         val text = content.trim()
+        if (edited.value?.content == text) {
+            return
+        }
+        edited.value = edited.value?.copy(content = text)
+        _changed.value = true
+    }
+
+    fun save() {
         edited.value?.let {
-            if (it.content == text) {
-                return
+            val newEvent = it.copy(
+                datetime = _datetime.value!!,
+                published = AndroidUtils.calendarToUTCDate(Calendar.getInstance()),
+                coords = _coords.value,
+                speakerIds = _speakersNewEvent.value!!,
+                type = _eventType.value!!
+            )
+            _eventCreated.value = Unit
+            viewModelScope.launch {
+                try {
+                    when (_attachment.value) {
+                        null -> {
+                            repository.save(newEvent.copy(attachment = null))
+                        }
+
+                        else -> {
+
+                            if (_attachment.value?.url != null) {
+                                repository.save(newEvent)
+                            } else {
+                                _attachment.value!!.file?.let {
+                                    repository.saveWithAttachment(
+                                        newEvent,
+                                        MediaUpload(_attachment.value!!.file!!),
+                                        _attachment.value!!.attachmentType!!
+                                    )
+                                }
+                            }
+                        }
+                    }
+                    _dataState.value = FeedModelState()
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    _dataState.value = FeedModelState(error = true)
+                }
             }
-            edited.value = it.copy(content = text)
         }
-        viewModelScope.launch {
-            try {
-                _dataState.value = FeedModelState()
-                _eventCreated.value = Unit
-            } catch (e: Exception) {
-                _dataState.value = FeedModelState(error = true)
-            }
+        clearEdit()
+    }
+
+    fun changeLink(link: String) {
+        val text = link.trim()
+        if (edited.value?.link == text) {
+            return
         }
-        edited.value = empty
+        if (text == "") {
+            edited.value = edited.value?.copy(link = null)
+        } else {
+            edited.value = edited.value?.copy(link = text)
+        }
+        _changed.value = true
     }
 
     fun changeAttachment(url: String?, uri: Uri?, file: File?, attachmentType: AttachmentType?) {
@@ -153,8 +206,21 @@ class EventViewModel @Inject constructor(
         _changed.value = true
     }
 
-    fun edit(event: Event) {
-        edited.value = event
+    fun edit(event: Event?) {
+        if (event != null) {
+            edited.value = event
+        } else {
+            clearEdit()
+        }
+    }
+
+    private fun clearEdit() {
+        edited.value = empty
+        _attachment.value = null
+        _coords.value = null
+        _changed.value = false
+        _datetime.value = emptyDateTime
+        _eventType.value = defaultType
     }
 
     fun likeByEvent(event: Event) = viewModelScope.launch {
@@ -188,9 +254,11 @@ class EventViewModel @Inject constructor(
         _datetime.value = dateTime
         _changed.value = true
     }
+
     private val _eventType = MutableLiveData(defaultType)
     val eventType: LiveData<EventType>
         get() = _eventType
+
     fun changeType(eventType: EventType) {
         _eventType.value = eventType
         _changed.value = true

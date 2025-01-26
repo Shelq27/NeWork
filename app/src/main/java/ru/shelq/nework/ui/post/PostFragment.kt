@@ -23,6 +23,7 @@ import ru.shelq.nework.adapter.PostOnInteractionListener
 import ru.shelq.nework.auth.AppAuth
 import ru.shelq.nework.databinding.PostFragmentBinding
 import ru.shelq.nework.dto.Post
+import ru.shelq.nework.dto.User
 import ru.shelq.nework.util.AndroidUtils
 import ru.shelq.nework.util.MediaLifecycleObserver
 import ru.shelq.nework.util.StringArg
@@ -93,7 +94,6 @@ class PostFragment : Fragment() {
 
 
         binding.ListPostView.adapter = adapter
-
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.data.collectLatest(adapter::submitData)

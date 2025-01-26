@@ -37,6 +37,7 @@
             <action
                 android:id="@+id/action_postFragment_to_postEditFragment"
                 app:destination="@id/postEditFragment" />
+
         </fragment>
         <fragment
             android:id="@+id/postDetailsFragment"

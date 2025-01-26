@@ -69,12 +69,12 @@ class EventNewFragment : Fragment() {
 
         binding.NewEventTTB.setOnMenuItemClickListener {
             val content = binding.ContentEventET.text.toString()
-            if (content.isBlank()) {
-                Toast.makeText(context, "Error : can't empty", Toast.LENGTH_LONG).show()
-            }
-            viewModel.changeContentAndSave(content)
+            val link = binding.Link.text.toString()
+            viewModel.changeContent(content)
+            viewModel.changeLink(link)
+            viewModel.save()
             AndroidUtils.hideKeyboard(requireView())
-            findNavController().navigateUp()
+            true
         }
         binding.NewEventTTB.setNavigationOnClickListener {
             findNavController().navigateUp()
@@ -198,8 +198,6 @@ class EventNewFragment : Fragment() {
         binding.videoContainer.removeVideo.setOnClickListener {
             removeAttachment()
         }
-
-
         binding.audioContainer.audioPlay.playAudioIB.setOnClickListener {
 
             if (viewModel.attachment.value?.url != null) {
@@ -355,6 +353,9 @@ class EventNewFragment : Fragment() {
             bottomSheetDialog.setContentView(bindingCalendar.root)
             bottomSheetDialog.show()
 
+        }
+        viewModel.eventCreated.observe(viewLifecycleOwner) {
+            findNavController().navigateUp()
         }
         return binding.root
     }
