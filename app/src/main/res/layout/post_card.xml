@@ -5,78 +5,92 @@
     android:id="@+id/CardPost"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/element_spacing">
+    android:layout_margin="@dimen/element_spacing"
+
+    >
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/CardPostCL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/element_spacing">
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/AvatarIV"
-            android:layout_width="@dimen/posts_avatar_size"
-            android:layout_height="@dimen/posts_avatar_size"
-            android:layout_marginTop="@dimen/element_spacing"
-            android:layout_marginBottom="@dimen/common_spacing"
-            android:contentDescription="@string/desc_avatar_image"
-            android:src="@drawable/img_test_avatar"
-            app:layout_constraintBottom_toBottomOf="@id/barrier_top"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-        <TextView
-            android:id="@+id/AuthorTV"
-            android:layout_width="0dp"
+        >
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/HeadPostCardCL"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/element_spacing"
-            android:layout_marginEnd="@dimen/element_spacing"
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:textSize="@dimen/size_text_title"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/PublishedPostTV"
-            app:layout_constraintEnd_toStartOf="@id/MenuIB"
-            app:layout_constraintStart_toEndOf="@id/AvatarIV"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_chainStyle="packed"
-            tools:text="Albert Ablyaev" />
+            app:layout_constraintBottom_toTopOf="@id/barrier_top"
+            >
 
-        <TextView
-            android:id="@+id/PublishedPostTV"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/element_spacing"
-            app:layout_constraintBottom_toBottomOf="@id/barrier_top"
-            app:layout_constraintEnd_toStartOf="@id/MenuIB"
-            app:layout_constraintStart_toEndOf="@id/AvatarIV"
-            app:layout_constraintTop_toBottomOf="@id/AuthorTV"
-            tools:text="12.02.21 13:00" />
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/AvatarIV"
+                android:layout_width="@dimen/posts_avatar_size"
+                android:layout_height="@dimen/posts_avatar_size"
+                android:layout_margin="@dimen/common_spacing"
+                android:contentDescription="@string/desc_avatar_image"
+                android:src="@drawable/img_test_avatar"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageButton
-            android:id="@+id/MenuIB"
-            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/element_spacing"
-            android:contentDescription="@string/desc_icon_menu_button"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_menu_vert_24dp" />
+
+            <TextView
+
+                android:id="@+id/AuthorTV"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/element_spacing"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textSize="@dimen/size_text_title"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/PublishedPostTV"
+                app:layout_constraintEnd_toStartOf="@id/MenuIB"
+                app:layout_constraintStart_toEndOf="@id/AvatarIV"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed"
+                tools:text="Albert Ablyaev" />
+
+            <TextView
+                android:id="@+id/PublishedPostTV"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/element_spacing"
+                android:layout_marginStart="@dimen/element_spacing"
+                android:layout_marginEnd="@dimen/element_spacing"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/MenuIB"
+                app:layout_constraintStart_toEndOf="@id/AvatarIV"
+                app:layout_constraintTop_toBottomOf="@id/AuthorTV"
+                tools:text="12.02.21 13:00" />
+
+            <ImageButton
+                android:id="@+id/MenuIB"
+                style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/element_spacing"
+                android:contentDescription="@string/desc_icon_menu_button"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_menu_vert_24dp" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.Barrier
             android:id="@+id/barrier_top"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:barrierDirection="bottom"
-            app:constraint_referenced_ids="AvatarIV,PublishedPostTV,MenuIB" />
+            app:constraint_referenced_ids="HeadPostCardCL" />
 
         <TextView
+
             android:id="@+id/TextPostTV"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:autoLink="web"
-            android:padding="@dimen/element_spacing"
+            android:padding="@dimen/common_spacing"
             android:visibility="gone"
             tools:visibility="visible"
             app:layout_constraintBottom_toTopOf="@id/LinkPostTV"
@@ -92,6 +106,7 @@
             tools:visibility="visible"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/element_spacing"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/barrier_top">
@@ -102,7 +117,6 @@
                 android:layout_height="@dimen/max_size_attachment"
                 android:adjustViewBounds="true"
                 android:contentDescription="@string/desc_attachment_image"
-                android:padding="@dimen/element_spacing"
                 android:visibility="gone"
                 tools:src="@drawable/ic_people_outline_24dp"
                 tools:visibility="visible" />
@@ -124,7 +138,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/common_spacing"
             android:autoLink="web"
-            android:padding="@dimen/element_spacing"
             android:visibility="gone"
             app:layout_constraintTop_toBottomOf="@id/TextPostTV"
             tools:text="https://03www.ru/"
@@ -142,7 +155,7 @@
             style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/common_spacing"
+            android:layout_margin="@dimen/common_spacing"
             android:background="@android:color/transparent"
             android:contentDescription="@string/desc_icon_share"
             app:icon="@drawable/ic_share_24dp"
@@ -156,9 +169,10 @@
             style="@style/Widget.AppTheme.LikeButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/common_spacing"
+            android:layout_margin="@dimen/common_spacing"
             android:checkable="true"
             android:contentDescription="@string/desc_icon_like"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/barrier_middle"
             tools:text="10" />
