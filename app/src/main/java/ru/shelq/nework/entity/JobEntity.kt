@@ -2,7 +2,7 @@ package ru.shelq.nework.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import ru.shelq.nework.dto.Job
+import ru.shelq.nework.dto.Jobs
 
 @Entity
 data class JobEntity(
@@ -15,10 +15,10 @@ data class JobEntity(
     val link: String?,
     val userId: Long
 ) {
-    fun toDto() = Job(id, name, position, start, finish, link, userId)
+    fun toDto() = Jobs(id, name, position, start, finish, link, userId)
 
     companion object {
-        fun fromDto(dto: Job, userId: Long) =
+        fun fromDto(dto: Jobs, userId: Long) =
             JobEntity(
                 dto.id,
                 dto.name,
@@ -31,8 +31,8 @@ data class JobEntity(
     }
 }
 
-fun List<JobEntity>.toDto(): List<Job> = map(JobEntity::toDto)
-fun List<Job>.toEntity(userId: Long): List<JobEntity> {
+fun List<JobEntity>.toDto(): List<Jobs> = map(JobEntity::toDto)
+fun List<Jobs>.toEntity(userId: Long): List<JobEntity> {
     return this.map { job ->
         JobEntity(
             job.id,

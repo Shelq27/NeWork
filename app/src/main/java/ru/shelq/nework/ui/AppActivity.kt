@@ -5,9 +5,11 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toUri
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.navigation.NavController
+import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
@@ -114,12 +116,13 @@ class AppActivity : AppCompatActivity() {
             }
 
             R.id.profile -> {
+                val request = NavDeepLinkRequest.Builder
+                    .fromUri("android-app://userDetailsFragment?id=${viewModel.data.value!!.id}".toUri())
+                    .build()
                 val navHostFragment =
                     supportFragmentManager.findFragmentById(R.id.NavHostFragment) as NavHostFragment
                 val navController = navHostFragment.navController
-                navController.navigate(R.id.userDetailsFragment, args = Bundle().apply {
-                    id = appAuth.authState.value.id
-                })
+                navController.navigate(request)
                 true
             }
 

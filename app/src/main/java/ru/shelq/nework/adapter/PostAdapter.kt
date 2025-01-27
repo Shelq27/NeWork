@@ -16,7 +16,6 @@ import com.bumptech.glide.Glide
 import ru.shelq.nework.R
 import ru.shelq.nework.databinding.PostCardBinding
 import ru.shelq.nework.dto.Post
-import ru.shelq.nework.dto.User
 import ru.shelq.nework.enumer.AttachmentType
 import ru.shelq.nework.util.AndroidUtils
 import ru.shelq.nework.util.AndroidUtils.loadImgCircle
@@ -29,7 +28,6 @@ interface PostOnInteractionListener {
     fun onEdit(post: Post) {}
     fun onOpen(post: Post) {}
     fun onShare(post: Post) {}
-    fun onItemClick(post: Post) {}
     fun onPlayAudio(post: Post, seekBar: SeekBar, playAudio: ImageButton) {}
 
 }
@@ -37,6 +35,8 @@ interface PostOnInteractionListener {
 class PostAdapter(
     private val onInteractionListener: PostOnInteractionListener,
 ) : PagingDataAdapter<Post, PostViewHolder>(PostDiffCallback()) {
+
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
         val binding = PostCardBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return PostViewHolder(binding, onInteractionListener)
@@ -56,6 +56,8 @@ class PostViewHolder(
     private val binding: PostCardBinding,
     private val onInteractionListener: PostOnInteractionListener,
 ) : RecyclerView.ViewHolder(binding.root) {
+
+
     private var previousPosition = -1
     private val mediaLifecycleObserver = MediaLifecycleObserver()
     fun bing(post: Post, position: Int) {
@@ -191,6 +193,7 @@ class PostViewHolder(
                 }
                 previousPosition = position
             }
+
             ShareIB.setOnClickListener { onInteractionListener.onShare(post) }
             MenuIB.isVisible = post.ownedByMe
             MenuIB.setOnClickListener {
@@ -213,7 +216,9 @@ class PostViewHolder(
                     }
                 }.show()
             }
-
+            itemView.setOnClickListener {
+                onInteractionListener.onOpen(post)
+            }
         }
     }
 

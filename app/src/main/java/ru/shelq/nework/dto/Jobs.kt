@@ -1,6 +1,7 @@
 package ru.shelq.nework.dto
 
-data class Job(
+
+data class Jobs(
     override val id: Long,
     val name: String,
     val position: String,

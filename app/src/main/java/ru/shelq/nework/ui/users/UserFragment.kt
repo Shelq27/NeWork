@@ -30,6 +30,7 @@ class UserFragment : Fragment() {
 
         val binding = UserFragmentBinding.inflate(inflater, container, false)
         val adapter = UserAdapter(object : UserOnInteractionListener {
+
             override fun onUserClick(user: User) {
                 findNavController().navigate(
                     R.id.action_userFragment_to_userDetailsFragment, args = Bundle().apply {
@@ -37,7 +38,7 @@ class UserFragment : Fragment() {
                     })
             }
 
-        }, requireContext())
+        })
 
         binding.list.adapter = adapter
 

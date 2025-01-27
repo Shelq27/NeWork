@@ -39,6 +39,7 @@
                 app:destination="@id/postEditFragment" />
 
         </fragment>
+
         <fragment
             android:id="@+id/postDetailsFragment"
             android:name="ru.shelq.nework.ui.post.PostDetailsFragment"
@@ -47,6 +48,11 @@
             <action
                 android:id="@+id/action_postDetailsFragment_to_postEditFragment"
                 app:destination="@id/postEditFragment" />
+            <argument
+                android:name="id"
+                android:defaultValue="-1L"
+                app:argType="long" />
+            <deepLink app:uri="android-app://postDetailsFragment?id={id}" />
         </fragment>
         <fragment
             android:id="@+id/postEditFragment"
@@ -54,11 +60,23 @@
             android:label="post_edit_fragment"
             tools:layout="@layout/post_edit_fragment" />
         <fragment
+            android:id="@+id/chooseUsersFragment"
+            android:name="ru.shelq.nework.ui.users.ChooseUsersFragment"
+            android:label="ChooseUsersFragment"
+            tools:layout="@layout/choose_users_fragment" />
+        <fragment
             android:id="@+id/postNewFragment"
             android:name="ru.shelq.nework.ui.post.PostNewFragment"
             android:label="post_new_fragment"
-            tools:layout="@layout/post_new_fragment" />
+            tools:layout="@layout/post_new_fragment">
+
+            <action
+                android:id="@+id/action_postNewFragment_to_chooseUsersFragment"
+                app:destination="@id/chooseUsersFragment" />
+        </fragment>
     </navigation>
+
+
     <navigation
         android:id="@+id/eventNavigation"
         app:startDestination="@id/eventFragment">
@@ -104,22 +122,31 @@
             android:id="@+id/userFragment"
             android:name="ru.shelq.nework.ui.users.UserFragment"
             android:label="@string/app_name"
-            tools:layout="@layout/user_fragment" >
+            tools:layout="@layout/user_fragment">
             <action
                 android:id="@+id/action_userFragment_to_userDetailsFragment"
                 app:destination="@id/userDetailsFragment" />
         </fragment>
+        <fragment
+            android:id="@+id/userDetailsFragment"
+            android:name="ru.shelq.nework.ui.users.UserDetailsFragment"
+            android:label="user_details_fragment"
+            tools:layout="@layout/user_details_fragment" >
+            <argument
+                android:name="id"
+                android:defaultValue="-1L"
+                app:argType="long" />
+            <deepLink app:uri="android-app://userDetailsFragment?id={id}" />
+
+        </fragment>
+        <fragment
+            android:id="@+id/jobNewFragment"
+            android:name="ru.shelq.nework.ui.users.JobNewFragment"
+            android:label="job_new_fragment"
+            tools:layout="@layout/job_new_fragment" />
 
 
     </navigation>
-    <fragment
-        android:id="@+id/userDetailsFragment"
-        android:name="ru.shelq.nework.ui.users.UserDetailsFragment"
-        android:label="user_details_fragment"
-        tools:layout="@layout/user_details_fragment" />
-    <fragment
-        android:id="@+id/jobNewFragment"
-        android:name="ru.shelq.nework.ui.users.JobNewFragment"
-        android:label="job_new_fragment"
-        tools:layout="@layout/job_new_fragment" />
+
+
 </navigation>

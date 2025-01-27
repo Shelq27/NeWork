@@ -18,7 +18,6 @@ interface UserOnInteractionListener {
 
 class UserAdapter(
     private val onInteractionListener: UserOnInteractionListener,
-    private val context: Context
 ) : ListAdapter<User, UserViewHolder>(UserDiffCallback()) {
 
 

@@ -3,21 +3,18 @@ package ru.shelq.nework.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
-import android.widget.SeekBar
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ru.shelq.nework.databinding.JobCardBinding
-import ru.shelq.nework.dto.Job
-import ru.shelq.nework.dto.Post
+import ru.shelq.nework.dto.Jobs
 import ru.shelq.nework.util.AndroidUtils
 
 interface JobOnInteractionListener {
-    fun onJobDelete(job: Job) {}
+    fun onJobDelete(jobs: Jobs) {}
 
 }
-class JobAdapter(private val onInteractionListener: JobOnInteractionListener) : ListAdapter<Job, JobViewHolder>(JobDiffCallback()){
+class JobAdapter(private val onInteractionListener: JobOnInteractionListener) : ListAdapter<Jobs, JobViewHolder>(JobDiffCallback()){
 
 
     override fun onBindViewHolder(holder: JobViewHolder, position: Int) {
@@ -39,26 +36,26 @@ class JobViewHolder(
     private val onInteractionListener: JobOnInteractionListener,
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(job: Job) {
+    fun bind(jobs: Jobs) {
         binding.apply {
-            NameJobTV.text = job.name
-            PositionJobTV.text = job.position
-            PeriodJobTV.text = AndroidUtils.dateRangeToText(job.start, job.finish)
-            LinkJobTV.text = job.link
-            DeleteJobIB.visibility = if (job.ownedByMe) View.VISIBLE else View.INVISIBLE
+            NameJobTV.text = jobs.name
+            PositionJobTV.text = jobs.position
+            PeriodJobTV.text = AndroidUtils.dateRangeToText(jobs.start, jobs.finish)
+            LinkJobTV.text = jobs.link
+            DeleteJobIB.visibility = if (jobs.ownedByMe) View.VISIBLE else View.INVISIBLE
             DeleteJobIB.setOnClickListener{
-                onInteractionListener.onJobDelete(job)
+                onInteractionListener.onJobDelete(jobs)
             }
         }
     }
 }
 
-class JobDiffCallback : DiffUtil.ItemCallback<Job>() {
-    override fun areItemsTheSame(oldItem: Job, newItem: Job): Boolean {
+class JobDiffCallback : DiffUtil.ItemCallback<Jobs>() {
+    override fun areItemsTheSame(oldItem: Jobs, newItem: Jobs): Boolean {
         return oldItem.id == newItem.id
     }
 
-    override fun areContentsTheSame(oldItem: Job, newItem: Job): Boolean {
+    override fun areContentsTheSame(oldItem: Jobs, newItem: Jobs): Boolean {
         return oldItem == newItem
     }
 }

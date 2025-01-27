@@ -86,9 +86,9 @@ class UserPostFragment : Fragment() {
                 startActivity(shareIntent)
             }
 
-            override fun onItemClick(post: Post) {
+            override fun onOpen(post: Post) {
                 val request = NavDeepLinkRequest.Builder
-                    .fromUri("android-app://postDetailsFragment?longArg=${post.id}".toUri())
+                    .fromUri("android-app://postDetailsFragment?id=${post.id}".toUri())
                     .build()
                 findNavController().navigate(request)
             }

@@ -17,9 +17,11 @@ import ru.shelq.nework.auth.AppAuth
 import ru.shelq.nework.dao.PostDao
 import ru.shelq.nework.dao.WallRemoteKeyDao
 import ru.shelq.nework.db.AppDb
+import ru.shelq.nework.dto.Jobs
 import ru.shelq.nework.dto.Media
 import ru.shelq.nework.dto.MediaUpload
 import ru.shelq.nework.dto.Post
+import ru.shelq.nework.dto.User
 import ru.shelq.nework.entity.PostEntity
 import ru.shelq.nework.entity.toEntity
 import ru.shelq.nework.enumer.AttachmentType
@@ -65,7 +67,27 @@ class PostRepositoryUserWallImpl @Inject constructor(
         }
     }
 
+    override suspend fun getUser(userId: Long): User {
+        try {
+            val response = apiService.getUserById(userId)
+            if (!response.isSuccessful) {
+                throw ApiError(response.code(), response.message())
+            }
+            return response.body() ?: throw ApiError(response.code(), response.message())
+        } catch (e: IOException) {
+            throw NetworkError
+        }
+    }
 
+    override suspend fun getLikers(post: Post): List<User> {
+        var likers = emptyList<User>()
+        if(post.likeOwnerIds.isNotEmpty()){
+            post.likeOwnerIds.forEach{
+                likers = likers.plus(getUser(it))
+            }
+        }
+        return likers
+    }
 
 
     override suspend fun getAll() {
@@ -198,6 +220,7 @@ class PostRepositoryUserWallImpl @Inject constructor(
 
     override suspend fun readNewPosts() {
     }
+
     override suspend fun saveWithAttachment(
         post: Post,
         upload: MediaUpload,
@@ -206,8 +229,20 @@ class PostRepositoryUserWallImpl @Inject constructor(
         TODO("Not yet implemented")
 
     }
+
     override suspend fun upload(upload: MediaUpload): Media {
         TODO("Not yet implemented")
+    }
+
+
+    override suspend fun getMentioned(post: Post): List<User> {
+        var mentioned = emptyList<User>()
+        if (post.mentionIds.isNotEmpty()) {
+            post.mentionIds.forEach {
+                mentioned = mentioned.plus(getUser(it))
+            }
+        }
+        return mentioned
     }
 
 

@@ -15,7 +15,7 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 import ru.shelq.nework.auth.AuthState
 import ru.shelq.nework.dto.Event
-import ru.shelq.nework.dto.Job
+import ru.shelq.nework.dto.Jobs
 import ru.shelq.nework.dto.Media
 import ru.shelq.nework.dto.Post
 import ru.shelq.nework.dto.PostApi
@@ -201,10 +201,10 @@ interface ApiService {
 
     // Jobs
     @GET("{authorId}/jobs")
-    suspend fun getUserJobs(@Path("authorId") id: Long): Response<List<Job>>
+    suspend fun getUserJobs(@Path("authorId") id: Long): Response<List<Jobs>>
 
     @POST("my/jobs")
-    suspend fun saveJob(@Body job: Job): Response<Job>
+    suspend fun saveJob(@Body jobs: Jobs): Response<Jobs>
 
     @DELETE("my/jobs/{id}")
     suspend fun removeJobById(@Path("id") jobId: Long): Response<Unit>

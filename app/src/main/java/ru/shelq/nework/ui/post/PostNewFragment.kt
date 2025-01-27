@@ -24,6 +24,7 @@ import ru.shelq.nework.R
 import ru.shelq.nework.databinding.PostNewFragmentBinding
 import ru.shelq.nework.dto.Attachment
 import ru.shelq.nework.enumer.AttachmentType
+import ru.shelq.nework.ui.users.ChooseUsersFragment.Companion.longArrayArg
 import ru.shelq.nework.util.AndroidUtils
 import ru.shelq.nework.util.AndroidUtils.getFile
 import ru.shelq.nework.util.MediaLifecycleObserver
@@ -31,16 +32,17 @@ import ru.shelq.nework.viewmodel.PostViewModel
 import java.io.FileNotFoundException
 import java.io.IOException
 
-@Suppress("DEPRECATION")
 @AndroidEntryPoint
 class PostNewFragment : Fragment() {
     companion object {
         const val MAX_SIZE = 15728640
+
     }
 
     private lateinit var binding: PostNewFragmentBinding
     private val viewModel: PostViewModel by viewModels(ownerProducer = ::requireActivity)
     private val mediaObserver = MediaLifecycleObserver()
+    private lateinit var checkedUsers: LongArray
     private fun removeAttachment() {
         viewModel.changeAttachment(null, null, null, null)
     }
@@ -50,6 +52,10 @@ class PostNewFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
+        viewModel.mentionedNewPost.observe(viewLifecycleOwner) {
+            checkedUsers = it.toLongArray()
+        }
         binding = PostNewFragmentBinding.inflate(layoutInflater)
         lifecycle.addObserver(mediaObserver)
         binding.ContentPostET.requestFocus()
@@ -255,6 +261,10 @@ class PostNewFragment : Fragment() {
                 }
 
                 R.id.mention -> {
+                    findNavController().navigate(R.id.action_postNewFragment_to_chooseUsersFragment,
+                        Bundle().apply {
+                            longArrayArg = checkedUsers
+                        })
                     true
                 }
 
@@ -266,16 +276,18 @@ class PostNewFragment : Fragment() {
             }
 
         }
-
         binding.NewPostTTB.setOnMenuItemClickListener {
             val content = binding.ContentPostET.text.toString()
             val link = binding.Link.text.toString()
+
             viewModel.changeContent(content)
             viewModel.changeLink(link)
             viewModel.save()
             AndroidUtils.hideKeyboard(requireView())
             true
         }
+
+
         viewModel.postCreated.observe(viewLifecycleOwner) {
             findNavController().navigateUp()
         }

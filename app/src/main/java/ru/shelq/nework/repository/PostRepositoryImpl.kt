@@ -19,9 +19,11 @@ import ru.shelq.nework.dao.PostDao
 import ru.shelq.nework.dao.PostRemoteKeyDao
 import ru.shelq.nework.db.AppDb
 import ru.shelq.nework.dto.Attachment
+import ru.shelq.nework.dto.Jobs
 import ru.shelq.nework.dto.Media
 import ru.shelq.nework.dto.MediaUpload
 import ru.shelq.nework.dto.Post
+import ru.shelq.nework.dto.User
 import ru.shelq.nework.entity.PostEntity
 import ru.shelq.nework.entity.toEntity
 import ru.shelq.nework.enumer.AttachmentType
@@ -147,6 +149,7 @@ open class PostRepositoryImpl @Inject constructor(
             throw UnknownError
         }
     }
+
     override suspend fun upload(upload: MediaUpload): Media {
         try {
             val media = MultipartBody.Part.createFormData(
@@ -164,6 +167,39 @@ open class PostRepositoryImpl @Inject constructor(
         } catch (e: Exception) {
             throw UnknownError
         }
+    }
+
+    override suspend fun getUser(userId: Long): User {
+        try {
+            val response = apiService.getUserById(userId)
+            if (!response.isSuccessful) {
+                throw ApiError(response.code(), response.message())
+            }
+            return response.body() ?: throw ApiError(response.code(), response.message())
+        } catch (e: IOException) {
+            throw NetworkError
+        }
+    }
+
+    override suspend fun getLikers(post: Post): List<User> {
+        var likers = emptyList<User>()
+        if (post.likeOwnerIds.isNotEmpty()) {
+            post.likeOwnerIds.forEach {
+                likers = likers.plus(getUser(it))
+            }
+        }
+        return likers
+    }
+
+
+    override suspend fun getMentioned(post: Post): List<User> {
+        var mentioned = emptyList<User>()
+        if (post.mentionIds.isNotEmpty()) {
+            post.mentionIds.forEach {
+                mentioned = mentioned.plus(getUser(it))
+            }
+        }
+        return mentioned
     }
 
 

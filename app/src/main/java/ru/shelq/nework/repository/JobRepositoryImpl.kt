@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import ru.shelq.nework.api.ApiService
 import ru.shelq.nework.dao.JobDao
-import ru.shelq.nework.dto.Job
+import ru.shelq.nework.dto.Jobs
 import ru.shelq.nework.entity.JobEntity
 import ru.shelq.nework.entity.toDto
 import ru.shelq.nework.entity.toEntity
@@ -24,7 +24,7 @@ class JobRepositoryImpl @Inject constructor(
     private val apiService: ApiService,
 ): JobRepository {
 
-    override lateinit var data: Flow<List<Job>>
+    override lateinit var data: Flow<List<Jobs>>
     var userId: Long = 0
 
     override fun setUser(userId: Long) {
@@ -49,11 +49,11 @@ class JobRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun removeById(job: Job) {
-        val jobRemoved = job.copy()
+    override suspend fun removeById(jobs: Jobs) {
+        val jobRemoved = jobs.copy()
         try {
-            dao.removeById(job.id)
-            val response = apiService.removeJobById(job.id)
+            dao.removeById(jobs.id)
+            val response = apiService.removeJobById(jobs.id)
             if (!response.isSuccessful) {
                 throw ApiError(response.code(), response.message())
             }
@@ -66,9 +66,9 @@ class JobRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun save(job: Job) {
+    override suspend fun save(jobs: Jobs) {
         try {
-            val response = apiService.saveJob(job)
+            val response = apiService.saveJob(jobs)
             if (!response.isSuccessful) {
                 throw ApiError(response.code(), response.message())
             }
@@ -82,7 +82,7 @@ class JobRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun saveLocal(job: Job) {
-        dao.insert(JobEntity.fromDto(job, userId))
+    override suspend fun saveLocal(jobs: Jobs) {
+        dao.insert(JobEntity.fromDto(jobs, userId))
     }
 }

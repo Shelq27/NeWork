@@ -13,7 +13,7 @@ import ru.shelq.nework.R
 import ru.shelq.nework.adapter.JobAdapter
 import ru.shelq.nework.adapter.JobOnInteractionListener
 import ru.shelq.nework.databinding.UserJobFragmentBinding
-import ru.shelq.nework.dto.Job
+import ru.shelq.nework.dto.Jobs
 import ru.shelq.nework.viewmodel.JobViewModel
 import ru.shelq.nework.viewmodel.UserViewModel
 import javax.inject.Inject
@@ -43,8 +43,8 @@ class UserJobFragment  : Fragment() {
         }
         val adapter = JobAdapter(object : JobOnInteractionListener {
 
-            override fun onJobDelete(job: Job) {
-                jobViewModel.removeById(job)
+            override fun onJobDelete(jobs: Jobs) {
+                jobViewModel.removeById(jobs)
             }
 
         })

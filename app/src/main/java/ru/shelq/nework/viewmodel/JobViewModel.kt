@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import ru.shelq.nework.auth.AppAuth
-import ru.shelq.nework.dto.Job
+import ru.shelq.nework.dto.Jobs
 import ru.shelq.nework.model.FeedModel
 import ru.shelq.nework.model.FeedModelState
 import ru.shelq.nework.repository.JobRepository
@@ -22,7 +22,7 @@ import ru.shelq.nework.util.AndroidUtils
 import ru.shelq.nework.util.SingleLiveEvent
 import java.util.Calendar
 
-private val empty = Job(
+private val empty = Jobs(
     id = 0,
     name = "",
     position = "",
@@ -53,7 +53,7 @@ class JobViewModel @AssistedInject constructor(
         }
     }
 
-    var data: LiveData<FeedModel<Job>>
+    var data: LiveData<FeedModel<Jobs>>
 
     private val _dataState = MutableLiveData<FeedModelState>()
     val dataState: LiveData<FeedModelState>
@@ -128,10 +128,10 @@ class JobViewModel @AssistedInject constructor(
         }
     }
 
-    fun removeById(job: Job) = viewModelScope.launch {
+    fun removeById(jobs: Jobs) = viewModelScope.launch {
         try {
             _dataState.value = FeedModelState(loading = true)
-            repository.removeById(job)
+            repository.removeById(jobs)
             _dataState.value = FeedModelState()
         } catch (e: Exception) {
             _dataState.value = FeedModelState(error = true)

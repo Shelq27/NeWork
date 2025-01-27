@@ -1,13 +1,13 @@
 package ru.shelq.nework.repository
 
 import kotlinx.coroutines.flow.Flow
-import ru.shelq.nework.dto.Job
+import ru.shelq.nework.dto.Jobs
 
 interface JobRepository {
-    var data: Flow<List<Job>>
+    var data: Flow<List<Jobs>>
     fun setUser(userId: Long)
     suspend fun getAll()
-    suspend fun removeById(job: Job)
-    suspend fun save(job: Job)
-    suspend fun saveLocal(job: Job)
+    suspend fun removeById(jobs: Jobs)
+    suspend fun save(jobs: Jobs)
+    suspend fun saveLocal(jobs: Jobs)
 }
