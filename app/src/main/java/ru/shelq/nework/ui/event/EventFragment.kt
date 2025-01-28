@@ -34,16 +34,18 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class EventFragment : Fragment() {
-    companion object {
-        var Bundle.text by StringArg
-        var Bundle.id by idArg
 
-    }
 
     @Inject
     lateinit var appAuth: AppAuth
     private val mediaObserver = MediaLifecycleObserver()
     val viewModel: EventViewModel by viewModels()
+
+    companion object {
+        var Bundle.text by StringArg
+        var Bundle.id by idArg
+
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -115,7 +117,6 @@ class EventFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.newerEventCount.collectLatest {
                 binding.NewEvent.isVisible = it > 0
-                println(it)
             }
         }
 

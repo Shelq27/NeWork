@@ -37,6 +37,7 @@
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/AvatarIV"
                 android:layout_width="@dimen/posts_avatar_size"
+                android:background="@drawable/not_avatar_circle_background"
                 android:layout_height="@dimen/posts_avatar_size"
                 android:layout_marginStart="@dimen/element_spacing"
                 android:layout_marginTop="@dimen/element_spacing"
@@ -95,10 +96,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/max_size_attachment"
                     android:adjustViewBounds="true"
+                    android:background="@color/primary"
+                    android:scaleType="centerCrop"
                     android:contentDescription="@string/desc_attachment_image"
-                    android:padding="@dimen/element_spacing"
                     android:visibility="gone"
-                    tools:src="@drawable/ic_people_outline_24dp"
+                    tools:src="@drawable/test_avatar2"
                     tools:visibility="visible" />
                 <include
                     android:id="@+id/audio_attachment"

@@ -39,7 +39,6 @@
                 app:destination="@id/postEditFragment" />
 
         </fragment>
-
         <fragment
             android:id="@+id/postDetailsFragment"
             android:name="ru.shelq.nework.ui.post.PostDetailsFragment"
@@ -53,6 +52,12 @@
                 android:defaultValue="-1L"
                 app:argType="long" />
             <deepLink app:uri="android-app://postDetailsFragment?id={id}" />
+            <action
+                android:id="@+id/action_postDetailsFragment_to_postLikersFragment"
+                app:destination="@id/postLikersFragment" />
+            <action
+                android:id="@+id/action_postDetailsFragment_to_postMentionedFragment"
+                app:destination="@id/postMentionedFragment" />
         </fragment>
         <fragment
             android:id="@+id/postEditFragment"
@@ -61,19 +66,33 @@
             tools:layout="@layout/post_edit_fragment" />
         <fragment
             android:id="@+id/chooseUsersFragment"
-            android:name="ru.shelq.nework.ui.users.ChooseUsersFragment"
+            android:name="ru.shelq.nework.ui.post.ChooseUsersFragment"
             android:label="ChooseUsersFragment"
-            tools:layout="@layout/choose_users_fragment" />
+            tools:layout="@layout/choose_users_fragment" >
+
+        </fragment>
+
         <fragment
             android:id="@+id/postNewFragment"
             android:name="ru.shelq.nework.ui.post.PostNewFragment"
             android:label="post_new_fragment"
             tools:layout="@layout/post_new_fragment">
-
             <action
                 android:id="@+id/action_postNewFragment_to_chooseUsersFragment"
                 app:destination="@id/chooseUsersFragment" />
         </fragment>
+        <fragment
+            android:id="@+id/postLikersFragment"
+            android:name="ru.shelq.nework.ui.post.PostLikersFragment"
+            android:label="PostLikersFragment"
+            tools:layout="@layout/post_likers_fragment"/>
+        <fragment
+            android:id="@+id/postMentionedFragment"
+            android:name="ru.shelq.nework.ui.post.PostMentionedFragment"
+            android:label="PostMentionedFragment"
+            tools:layout="@layout/post_mentioned_fragment"/>
+
+
     </navigation>
 
 
@@ -113,7 +132,34 @@
             <action
                 android:id="@+id/action_eventDetailsFragment_to_eventEditFragment"
                 app:destination="@id/eventEditFragment" />
+            <action
+                android:id="@+id/action_eventDetailsFragment_to_eventLikersFragment"
+                app:destination="@id/eventLikersFragment" />
+            <action
+                android:id="@+id/action_eventDetailsFragment_to_eventParticipantsFragment"
+                app:destination="@id/eventParticipantsFragment" />
+            <action
+                android:id="@+id/action_eventDetailsFragment_to_eventSpeakersFragment"
+                app:destination="@id/eventSpeakersFragment" />
         </fragment>
+        <fragment
+            android:id="@+id/eventLikersFragment"
+            android:name="ru.shelq.nework.ui.event.EventLikersFragment"
+            android:label="EventLikersFragment"
+            tools:layout="@layout/event_likers_fragment"
+            />
+        <fragment
+            android:id="@+id/eventParticipantsFragment"
+            android:name="ru.shelq.nework.ui.event.EventParticipantsFragment"
+            android:label="EventParticipantsFragment"
+            tools:layout="@layout/event_participants_fragment"
+            />
+        <fragment
+            android:id="@+id/eventSpeakersFragment"
+            android:name="ru.shelq.nework.ui.event.EventSpeakersFragment"
+            android:label="EventSpeakersFragment"
+            tools:layout="@layout/event_speakers_fragment"
+            />
     </navigation>
     <navigation
         android:id="@+id/userNavigation"
@@ -147,6 +193,7 @@
 
 
     </navigation>
+
 
 
 </navigation>

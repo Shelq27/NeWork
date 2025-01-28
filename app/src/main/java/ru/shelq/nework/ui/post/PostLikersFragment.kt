@@ -9,26 +9,27 @@ import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import ru.shelq.nework.adapter.UserAdapter
 import ru.shelq.nework.adapter.UserOnInteractionListener
-import ru.shelq.nework.databinding.UserFragmentBinding
+import ru.shelq.nework.databinding.PostMentionedFragmentBinding
 import ru.shelq.nework.viewmodel.PostViewModel
 
 @AndroidEntryPoint
-class MentionedFragment : Fragment() {
+class PostLikersFragment : Fragment() {
     private val postViewModel: PostViewModel by viewModels(ownerProducer = ::requireActivity)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val binding = UserFragmentBinding.inflate(inflater, container, false)
+        val binding = PostMentionedFragmentBinding.inflate(inflater, container, false)
         val adapter = UserAdapter(object : UserOnInteractionListener {
         })
 
         binding.list.adapter = adapter
 
-        postViewModel.mentioned.observe(viewLifecycleOwner) { users ->
+        postViewModel.likers.observe(viewLifecycleOwner) { users ->
             adapter.submitList(users)
         }
         return binding.root
     }
+
 }

@@ -24,7 +24,7 @@ import ru.shelq.nework.R
 import ru.shelq.nework.databinding.PostNewFragmentBinding
 import ru.shelq.nework.dto.Attachment
 import ru.shelq.nework.enumer.AttachmentType
-import ru.shelq.nework.ui.users.ChooseUsersFragment.Companion.longArrayArg
+import ru.shelq.nework.ui.post.ChooseUsersFragment.Companion.longArrayArg
 import ru.shelq.nework.util.AndroidUtils
 import ru.shelq.nework.util.AndroidUtils.getFile
 import ru.shelq.nework.util.MediaLifecycleObserver

@@ -29,6 +29,7 @@
                 android:layout_width="@dimen/posts_avatar_size"
                 android:layout_height="@dimen/posts_avatar_size"
                 android:layout_margin="@dimen/common_spacing"
+                android:background="@drawable/not_avatar_circle_background"
                 android:contentDescription="@string/desc_avatar_image"
                 android:src="@drawable/img_test_avatar"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -38,6 +39,7 @@
 
             <TextView
                 android:id="@+id/AuthorTV"
+
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/element_spacing"
@@ -92,8 +94,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/common_spacing"
-            android:padding="@dimen/common_spacing"
             android:autoLink="web"
+            android:padding="@dimen/common_spacing"
             app:layout_constraintBottom_toTopOf="@id/LinkEventTV"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -112,10 +114,12 @@
                 android:id="@+id/imageAttachment"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/max_size_attachment"
+                android:background="@color/primary"
+                android:scaleType="centerCrop"
                 android:adjustViewBounds="true"
                 android:contentDescription="@string/desc_attachment_image"
                 android:visibility="gone"
-                tools:src="@drawable/ic_people_outline_24dp"
+                tools:src="@drawable/img_test_avatar"
                 tools:visibility="visible" />
 
             <include
@@ -133,9 +137,9 @@
             android:id="@+id/TypeEventTV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/common_spacing"
             android:paddingStart="@dimen/common_spacing"
             android:paddingEnd="@dimen/common_spacing"
-            android:layout_marginTop="@dimen/common_spacing"
             android:textStyle="bold"
             app:layout_constraintTop_toBottomOf="@id/AttachmentGroup"
             tools:layout_editor_absoluteX="8dp"

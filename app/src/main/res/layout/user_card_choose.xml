@@ -1,73 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <com.google.android.material.card.MaterialCardView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:checkable="true"
+    android:clickable="true"
+    android:focusable="true"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:checkable="true"
-        android:clickable="true"
-        android:focusable="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:padding="@dimen/common_spacing">
 
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/AvatarIV"
+            android:layout_width="@dimen/posts_avatar_size"
+            android:layout_height="@dimen/posts_avatar_size"
+            android:layout_marginBottom="@dimen/common_spacing"
+            android:background="@drawable/not_avatar_circle_background"
+            android:contentDescription="@string/avatar_image"
+            android:src="@drawable/img_test_avatar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
+            />
+
+        <TextView
+            android:id="@+id/AuthorTV"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:padding="@dimen/common_spacing">
+            android:layout_marginStart="@dimen/common_spacing"
+            android:layout_marginEnd="@dimen/common_spacing"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textSize="@dimen/size_text_title"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/LoginTV"
+            app:layout_constraintEnd_toStartOf="@id/ChooseUserCB"
+            app:layout_constraintStart_toEndOf="@id/AvatarIV"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:text="Albert Ablyaev" />
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/AvatarIV"
-                android:layout_width="@dimen/posts_avatar_size"
-                android:layout_height="@dimen/posts_avatar_size"
-                android:layout_marginBottom="@dimen/common_spacing"
-                android:contentDescription="@string/avatar_image"
-                android:src="@drawable/img_test_avatar"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+        <TextView
+            android:id="@+id/LoginTV"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/common_spacing"
+            android:layout_marginTop="@dimen/element_spacing"
+            android:layout_marginEnd="@dimen/common_spacing"
+            android:layout_marginBottom="@dimen/common_spacing"
+            app:layout_constraintEnd_toStartOf="@id/ChooseUserCB"
+            app:layout_constraintStart_toEndOf="@id/AvatarIV"
+            app:layout_constraintTop_toBottomOf="@id/AuthorTV"
+            tools:text="albiberio" />
 
-                />
+        <CheckBox
+            android:id="@+id/ChooseUserCB"
+            style="@style/Widget.Material3.CompoundButton.CheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/AuthorTV"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/common_spacing"
-                android:layout_marginEnd="@dimen/common_spacing"
-                android:ellipsize="end"
-                android:singleLine="true"
-                android:textSize="@dimen/size_text_title"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/LoginTV"
-                app:layout_constraintEnd_toStartOf="@id/ChooseUserCB"
-                app:layout_constraintStart_toEndOf="@id/AvatarIV"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_chainStyle="packed"
-                tools:text="Albert Ablyaev" />
-
-            <TextView
-                android:id="@+id/LoginTV"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/common_spacing"
-                android:layout_marginTop="@dimen/element_spacing"
-                android:layout_marginEnd="@dimen/common_spacing"
-                android:layout_marginBottom="@dimen/common_spacing"
-                app:layout_constraintEnd_toStartOf="@id/ChooseUserCB"
-                app:layout_constraintStart_toEndOf="@id/AvatarIV"
-                app:layout_constraintTop_toBottomOf="@id/AuthorTV"
-                tools:text="albiberio" />
-
-            <CheckBox
-                style="@style/Widget.Material3.CompoundButton.CheckBox"
-                android:id="@+id/ChooseUserCB"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </com.google.android.material.card.MaterialCardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>
 

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.MediaController
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -18,7 +19,9 @@ import ru.shelq.nework.adapter.EventAdapter
 import ru.shelq.nework.adapter.EventOnInteractionListener
 import ru.shelq.nework.auth.AppAuth
 import ru.shelq.nework.databinding.EventDetailsFragmentBinding
+import ru.shelq.nework.databinding.PostDetailsFragmentBinding
 import ru.shelq.nework.dto.Event
+import ru.shelq.nework.dto.User
 import ru.shelq.nework.enumer.AttachmentType
 import ru.shelq.nework.util.AndroidUtils
 import ru.shelq.nework.util.AndroidUtils.loadImgCircle
@@ -40,19 +43,80 @@ class EventDetailsFragment : Fragment() {
     lateinit var auth: AppAuth
     private val mediaObserver = MediaLifecycleObserver()
     private val viewModel: EventViewModel by activityViewModels()
+    private lateinit var binding: EventDetailsFragmentBinding
+
+    private var mapLikers = HashMap<Int, ImageView>()
+    private var mapParticipants = HashMap<Int, ImageView>()
+    private var mapSpeakers = HashMap<Int, ImageView>()
+    private var likerNumber: Int = -1
+    private var speakerNumber: Int = -1
+    private var participantNumber: Int = -1
+    private var needLoadLikersAvatars = false
+    private var needLoadSpeakersAvatars = false
+    private var needLoadParticipantsAvatars = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val binding = EventDetailsFragmentBinding.inflate(inflater, container, false)
+        binding = EventDetailsFragmentBinding.inflate(inflater, container, false)
         lifecycle.addObserver(mediaObserver)
+
         val eventId = arguments?.id ?: -1
+
         viewModel.getEventById(eventId)
+
         viewModel.selectedEvent.observe(viewLifecycleOwner) { event ->
-            if (event != null)
+            clearParticipantsAvatars()
+            clearSpeakersAvatars()
+            clearLikersAvatars()
+            if (event != null) {
+                if (event.likeOwnerIds.isNotEmpty()) {
+                    if (needLoadLikersAvatars) {
+                        viewModel.getLikers(event)
+                        fillLikers()
+                        needLoadLikersAvatars = false
+                        binding.listAvatarsLikers.ShowMoreB.isVisible =
+                            event.likeOwnerIds.size > 5
+                    }
+                }
+
+                binding.listAvatarsLikers.ShowMoreB.setOnClickListener {
+                    findNavController().navigate(R.id.action_eventDetailsFragment_to_eventLikersFragment)
+                }
+
+                if (event.participantsIds.isNotEmpty()) {
+                    if (needLoadParticipantsAvatars) {
+                        viewModel.getParticipants(event)
+                        fillParticipants()
+                        needLoadParticipantsAvatars = false
+                        binding.listAvatarsParticipant.ShowMoreB.isVisible =
+                            event.participantsIds.size > 5
+                    }
+                }
+
+                binding.listAvatarsParticipant.ShowMoreB.setOnClickListener {
+                    findNavController().navigate(R.id.action_eventDetailsFragment_to_eventParticipantsFragment)
+                }
+
+                if (event.speakerIds.isNotEmpty()) {
+                    if (needLoadSpeakersAvatars) {
+                        viewModel.getSpeakers(event)
+                        fillSpeakers()
+                        needLoadSpeakersAvatars = false
+                        binding.listAvatarsSpeakers.ShowMoreB.isVisible =
+                            event.speakerIds.size > 5
+                    }
+                }
+
+                binding.listAvatarsSpeakers.ShowMoreB.setOnClickListener {
+                    findNavController().navigate(R.id.action_eventDetailsFragment_to_eventSpeakersFragment)
+                }
+
+
                 binding.apply {
+
                     EventDetailsTBL.setNavigationOnClickListener {
                         findNavController().navigateUp()
                     }
@@ -70,12 +134,23 @@ class EventDetailsFragment : Fragment() {
 
                     AvatarIV.loadImgCircle(event.authorAvatar)
                     AuthorTV.text = event.author
-                    NameJobTV.text = event.authorJob
-                    LinkPostTV.text = event.link
+                    if (event.authorJob != null) {
+                        NameJobTV.text = event.authorJob
+                    } else {
+                        NameJobTV.text = getText(R.string.looking_for_a_job)
+                    }
                     TextEventTV.text = event.content
+                    if (event.link != null) {
+                        LinkPostTV.visibility = View.VISIBLE
+                        LinkPostTV.text = event.link
+                    } else {
+                        LinkPostTV.visibility = View.GONE
+                    }
                     DateEventTV.text = AndroidUtils.dateFormatToText(event.datetime, root.context)
+                    ParticipantB.text = event.participantsIds.size.toString()
                     LikeIB.text = event.likeOwnerIds.size.toString()
                     LikeIB.isChecked = event.likedByMe
+
                     LikeIB.setOnClickListener {
                         if (auth.authenticated()) {
                             viewModel.likeByEvent(event)
@@ -121,7 +196,6 @@ class EventDetailsFragment : Fragment() {
                         AttachmentGroup.isVisible = false
                         Glide.with(imageAttachment).clear(binding.imageAttachment)
                     }
-
                     videoAttachment.playVideoIB.setOnClickListener {
                         videoAttachment.videoView.isVisible = true
                         videoAttachment.videoView.apply {
@@ -149,7 +223,39 @@ class EventDetailsFragment : Fragment() {
                     }
 
                 }
+            }
         }
+
+        viewModel.likersLoaded.observe(viewLifecycleOwner) {
+            viewModel.likers.value?.forEach { user ->
+                likerNumber++
+                mapLikers[likerNumber]?.let { imageView ->
+                    loadAvatar(imageView, user)
+                    imageView.isVisible = true
+                }
+            }
+        }
+
+        viewModel.speakersLoaded.observe(viewLifecycleOwner) {
+            viewModel.speakers.value?.forEach { user ->
+                speakerNumber++
+                mapSpeakers[speakerNumber]?.let { imageView ->
+                    loadAvatar(imageView, user)
+                    imageView.isVisible = true
+                }
+            }
+        }
+
+        viewModel.participantsLoaded.observe(viewLifecycleOwner) {
+            viewModel.participants.value?.forEach { user ->
+                participantNumber++
+                mapParticipants[participantNumber]?.let { imageView ->
+                    loadAvatar(imageView, user)
+                    imageView.isVisible = true
+                }
+            }
+        }
+
         viewModel.dataState.observe(viewLifecycleOwner) { state ->
             if (state.error) {
                 Snackbar.make(binding.root, R.string.error_loading, Snackbar.LENGTH_LONG)
@@ -157,7 +263,79 @@ class EventDetailsFragment : Fragment() {
                 viewModel.resetError()
             }
         }
-
         return binding.root
     }
+
+    private fun clearLikersAvatars() {
+        likerNumber = -1
+        needLoadLikersAvatars = true
+        mapLikers.clear()
+        binding.listAvatarsLikers.avatar1.isVisible = false
+        binding.listAvatarsLikers.avatar2.isVisible = false
+        binding.listAvatarsLikers.avatar3.isVisible = false
+        binding.listAvatarsLikers.avatar4.isVisible = false
+        binding.listAvatarsLikers.avatar5.isVisible = false
+
+
+    }
+
+    private fun clearParticipantsAvatars() {
+        participantNumber = -1
+        needLoadParticipantsAvatars = true
+        mapParticipants.clear()
+        binding.listAvatarsParticipant.avatar1.isVisible = false
+        binding.listAvatarsParticipant.avatar2.isVisible = false
+        binding.listAvatarsParticipant.avatar3.isVisible = false
+        binding.listAvatarsParticipant.avatar4.isVisible = false
+        binding.listAvatarsParticipant.avatar5.isVisible = false
+    }
+
+    private fun clearSpeakersAvatars() {
+        speakerNumber = -1
+        needLoadSpeakersAvatars = true
+        mapSpeakers.clear()
+        binding.listAvatarsSpeakers.avatar1.isVisible = false
+        binding.listAvatarsSpeakers.avatar2.isVisible = false
+        binding.listAvatarsSpeakers.avatar3.isVisible = false
+        binding.listAvatarsSpeakers.avatar4.isVisible = false
+        binding.listAvatarsSpeakers.avatar5.isVisible = false
+    }
+
+    private fun fillLikers() {
+        mapLikers[0] = binding.listAvatarsLikers.avatar1
+        mapLikers[1] = binding.listAvatarsLikers.avatar2
+        mapLikers[2] = binding.listAvatarsLikers.avatar3
+        mapLikers[3] = binding.listAvatarsLikers.avatar4
+        mapLikers[4] = binding.listAvatarsLikers.avatar5
+
+    }
+
+    private fun fillParticipants() {
+        mapParticipants[0] = binding.listAvatarsParticipant.avatar1
+        mapParticipants[1] = binding.listAvatarsParticipant.avatar2
+        mapParticipants[2] = binding.listAvatarsParticipant.avatar3
+        mapParticipants[3] = binding.listAvatarsParticipant.avatar4
+        mapParticipants[4] = binding.listAvatarsParticipant.avatar5
+    }
+
+    private fun fillSpeakers() {
+        mapSpeakers[0] = binding.listAvatarsSpeakers.avatar1
+        mapSpeakers[1] = binding.listAvatarsSpeakers.avatar2
+        mapSpeakers[2] = binding.listAvatarsSpeakers.avatar3
+        mapSpeakers[3] = binding.listAvatarsSpeakers.avatar4
+        mapSpeakers[4] = binding.listAvatarsSpeakers.avatar5
+    }
+
+    private fun loadAvatar(imageView: ImageView, user: User) {
+        Glide.with(imageView)
+            .load(user.avatar)
+            .placeholder(R.drawable.ic_downloading_100dp)
+            .error(R.drawable.ic_error_outline_100dp)
+            .timeout(10_000)
+            .circleCrop()
+            .into(imageView)
+
+    }
 }
+
+

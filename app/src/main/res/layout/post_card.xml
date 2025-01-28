@@ -8,25 +8,24 @@
     android:layout_margin="@dimen/element_spacing"
 
     >
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/CardPostCL"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="wrap_content">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/HeadPostCardCL"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@id/barrier_top"
-            >
+            app:layout_constraintTop_toTopOf="parent">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/AvatarIV"
                 android:layout_width="@dimen/posts_avatar_size"
                 android:layout_height="@dimen/posts_avatar_size"
                 android:layout_margin="@dimen/common_spacing"
+                android:background="@drawable/not_avatar_circle_background"
                 android:contentDescription="@string/desc_avatar_image"
                 android:src="@drawable/img_test_avatar"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -55,9 +54,9 @@
                 android:id="@+id/PublishedPostTV"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/element_spacing"
                 android:layout_marginStart="@dimen/element_spacing"
                 android:layout_marginEnd="@dimen/element_spacing"
+                android:layout_marginBottom="@dimen/element_spacing"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/MenuIB"
                 app:layout_constraintStart_toEndOf="@id/AvatarIV"
@@ -92,33 +91,35 @@
             android:autoLink="web"
             android:padding="@dimen/common_spacing"
             android:visibility="gone"
-            tools:visibility="visible"
             app:layout_constraintBottom_toTopOf="@id/LinkPostTV"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/AttachmentGroup"
-            tools:text="@tools:sample/lorem[100]" />
+            tools:text="@tools:sample/lorem[100]"
+            tools:visibility="visible" />
 
 
         <FrameLayout
             android:id="@+id/AttachmentGroup"
-            android:visibility="gone"
-            tools:visibility="visible"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/element_spacing"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/barrier_top">
+            app:layout_constraintTop_toBottomOf="@id/barrier_top"
+            tools:visibility="visible">
 
             <ImageView
                 android:id="@+id/imageAttachment"
+                android:background="@color/primary"
+                android:scaleType="centerCrop"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/max_size_attachment"
                 android:adjustViewBounds="true"
                 android:contentDescription="@string/desc_attachment_image"
                 android:visibility="gone"
-                tools:src="@drawable/ic_people_outline_24dp"
+                tools:src="@drawable/test_avatar2"
                 tools:visibility="visible" />
 
             <include

@@ -13,6 +13,7 @@ import androidx.core.net.toFile
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.snackbar.Snackbar
@@ -29,7 +30,7 @@ import javax.inject.Inject
 class SignUpFragment : Fragment() {
     @Inject
     lateinit var appAuth: AppAuth
-    private val viewModel: SignUpViewModel by activityViewModels()
+    private val viewModel: SignUpViewModel by viewModels()
     private lateinit var binding: SignUpFragmentBinding
 
     override fun onCreateView(

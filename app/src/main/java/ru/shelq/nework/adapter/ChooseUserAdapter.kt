@@ -1,6 +1,5 @@
 package ru.shelq.nework.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -36,7 +35,6 @@ class ChooseUserAdapter(
         private val onCheckListener: CheckOnInteractionListener
     ) : RecyclerView.ViewHolder(binding.root) {
 
-
         fun bind(user: User) {
             binding.apply {
                     Glide.with(AvatarIV)
@@ -66,7 +64,6 @@ class ChooseUserAdapter(
             }
         }
     }
-
 }
 
 

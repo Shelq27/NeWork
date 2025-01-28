@@ -38,7 +38,7 @@ data class EventEntity(
     val participants: Int = 0
 
 ) {
-    fun toDto(): Event = Event(
+    fun toDto() = Event(
         id,
         authorId,
         author,

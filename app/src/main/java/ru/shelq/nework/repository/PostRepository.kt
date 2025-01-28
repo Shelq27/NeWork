@@ -14,12 +14,10 @@ interface PostRepository {
     suspend fun getAll()
     suspend fun save(post: Post)
     suspend fun saveWithAttachment(post: Post, upload: MediaUpload, attachmentType: AttachmentType)
-
     suspend fun likeById(post: Post): Post
     suspend fun likeByIdLocal(post: Post)
     suspend fun removeById(id: Long)
     suspend fun getPostById(postId: Long): Flow<Post?>
-
     suspend fun latestReadPostId(): Long
     suspend fun readNewPosts()
     suspend fun getUser(userId: Long): User

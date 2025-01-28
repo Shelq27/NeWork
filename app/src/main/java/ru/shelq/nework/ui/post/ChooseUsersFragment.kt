@@ -1,4 +1,4 @@
-package ru.shelq.nework.ui.users
+package ru.shelq.nework.ui.post
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -16,6 +16,7 @@ import ru.shelq.nework.util.LongArrayArg
 import ru.shelq.nework.viewmodel.PostViewModel
 import ru.shelq.nework.viewmodel.UserViewModel
 
+
 @AndroidEntryPoint
 class ChooseUsersFragment : Fragment() {
     companion object {
@@ -23,16 +24,13 @@ class ChooseUsersFragment : Fragment() {
     }
 
     private val userViewModel: UserViewModel by viewModels()
-    private val postViewModel: PostViewModel by viewModels(ownerProducer = ::requireActivity)
+    private val postViewModel: PostViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
-        userViewModel.loadUsers()
         val binding = ChooseUsersFragmentBinding.inflate(inflater, container, false)
-
         val checkedUsers = arguments?.longArrayArg ?: arrayOf<Long>().toLongArray()
         val adapter = ChooseUserAdapter(checkedUsers,
             object : CheckOnInteractionListener {
@@ -43,9 +41,8 @@ class ChooseUsersFragment : Fragment() {
                         postViewModel.removeUser(user)
                 }
             })
-
+        userViewModel.loadUsers()
         binding.ListUserChoose.adapter = adapter
-
         userViewModel.data.observe(viewLifecycleOwner) { users ->
             adapter.submitList(users)
         }

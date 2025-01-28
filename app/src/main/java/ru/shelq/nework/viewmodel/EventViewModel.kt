@@ -10,6 +10,7 @@ import androidx.paging.map
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flatMapLatest
@@ -20,6 +21,7 @@ import ru.shelq.nework.auth.AppAuth
 import ru.shelq.nework.dto.Coordinates
 import ru.shelq.nework.dto.Event
 import ru.shelq.nework.dto.MediaUpload
+import ru.shelq.nework.dto.User
 import ru.shelq.nework.enumer.AttachmentType
 import ru.shelq.nework.enumer.EventType
 import ru.shelq.nework.error.AppError
@@ -50,6 +52,7 @@ private val empty = Event(
     users = emptyMap()
 )
 private val noAttachment: AttachmentModel? = null
+private var getEventJob: Job? = null
 private const val emptyDateTime = ""
 private val defaultType = EventType.ONLINE
 
@@ -95,13 +98,39 @@ class EventViewModel @Inject constructor(
     private val _coords = MutableLiveData<Coordinates?>()
     val coords: LiveData<Coordinates?>
         get() = _coords
+
     private val _speakersNewEvent = MutableLiveData<List<Long>>(emptyList())
     val speakersNewEvent: LiveData<List<Long>>
         get() = _speakersNewEvent
+
     private val _changed = MutableLiveData<Boolean>()
     private val _datetime = MutableLiveData(emptyDateTime)
     val datetime: LiveData<String>
         get() = _datetime
+
+    private val _likers = MutableLiveData<List<User>>(emptyList())
+    val likers: LiveData<List<User>>
+        get() = _likers
+
+    private val _likersLoaded = SingleLiveEvent<Unit>()
+    val likersLoaded: LiveData<Unit>
+        get() = _likersLoaded
+
+    private val _speakers = MutableLiveData<List<User>>(emptyList())
+    val speakers: LiveData<List<User>>
+        get() = _speakers
+
+    private val _speakersLoaded = SingleLiveEvent<Unit>()
+    val speakersLoaded: LiveData<Unit>
+        get() = _speakersLoaded
+
+    private val _participants = MutableLiveData<List<User>>(emptyList())
+    val participants: LiveData<List<User>>
+        get() = _participants
+
+    private val _participantsLoaded = SingleLiveEvent<Unit>()
+    val participantsLoaded: LiveData<Unit>
+        get() = _participantsLoaded
 
     init {
         loadEvent()
@@ -118,13 +147,15 @@ class EventViewModel @Inject constructor(
     }
 
     fun getEventById(postId: Long) = viewModelScope.launch {
-        try {
-            _dataState.value = FeedModelState(loading = true)
-            selectedEvent.value = repository.getEventById(postId)
-            _dataState.value = FeedModelState()
-
-        } catch (e: Exception) {
-            _dataState.value = FeedModelState(error = true)
+        getEventJob?.cancel()
+        getEventJob = viewModelScope.launch {
+            try {
+                repository.getEventById(postId).collect {
+                    selectedEvent.value = it
+                }
+            } catch (e: Exception) {
+                _dataState.value = FeedModelState(error = true)
+            }
         }
     }
 
@@ -262,5 +293,44 @@ class EventViewModel @Inject constructor(
     fun changeType(eventType: EventType) {
         _eventType.value = eventType
         _changed.value = true
+    }
+
+    fun getLikers(event: Event) = viewModelScope.launch {
+        try {
+            _dataState.value = FeedModelState(loading = true)
+            _likers.value = repository.getLikers(event)
+            _likersLoaded.value = Unit
+            _dataState.value = FeedModelState()
+
+        } catch (e: Exception) {
+            println(e.stackTrace)
+            _dataState.value = FeedModelState(error = true)
+        }
+    }
+
+    fun getSpeakers(event: Event) = viewModelScope.launch {
+        try {
+            _dataState.value = FeedModelState(loading = true)
+            _speakers.value = repository.getSpeakers(event)
+            _speakersLoaded.value = Unit
+            _dataState.value = FeedModelState()
+
+        } catch (e: Exception) {
+            _dataState.value = FeedModelState(error = true)
+        }
+    }
+
+    fun getParticipants(event: Event) = viewModelScope.launch {
+        try {
+            _dataState.value = FeedModelState(loading = true)
+            _participants.value = repository.getParticipants(event)
+            _participantsLoaded.value = Unit
+            _dataState.value = FeedModelState()
+
+
+        } catch (e: Exception) {
+            _dataState.value = FeedModelState(error = true)
+
+        }
     }
 }

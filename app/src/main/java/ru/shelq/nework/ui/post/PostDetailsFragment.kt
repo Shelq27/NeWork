@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import ru.shelq.nework.R
 import ru.shelq.nework.auth.AppAuth
@@ -40,11 +41,10 @@ class PostDetailsFragment : Fragment() {
     private var needLoadLikersAvatars = false
     private var mentionedNumber: Int = -1
     private var likerNumber: Int = -1
-    private lateinit var binding: PostDetailsFragmentBinding
     private var mapMentioned = HashMap<Int, ImageView>()
     private var mapLikers = HashMap<Int, ImageView>()
 
-
+    private lateinit var binding: PostDetailsFragmentBinding
     private val viewModel: PostViewModel by activityViewModels()
 
 
@@ -54,36 +54,43 @@ class PostDetailsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = PostDetailsFragmentBinding.inflate(inflater, container, false)
-        clearLikersAvatars()
-        clearMentionAvatars()
-        fillMaps()
         lifecycle.addObserver(mediaObserver)
-
         val postId = arguments?.id ?: -1
         viewModel.getPostById(postId)
 
         viewModel.selectedPost.observe(viewLifecycleOwner) { post ->
+            clearLikersAvatars()
+            clearMentionAvatars()
+
             if (post != null) {
                 if (post.likeOwnerIds.isNotEmpty()) {
                     if (needLoadLikersAvatars) {
-                        needLoadLikersAvatars = false
                         viewModel.getLikers(post)
+                        fillLikers()
+                        needLoadLikersAvatars = false
                         binding.listAvatarsLikers.ShowMoreB.isVisible =
                             post.likeOwnerIds.size > 5
                     }
                 }
-
+                binding.listAvatarsLikers.ShowMoreB.setOnClickListener {
+                    findNavController().navigate(R.id.action_postDetailsFragment_to_postLikersFragment)
+                }
 
                 if (post.mentionIds.isNotEmpty()) {
                     if (needLoadMentionedAvatars) {
                         viewModel.getMentioned(post)
+                        fillMentioned()
                         needLoadMentionedAvatars = false
                         binding.listAvatarsMentioned.ShowMoreB.isVisible = post.mentionIds.size > 5
                     }
                 }
+                binding.listAvatarsMentioned.ShowMoreB.setOnClickListener {
+                    findNavController().navigate(R.id.action_postDetailsFragment_to_postMentionedFragment)
+                }
 
 
                 binding.apply {
+
                     if (post.authorJob != null) {
                         NameJobTV.text = post.authorJob
                     } else {
@@ -114,10 +121,8 @@ class PostDetailsFragment : Fragment() {
                     } else {
                         LinkPostTV.visibility = View.GONE
                     }
-
                     MentionedB.isChecked = post.mentionedMe
                     MentionedB.text = post.mentionIds.size.toString()
-
                     LikeIB.text = post.likeOwnerIds.size.toString()
                     LikeIB.isChecked = post.likedByMe
                     LikeIB.setOnClickListener {
@@ -169,7 +174,6 @@ class PostDetailsFragment : Fragment() {
                         AttachmentGroup.visibility = View.GONE
                         Glide.with(imageAttachment).clear(binding.imageAttachment)
                     }
-
                     videoAttachment.playVideoIB.setOnClickListener {
                         videoAttachment.videoView.visibility = View.VISIBLE
                         videoAttachment.videoView.apply {
@@ -200,6 +204,8 @@ class PostDetailsFragment : Fragment() {
                 }
             }
         }
+
+
         viewModel.likersLoaded.observe(viewLifecycleOwner) {
             viewModel.likers.value?.forEach { user ->
                 likerNumber++
@@ -209,6 +215,7 @@ class PostDetailsFragment : Fragment() {
                 }
             }
         }
+
         viewModel.mentionedLoaded.observe(viewLifecycleOwner) {
             viewModel.mentioned.value?.forEach { user ->
                 mentionedNumber++
@@ -219,6 +226,13 @@ class PostDetailsFragment : Fragment() {
             }
         }
 
+        viewModel.dataState.observe(viewLifecycleOwner) { state ->
+            if (state.error) {
+                Snackbar.make(binding.root, R.string.error_loading, Snackbar.LENGTH_LONG)
+                    .show()
+                viewModel.resetError()
+            }
+        }
 
 
         return binding.root
@@ -227,16 +241,20 @@ class PostDetailsFragment : Fragment() {
     private fun clearLikersAvatars() {
         likerNumber = -1
         needLoadLikersAvatars = true
+        mapLikers.clear()
         binding.listAvatarsLikers.avatar1.isVisible = false
         binding.listAvatarsLikers.avatar2.isVisible = false
         binding.listAvatarsLikers.avatar3.isVisible = false
         binding.listAvatarsLikers.avatar4.isVisible = false
         binding.listAvatarsLikers.avatar5.isVisible = false
+
+
     }
 
     private fun clearMentionAvatars() {
         mentionedNumber = -1
         needLoadMentionedAvatars = true
+        mapMentioned.clear()
         binding.listAvatarsMentioned.avatar1.isVisible = false
         binding.listAvatarsMentioned.avatar2.isVisible = false
         binding.listAvatarsMentioned.avatar3.isVisible = false
@@ -244,13 +262,17 @@ class PostDetailsFragment : Fragment() {
         binding.listAvatarsMentioned.avatar5.isVisible = false
     }
 
-    private fun fillMaps() {
+    private fun fillLikers() {
         mapLikers[0] = binding.listAvatarsLikers.avatar1
         mapLikers[1] = binding.listAvatarsLikers.avatar2
         mapLikers[2] = binding.listAvatarsLikers.avatar3
         mapLikers[3] = binding.listAvatarsLikers.avatar4
         mapLikers[4] = binding.listAvatarsLikers.avatar5
 
+
+    }
+
+    private fun fillMentioned() {
         mapMentioned[0] = binding.listAvatarsMentioned.avatar1
         mapMentioned[1] = binding.listAvatarsMentioned.avatar2
         mapMentioned[2] = binding.listAvatarsMentioned.avatar3
