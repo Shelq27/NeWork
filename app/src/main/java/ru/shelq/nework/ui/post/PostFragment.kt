@@ -40,7 +40,6 @@ class PostFragment : Fragment() {
     private val mediaObserver = MediaLifecycleObserver()
 
     companion object {
-        var Bundle.text by StringArg
         var Bundle.id by idArg
     }
 
@@ -66,10 +65,10 @@ class PostFragment : Fragment() {
             }
 
             override fun onEdit(post: Post) {
-                findNavController().navigate(
-                    R.id.action_postFragment_to_postEditFragment,
-                    Bundle().also { it.text = post.content })
-                viewModel.edit(post)
+                findNavController().navigate(R.id.action_postFragment_to_postNewFragment,
+                    Bundle().apply{
+                        id = post.id
+                    })
             }
 
             override fun onOpen(post: Post) {
