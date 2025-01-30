@@ -28,6 +28,7 @@ import ru.shelq.nework.ui.post.ChooseUsersFragment.Companion.longArrayArg
 import ru.shelq.nework.util.AndroidUtils
 import ru.shelq.nework.util.AndroidUtils.getFile
 import ru.shelq.nework.util.MediaLifecycleObserver
+import ru.shelq.nework.util.idArg
 import ru.shelq.nework.viewmodel.PostViewModel
 import java.io.FileNotFoundException
 import java.io.IOException
@@ -36,6 +37,7 @@ import java.io.IOException
 class PostNewFragment : Fragment() {
     companion object {
         const val MAX_SIZE = 15728640
+        var Bundle.id: Long? by idArg
 
     }
 
@@ -55,30 +57,41 @@ class PostNewFragment : Fragment() {
     ): View {
 
 
-
         binding = PostNewFragmentBinding.inflate(layoutInflater)
         lifecycle.addObserver(mediaObserver)
-        binding.ContentPostET.requestFocus()
         binding.NewPostTTB.setNavigationOnClickListener {
             findNavController().navigateUp()
         }
-        val pickPhotoLauncher =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-                when (it.resultCode) {
-                    ImagePicker.RESULT_ERROR -> {
-                        Snackbar.make(
-                            binding.root,
-                            ImagePicker.getError(it.data),
-                            Snackbar.LENGTH_LONG
-                        ).show()
-                    }
 
-                    Activity.RESULT_OK -> {
-                        val uri: Uri? = it.data?.data
-                        viewModel.changeAttachment(null, uri, uri?.toFile(), AttachmentType.IMAGE)
-                    }
+
+        val postId = arguments?.id ?: -1L
+        if (postId != -1L) {
+            viewModel.getPostById(postId)
+        }
+
+        viewModel.selectedPost.observe(viewLifecycleOwner) {
+            it?.let {
+                viewModel.edit(it)
+            }
+        }
+
+        //Редактирование
+        viewModel.edited.observe(viewLifecycleOwner) {
+            if (viewModel.edited.value?.id != 0L && viewModel.changed.value != true) {
+                val edited = viewModel.edited.value
+                binding.ContentPostET.setText(edited?.content)
+                binding.Link.setText(edited?.link)
+
+                edited?.attachment?.let {
+                    viewModel.changeAttachment(it.url, null, null, it.type)
+                }
+                edited?.mentionIds?.let {
+                    viewModel.changeMentionedNewPost(it)
                 }
             }
+        }
+
+
         val resultLauncher =
             registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
                 try {
@@ -175,6 +188,81 @@ class PostNewFragment : Fragment() {
         viewModel.mentionedNewPost.observe(viewLifecycleOwner) {
             checkedUsers = it.toLongArray()
         }
+        binding.ContentPostET.requestFocus()
+
+        val pickPhotoLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+                when (it.resultCode) {
+                    ImagePicker.RESULT_ERROR -> {
+                        Snackbar.make(
+                            binding.root,
+                            ImagePicker.getError(it.data),
+                            Snackbar.LENGTH_LONG
+                        ).show()
+                    }
+
+                    Activity.RESULT_OK -> {
+                        val uri: Uri? = it.data?.data
+                        viewModel.changeAttachment(null, uri, uri?.toFile(), AttachmentType.IMAGE)
+                    }
+                }
+            }
+        binding.NewPostBB.setNavigationOnClickListener { }
+        binding.NewPostBB.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+
+                R.id.take_photo -> {
+                    ImagePicker.with(this)
+                        .crop()
+                        .compress(MAX_SIZE)
+                        .galleryMimeTypes(
+                            arrayOf(
+                                "image/png",
+                                "image/jpeg",
+                            )
+                        )
+                        .createIntent(pickPhotoLauncher::launch)
+                    true
+                }
+
+                R.id.load_attachment -> {
+                    val choose = arrayOf("audio/*", "video/*")
+                    resultLauncher.launch(choose)
+                    true
+                }
+
+                R.id.mention -> {
+                    findNavController().navigate(R.id.action_postNewFragment_to_chooseUsersFragment,
+                        args = Bundle().apply {
+                            longArrayArg = checkedUsers
+                        })
+                    true
+                }
+
+                R.id.geolocation -> {
+                    true
+                }
+
+                else -> false
+            }
+
+        }
+
+        binding.NewPostTTB.setOnMenuItemClickListener {
+
+            val content = binding.ContentPostET.text.toString()
+            val link = binding.Link.text.toString()
+
+            viewModel.changeContent(content)
+            viewModel.changeLink(link)
+            viewModel.save()
+            AndroidUtils.hideKeyboard(requireView())
+            true
+        }
+
+
+
+
 
 
         binding.imageContainer.removePhoto.setOnClickListener {
@@ -240,57 +328,6 @@ class PostNewFragment : Fragment() {
                 }
             }
 
-        }
-        binding.NewPostBB.setNavigationOnClickListener { }
-        binding.NewPostBB.setOnMenuItemClickListener { menuItem ->
-            when (menuItem.itemId) {
-
-                R.id.take_photo -> {
-                    ImagePicker.with(this)
-                        .crop()
-                        .compress(MAX_SIZE)
-                        .galleryMimeTypes(
-                            arrayOf(
-                                "image/png",
-                                "image/jpeg",
-                            )
-                        )
-                        .createIntent(pickPhotoLauncher::launch)
-                    true
-                }
-
-                R.id.load_attachment -> {
-                    val choose = arrayOf("audio/*", "video/*")
-                    resultLauncher.launch(choose)
-                    true
-                }
-
-                R.id.mention -> {
-                    findNavController().navigate(R.id.action_postNewFragment_to_chooseUsersFragment,
-                        args = Bundle().apply {
-                            longArrayArg = checkedUsers
-                        })
-                    true
-                }
-
-                R.id.geolocation -> {
-                    true
-                }
-
-                else -> false
-            }
-
-        }
-
-        binding.NewPostTTB.setOnMenuItemClickListener {
-
-            val content = binding.ContentPostET.text.toString()
-            val link = binding.Link.text.toString()
-            viewModel.changeContent(content)
-            viewModel.changeLink(link)
-            viewModel.save()
-            AndroidUtils.hideKeyboard(requireView())
-            true
         }
 
 

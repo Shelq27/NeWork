@@ -78,7 +78,8 @@ open class PostViewModel @Inject constructor(
     private val _dataState = MutableLiveData<FeedModelState>()
     val dataState: LiveData<FeedModelState>
         get() = _dataState
-    private val edited = MutableLiveData(empty)
+
+    val edited = MutableLiveData(empty)
 
     val selectedPost = MutableLiveData<Post?>()
 
@@ -90,26 +91,33 @@ open class PostViewModel @Inject constructor(
     val changed: LiveData<Boolean>
         get() = _changed
 
-    private val _coords = MutableLiveData<Coordinates?>()
     private val _postCreated = SingleLiveEvent<Unit>()
     val postCreated: LiveData<Unit>
         get() = _postCreated
+
+//    Для карт
+    private val _coords = MutableLiveData<Coordinates?>()
     val coords: LiveData<Coordinates?>
         get() = _coords
+
+    private val _mentioned = MutableLiveData<List<User>>(emptyList())
+    val mentioned: LiveData<List<User>>
+        get() = _mentioned
 
     private val _mentionedNewPost = MutableLiveData<List<Long>>(emptyList())
     val mentionedNewPost: LiveData<List<Long>>
         get() = _mentionedNewPost
 
-    private val _mentioned = MutableLiveData<List<User>>(emptyList())
-    val mentioned: LiveData<List<User>>
-        get() = _mentioned
+
+
     private val _mentionedLoaded = SingleLiveEvent<Unit>()
     val mentionedLoaded: LiveData<Unit>
         get() = _mentionedLoaded
+
     private val _likers = MutableLiveData<List<User>>(emptyList())
     val likers: LiveData<List<User>>
         get() = _likers
+
     private val _likersLoaded = SingleLiveEvent<Unit>()
     val likersLoaded: LiveData<Unit>
         get() = _likersLoaded
