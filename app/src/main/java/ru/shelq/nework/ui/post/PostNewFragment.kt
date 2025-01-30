@@ -252,7 +252,6 @@ class PostNewFragment : Fragment() {
 
             val content = binding.ContentPostET.text.toString()
             val link = binding.Link.text.toString()
-
             viewModel.changeContent(content)
             viewModel.changeLink(link)
             viewModel.save()

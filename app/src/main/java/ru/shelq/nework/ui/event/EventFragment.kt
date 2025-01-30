@@ -25,6 +25,7 @@ import ru.shelq.nework.auth.AppAuth
 import ru.shelq.nework.databinding.EventFragmentBinding
 import ru.shelq.nework.dto.Event
 import ru.shelq.nework.dto.Post
+import ru.shelq.nework.ui.post.PostFragment.Companion.id
 import ru.shelq.nework.util.AndroidUtils
 import ru.shelq.nework.util.MediaLifecycleObserver
 import ru.shelq.nework.util.StringArg
@@ -68,10 +69,10 @@ class EventFragment : Fragment() {
             }
 
             override fun onEdit(event: Event) {
-                findNavController().navigate(
-                    R.id.action_eventFragment_to_eventEditFragment,
-                    Bundle().also { it.text = event.content })
-                viewModel.edit(event)
+                findNavController().navigate(R.id.action_eventFragment_to_eventNewFragment,
+                    Bundle().apply{
+                        id = event.id
+                    })
             }
 
             override fun onOpen(event: Event) {

@@ -10,6 +10,7 @@ import androidx.paging.map
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flatMapLatest
@@ -18,8 +19,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import ru.shelq.nework.auth.AppAuth
 import ru.shelq.nework.dto.Coordinates
-import kotlinx.coroutines.Job
-import ru.shelq.nework.dto.Jobs
 import ru.shelq.nework.dto.MediaUpload
 import ru.shelq.nework.dto.Post
 import ru.shelq.nework.dto.User
@@ -243,7 +242,7 @@ open class PostViewModel @Inject constructor(
         }
     }
 
-    private fun clearEdit() {
+     fun clearEdit() {
         edited.value = empty
         _attachment.value = null
         _coords.value = null
