@@ -51,6 +51,7 @@ class PostFragment : Fragment() {
     ): View {
         val binding = PostFragmentBinding.inflate(inflater, container, false)
         lifecycle.addObserver(mediaObserver)
+
         val adapter = PostAdapter(object : PostOnInteractionListener {
             override fun onLike(post: Post) {
                 if (appAuth.authenticated()) {
@@ -90,8 +91,6 @@ class PostFragment : Fragment() {
                 startActivity(shareIntent)
             }
         })
-
-
 
         binding.ListPostView.adapter = adapter
         viewLifecycleOwner.lifecycleScope.launch {

@@ -79,11 +79,17 @@ open class PostViewModel @Inject constructor(
     val dataState: LiveData<FeedModelState>
         get() = _dataState
     private val edited = MutableLiveData(empty)
+
     val selectedPost = MutableLiveData<Post?>()
+
     private val _attachment = MutableLiveData(noAttachment)
     val attachment: LiveData<AttachmentModel?>
         get() = _attachment
+
     private val _changed = MutableLiveData<Boolean>()
+    val changed: LiveData<Boolean>
+        get() = _changed
+
     private val _coords = MutableLiveData<Coordinates?>()
     private val _postCreated = SingleLiveEvent<Unit>()
     val postCreated: LiveData<Unit>
@@ -236,6 +242,11 @@ open class PostViewModel @Inject constructor(
         _mentionedNewPost.value = emptyList()
         _changed.value = false
 
+    }
+
+    fun changeMentionedNewPost(list: List<Long>) {
+        _mentionedNewPost.value = list
+        _changed.value = true
     }
 
     fun likeByPost(post: Post) = viewModelScope.launch {

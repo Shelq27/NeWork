@@ -43,6 +43,7 @@ class PostNewFragment : Fragment() {
     private val viewModel: PostViewModel by viewModels(ownerProducer = ::requireActivity)
     private val mediaObserver = MediaLifecycleObserver()
     private lateinit var checkedUsers: LongArray
+
     private fun removeAttachment() {
         viewModel.changeAttachment(null, null, null, null)
     }
@@ -53,9 +54,8 @@ class PostNewFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        viewModel.mentionedNewPost.observe(viewLifecycleOwner) {
-            checkedUsers = it.toLongArray()
-        }
+
+
         binding = PostNewFragmentBinding.inflate(layoutInflater)
         lifecycle.addObserver(mediaObserver)
         binding.ContentPostET.requestFocus()
@@ -172,6 +172,11 @@ class PostNewFragment : Fragment() {
             }
 
         }
+        viewModel.mentionedNewPost.observe(viewLifecycleOwner) {
+            checkedUsers = it.toLongArray()
+        }
+
+
         binding.imageContainer.removePhoto.setOnClickListener {
             removeAttachment()
         }
@@ -262,7 +267,7 @@ class PostNewFragment : Fragment() {
 
                 R.id.mention -> {
                     findNavController().navigate(R.id.action_postNewFragment_to_chooseUsersFragment,
-                        Bundle().apply {
+                        args = Bundle().apply {
                             longArrayArg = checkedUsers
                         })
                     true
@@ -276,10 +281,11 @@ class PostNewFragment : Fragment() {
             }
 
         }
+
         binding.NewPostTTB.setOnMenuItemClickListener {
+
             val content = binding.ContentPostET.text.toString()
             val link = binding.Link.text.toString()
-
             viewModel.changeContent(content)
             viewModel.changeLink(link)
             viewModel.save()

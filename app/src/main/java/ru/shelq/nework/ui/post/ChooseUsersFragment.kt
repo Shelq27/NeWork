@@ -19,11 +19,11 @@ import ru.shelq.nework.viewmodel.UserViewModel
 
 @AndroidEntryPoint
 class ChooseUsersFragment : Fragment() {
+
     companion object {
         var Bundle.longArrayArg: LongArray? by LongArrayArg
     }
-
-    private val userViewModel: UserViewModel by viewModels()
+    private val userViewModel: UserViewModel by viewModels(ownerProducer = ::requireActivity)
     private val postViewModel: PostViewModel by viewModels()
 
     override fun onCreateView(
@@ -31,7 +31,11 @@ class ChooseUsersFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val binding = ChooseUsersFragmentBinding.inflate(inflater, container, false)
+        userViewModel.loadUsers()
+
         val checkedUsers = arguments?.longArrayArg ?: arrayOf<Long>().toLongArray()
+
+
         val adapter = ChooseUserAdapter(checkedUsers,
             object : CheckOnInteractionListener {
                 override fun onCheck(user: User, checked: Boolean) {
@@ -41,12 +45,11 @@ class ChooseUsersFragment : Fragment() {
                         postViewModel.removeUser(user)
                 }
             })
-        userViewModel.loadUsers()
         binding.ListUserChoose.adapter = adapter
+
         userViewModel.data.observe(viewLifecycleOwner) { users ->
             adapter.submitList(users)
         }
-
 
         binding.ChooseUserTTB.setOnMenuItemClickListener {
             findNavController().navigateUp()
