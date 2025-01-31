@@ -18,13 +18,13 @@ import ru.shelq.nework.viewmodel.UserViewModel
 
 
 @AndroidEntryPoint
-class ChooseUsersFragment : Fragment() {
+class ChooseMentionedFragment : Fragment() {
 
     companion object {
         var Bundle.longArrayArg: LongArray? by LongArrayArg
     }
-    private val userViewModel: UserViewModel by viewModels(ownerProducer = ::requireActivity)
-    private val postViewModel: PostViewModel by viewModels()
+    private val userViewModel: UserViewModel by viewModels()
+    private val postViewModel: PostViewModel by viewModels(ownerProducer = ::requireActivity)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

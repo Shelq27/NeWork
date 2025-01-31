@@ -15,6 +15,7 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 import ru.shelq.nework.auth.AuthState
 import ru.shelq.nework.dto.Event
+import ru.shelq.nework.dto.EventApi
 import ru.shelq.nework.dto.Jobs
 import ru.shelq.nework.dto.Media
 import ru.shelq.nework.dto.Post
@@ -85,7 +86,7 @@ interface ApiService {
     suspend fun getNewerEvent(@Path("id") id: Long): Response<List<Event>>
 
     @POST("events")
-    suspend fun saveEvent(@Body event: Event): Response<Event>
+    suspend fun saveEvent(@Body event: EventApi): Response<Event>
 
     @DELETE("events/{id}")
     suspend fun deleteEventById(@Path("id") id: Long): Response<Unit>
@@ -98,6 +99,12 @@ interface ApiService {
 
     @GET("events/{id}")
     suspend fun getEventById(@Path("id") id: Long): Response<Event>
+
+    @POST("events/{id}/participants")
+    suspend fun participateEventById(@Path("id") id: Long): Response<Event>
+
+    @DELETE("events/{id}/participants")
+    suspend fun notParticipateEventById(@Path("id") id: Long): Response<Event>
 
     // Reg/Auth
 

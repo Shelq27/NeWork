@@ -87,14 +87,17 @@ class EventViewModel @Inject constructor(
     private val _dataState = MutableLiveData<FeedModelState>()
     val dataState: LiveData<FeedModelState>
         get() = _dataState
-    private val edited = MutableLiveData(empty)
+    val edited = MutableLiveData(empty)
+
     val selectedEvent = MutableLiveData<Event?>()
+
     private val _eventCreated = SingleLiveEvent<Unit>()
     val eventCreated: LiveData<Unit>
         get() = _eventCreated
     private val _attachment = MutableLiveData(noAttachment)
     val attachment: LiveData<AttachmentModel?>
         get() = _attachment
+
     private val _coords = MutableLiveData<Coordinates?>()
     val coords: LiveData<Coordinates?>
         get() = _coords
@@ -104,6 +107,8 @@ class EventViewModel @Inject constructor(
         get() = _speakersNewEvent
 
     private val _changed = MutableLiveData<Boolean>()
+    val changed: LiveData<Boolean>
+        get() = _changed
     private val _datetime = MutableLiveData(emptyDateTime)
     val datetime: LiveData<String>
         get() = _datetime
@@ -131,6 +136,7 @@ class EventViewModel @Inject constructor(
     private val _participantsLoaded = SingleLiveEvent<Unit>()
     val participantsLoaded: LiveData<Unit>
         get() = _participantsLoaded
+
 
     init {
         loadEvent()
@@ -185,9 +191,7 @@ class EventViewModel @Inject constructor(
                         null -> {
                             repository.save(newEvent.copy(attachment = null))
                         }
-
                         else -> {
-
                             if (_attachment.value?.url != null) {
                                 repository.save(newEvent)
                             } else {
@@ -210,6 +214,30 @@ class EventViewModel @Inject constructor(
         }
         clearEdit()
     }
+    fun edit(event: Event?) {
+        if (event != null) {
+            edited.value = event
+        } else {
+            clearEdit()
+        }
+    }
+
+
+    private fun clearEdit() {
+        edited.value = empty
+        _attachment.value = null
+        _coords.value = null
+        _changed.value = false
+        _speakersNewEvent.value = emptyList()
+        _datetime.value = emptyDateTime
+        _eventType.value = defaultType
+    }
+
+    fun reset() {
+        _changed.value = false
+        selectedEvent.value = null
+    }
+
 
     fun changeLink(link: String) {
         val text = link.trim()
@@ -226,10 +254,10 @@ class EventViewModel @Inject constructor(
 
     fun changeAttachment(url: String?, uri: Uri?, file: File?, attachmentType: AttachmentType?) {
         if (uri == null) {
-            if (url != null) { //редактирование поста с вложением
+            if (url != null) {
                 _attachment.value = AttachmentModel(url, null, null, attachmentType)
             } else {
-                _attachment.value = null //удалили вложение
+                _attachment.value = null
             }
         } else {
             _attachment.value = AttachmentModel(null, uri, file, attachmentType)
@@ -237,22 +265,6 @@ class EventViewModel @Inject constructor(
         _changed.value = true
     }
 
-    fun edit(event: Event?) {
-        if (event != null) {
-            edited.value = event
-        } else {
-            clearEdit()
-        }
-    }
-
-    private fun clearEdit() {
-        edited.value = empty
-        _attachment.value = null
-        _coords.value = null
-        _changed.value = false
-        _datetime.value = emptyDateTime
-        _eventType.value = defaultType
-    }
 
     fun likeByEvent(event: Event) = viewModelScope.launch {
         try {
@@ -295,6 +307,22 @@ class EventViewModel @Inject constructor(
         _changed.value = true
     }
 
+    fun changeSpeakersNewEvent(list: List<Long>) {
+
+        _speakersNewEvent.value = list
+
+        _changed.value = true
+    }
+
+    fun chooseUser(user: User) {
+        _speakersNewEvent.value = speakersNewEvent.value?.plus(user.id)
+        _changed.value = true
+    }
+
+    fun removeUser(user: User) {
+        _speakersNewEvent.value = speakersNewEvent.value?.filter { it != user.id }
+        _changed.value = true
+    }
     fun getLikers(event: Event) = viewModelScope.launch {
         try {
             _dataState.value = FeedModelState(loading = true)
@@ -319,7 +347,19 @@ class EventViewModel @Inject constructor(
             _dataState.value = FeedModelState(error = true)
         }
     }
+    fun participateByEvent(event: Event) = viewModelScope.launch {
+        try {
+            _dataState.value = FeedModelState(loading = true)
+            repository.participateById(event)
+            _dataState.value = FeedModelState()
+            if (selectedEvent.value != null) {
+                getEventById(event.id)
+            }
+        } catch (e: Exception) {
 
+            _dataState.value = FeedModelState(error = true)
+        }
+    }
     fun getParticipants(event: Event) = viewModelScope.launch {
         try {
             _dataState.value = FeedModelState(loading = true)

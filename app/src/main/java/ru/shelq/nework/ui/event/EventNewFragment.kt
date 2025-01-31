@@ -8,13 +8,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import android.widget.MediaController
 import android.widget.RadioButton
-import android.widget.RadioGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.widget.ButtonBarLayout
 import androidx.core.net.toFile
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -22,23 +19,24 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.internal.CheckableImageButton
 import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint
 import ru.shelq.nework.R
 import ru.shelq.nework.databinding.EventBottomSheetDialogBinding
 import ru.shelq.nework.databinding.EventNewFragmentBinding
+import ru.shelq.nework.databinding.PostNewFragmentBinding
 import ru.shelq.nework.dto.Attachment
 import ru.shelq.nework.enumer.AttachmentType
 import ru.shelq.nework.enumer.EventType
+import ru.shelq.nework.ui.post.ChooseMentionedFragment.Companion.longArrayArg
 import ru.shelq.nework.ui.post.PostNewFragment
+import ru.shelq.nework.ui.post.PostNewFragment.Companion.id
 import ru.shelq.nework.util.AndroidUtils
 import ru.shelq.nework.util.AndroidUtils.calendarToUTCDate
 import ru.shelq.nework.util.AndroidUtils.dateUTCToCalendar
 import ru.shelq.nework.util.AndroidUtils.getFile
 import ru.shelq.nework.util.MediaLifecycleObserver
+import ru.shelq.nework.util.idArg
 import ru.shelq.nework.viewmodel.EventViewModel
 import java.io.FileNotFoundException
 import java.io.IOException
@@ -50,10 +48,14 @@ import java.util.Locale
 class EventNewFragment : Fragment() {
     companion object {
         const val MAX_SIZE = 15728640
+        var Bundle.id: Long? by idArg
+
     }
 
     private val viewModel: EventViewModel by viewModels(ownerProducer = ::requireActivity)
     private val mediaObserver = MediaLifecycleObserver()
+    private lateinit var checkedUsers: LongArray
+
 
     private fun removeAttachment() {
         viewModel.changeAttachment(null, null, null, null)
@@ -65,20 +67,40 @@ class EventNewFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val binding = EventNewFragmentBinding.inflate(layoutInflater)
-        binding.ContentEventET.requestFocus()
-
-        binding.NewEventTTB.setOnMenuItemClickListener {
-            val content = binding.ContentEventET.text.toString()
-            val link = binding.Link.text.toString()
-            viewModel.changeContent(content)
-            viewModel.changeLink(link)
-            viewModel.save()
-            AndroidUtils.hideKeyboard(requireView())
-            true
-        }
+        lifecycle.addObserver(mediaObserver)
         binding.NewEventTTB.setNavigationOnClickListener {
             findNavController().navigateUp()
+            viewModel.reset()
         }
+
+        val eventId = arguments?.id ?: -1L
+        if (eventId != -1L) {
+            viewModel.getEventById(eventId)
+        }
+
+        viewModel.selectedEvent.observe(viewLifecycleOwner) {
+            it?.let {
+                viewModel.edit(it)
+            }
+        }
+
+        viewModel.edited.observe(viewLifecycleOwner) {
+            if (viewModel.edited.value?.id != 0L && viewModel.changed.value != true) {
+                val edited = viewModel.edited.value
+                binding.ContentEventET.setText(edited?.content)
+                binding.Link.setText(edited?.link)
+
+                edited?.attachment?.let {
+                    viewModel.changeAttachment(it.url, null, null, it.type)
+                }
+
+                edited?.participantsIds?.let {
+                    viewModel.changeSpeakersNewEvent(it)
+                }
+            }
+        }
+
+
         val pickPhotoLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
                 when (it.resultCode) {
@@ -188,6 +210,11 @@ class EventNewFragment : Fragment() {
             }
 
         }
+        viewModel.speakersNewEvent.observe(viewLifecycleOwner) {
+            checkedUsers = it.toLongArray()
+        }
+        binding.ContentEventET.requestFocus()
+
 
         binding.imageContainer.removePhoto.setOnClickListener {
             removeAttachment()
@@ -251,6 +278,7 @@ class EventNewFragment : Fragment() {
             }
 
         }
+
         binding.NewEventBB.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
 
@@ -274,7 +302,11 @@ class EventNewFragment : Fragment() {
                     true
                 }
 
-                R.id.mention -> {
+                R.id.users -> {
+                    findNavController().navigate(R.id.action_eventNewFragment_to_chooseSpeakersFragment,
+                        args = Bundle().apply {
+                            longArrayArg = checkedUsers
+                        })
                     true
                 }
 
@@ -353,6 +385,15 @@ class EventNewFragment : Fragment() {
             bottomSheetDialog.setContentView(bindingCalendar.root)
             bottomSheetDialog.show()
 
+        }
+        binding.NewEventTTB.setOnMenuItemClickListener {
+            val content = binding.ContentEventET.text.toString()
+            val link = binding.Link.text.toString()
+            viewModel.changeContent(content)
+            viewModel.changeLink(link)
+            viewModel.save()
+            AndroidUtils.hideKeyboard(requireView())
+            true
         }
         viewModel.eventCreated.observe(viewLifecycleOwner) {
             findNavController().navigateUp()

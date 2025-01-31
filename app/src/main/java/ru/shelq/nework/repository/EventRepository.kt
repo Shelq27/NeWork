@@ -16,6 +16,8 @@ interface EventRepository {
     suspend fun likeByIdLocal(event: Event)
     suspend fun removeById(id: Long)
     suspend fun save(event: Event)
+    suspend fun participateById(event: Event): Event
+    suspend fun participateByIdLocal(event: Event)
     suspend fun saveWithAttachment(event: Event, upload: MediaUpload, attachmentType: AttachmentType)
     suspend fun upload(upload: MediaUpload): Media
     suspend fun getEventById(eventId: Long): Flow<Event?>

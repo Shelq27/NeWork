@@ -15,6 +15,18 @@
         </item>
         <item name="android:insetBottom">0dp</item>
     </style>
+    <style name="Widget.AppTheme.ParticipantsButton" parent="@style/Widget.MaterialComponents.Button.TextButton.Icon">
+        <item name="icon">@drawable/sel_people_24dp</item>
+        <item name="iconTint">@color/primary</item>
+        <item name="android:textColor">@color/primary</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:minHeight">@dimen/icon_min_size</item>
+        <item name="android:insetTop">0dp
+        </item>
+        <item name="android:insetBottom">0dp</item>
+    </style>
+
+
 
     <style name="OverFlow" parent="Widget.AppCompat.ActionButton.Overflow">
         <item name="android:src">@drawable/ic_account_circle_24dp</item>

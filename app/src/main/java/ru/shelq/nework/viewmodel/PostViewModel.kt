@@ -310,6 +310,10 @@ open class PostViewModel @Inject constructor(
             _dataState.value = FeedModelState(error = true)
         }
     }
+    fun reset() {
+        _changed.value = false
+        selectedPost.value = null
+    }
 
 
 }

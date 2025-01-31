@@ -164,7 +164,6 @@
                 app:layout_constraintTop_toBottomOf="@id/TextEventTV" />
 
             <LinearLayout
-
                 android:id="@+id/GroupSpeakersLL"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -242,11 +241,10 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/ParticipantB"
-                    style="@style/Widget.AppTheme.LikeButton"
+                    style="@style/Widget.AppTheme.ParticipantsButton"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/posts_avatar_size"
                     android:checkable="true"
-                    app:icon="@drawable/ic_people_outline_24dp"
                     tools:text="10" />
                 <include
                     android:id="@+id/list_avatars_participant"

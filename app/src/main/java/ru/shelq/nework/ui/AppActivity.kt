@@ -21,6 +21,8 @@ import ru.shelq.nework.auth.AppAuth
 import ru.shelq.nework.databinding.AppActivityBinding
 import ru.shelq.nework.ui.post.PostDetailsFragment.Companion.id
 import ru.shelq.nework.viewmodel.AuthViewModel
+import ru.shelq.nework.viewmodel.EventViewModel
+import ru.shelq.nework.viewmodel.PostViewModel
 import javax.inject.Inject
 
 
@@ -29,6 +31,8 @@ class AppActivity : AppCompatActivity() {
     @Inject
     lateinit var appAuth: AppAuth
     private val viewModel: AuthViewModel by viewModels()
+    private val postViewModel: PostViewModel by viewModels()
+    private val eventViewModel: EventViewModel by viewModels()
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: AppActivityBinding
@@ -54,6 +58,14 @@ class AppActivity : AppCompatActivity() {
 
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.postFragment,
+                R.id.userFragment
+                ->{
+                    postViewModel.reset()
+                }
+                R.id.eventFragment -> eventViewModel.reset()
+            }
 
             when (destination.id) {
                 R.id.postFragment,

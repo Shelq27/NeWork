@@ -4,9 +4,6 @@ import android.app.Activity
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.MediaController
@@ -24,7 +21,7 @@ import ru.shelq.nework.R
 import ru.shelq.nework.databinding.PostNewFragmentBinding
 import ru.shelq.nework.dto.Attachment
 import ru.shelq.nework.enumer.AttachmentType
-import ru.shelq.nework.ui.post.ChooseUsersFragment.Companion.longArrayArg
+import ru.shelq.nework.ui.post.ChooseMentionedFragment.Companion.longArrayArg
 import ru.shelq.nework.util.AndroidUtils
 import ru.shelq.nework.util.AndroidUtils.getFile
 import ru.shelq.nework.util.MediaLifecycleObserver
@@ -41,7 +38,6 @@ class PostNewFragment : Fragment() {
 
     }
 
-    private lateinit var binding: PostNewFragmentBinding
     private val viewModel: PostViewModel by viewModels(ownerProducer = ::requireActivity)
     private val mediaObserver = MediaLifecycleObserver()
     private lateinit var checkedUsers: LongArray
@@ -57,10 +53,11 @@ class PostNewFragment : Fragment() {
     ): View {
 
 
-        binding = PostNewFragmentBinding.inflate(layoutInflater)
+       val binding = PostNewFragmentBinding.inflate(layoutInflater)
         lifecycle.addObserver(mediaObserver)
         binding.NewPostTTB.setNavigationOnClickListener {
             findNavController().navigateUp()
+            viewModel.reset()
         }
 
 
@@ -76,6 +73,8 @@ class PostNewFragment : Fragment() {
         }
 
         //Редактирование
+
+
         viewModel.edited.observe(viewLifecycleOwner) {
             if (viewModel.edited.value?.id != 0L && viewModel.changed.value != true) {
                 val edited = viewModel.edited.value
@@ -85,6 +84,7 @@ class PostNewFragment : Fragment() {
                 edited?.attachment?.let {
                     viewModel.changeAttachment(it.url, null, null, it.type)
                 }
+
                 edited?.mentionIds?.let {
                     viewModel.changeMentionedNewPost(it)
                 }
@@ -207,57 +207,7 @@ class PostNewFragment : Fragment() {
                     }
                 }
             }
-        binding.NewPostBB.setNavigationOnClickListener { }
-        binding.NewPostBB.setOnMenuItemClickListener { menuItem ->
-            when (menuItem.itemId) {
 
-                R.id.take_photo -> {
-                    ImagePicker.with(this)
-                        .crop()
-                        .compress(MAX_SIZE)
-                        .galleryMimeTypes(
-                            arrayOf(
-                                "image/png",
-                                "image/jpeg",
-                            )
-                        )
-                        .createIntent(pickPhotoLauncher::launch)
-                    true
-                }
-
-                R.id.load_attachment -> {
-                    val choose = arrayOf("audio/*", "video/*")
-                    resultLauncher.launch(choose)
-                    true
-                }
-
-                R.id.mention -> {
-                    findNavController().navigate(R.id.action_postNewFragment_to_chooseUsersFragment,
-                        args = Bundle().apply {
-                            longArrayArg = checkedUsers
-                        })
-                    true
-                }
-
-                R.id.geolocation -> {
-                    true
-                }
-
-                else -> false
-            }
-
-        }
-
-        binding.NewPostTTB.setOnMenuItemClickListener {
-
-            val content = binding.ContentPostET.text.toString()
-            val link = binding.Link.text.toString()
-            viewModel.changeContent(content)
-            viewModel.changeLink(link)
-            viewModel.save()
-            AndroidUtils.hideKeyboard(requireView())
-            true
-        }
 
 
 
@@ -329,7 +279,55 @@ class PostNewFragment : Fragment() {
 
         }
 
+        binding.NewPostBB.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
 
+                R.id.take_photo -> {
+                    ImagePicker.with(this)
+                        .crop()
+                        .compress(MAX_SIZE)
+                        .galleryMimeTypes(
+                            arrayOf(
+                                "image/png",
+                                "image/jpeg",
+                            )
+                        )
+                        .createIntent(pickPhotoLauncher::launch)
+                    true
+                }
+
+                R.id.load_attachment -> {
+                    val choose = arrayOf("audio/*", "video/*")
+                    resultLauncher.launch(choose)
+                    true
+                }
+
+                R.id.users -> {
+                    findNavController().navigate(R.id.action_postNewFragment_to_chooseUsersFragment,
+                        args = Bundle().apply {
+                            longArrayArg = checkedUsers
+                        })
+                    true
+                }
+
+                R.id.geolocation -> {
+                    true
+                }
+
+                else -> false
+            }
+
+        }
+        binding.NewPostTTB.setOnMenuItemClickListener {
+
+            val content = binding.ContentPostET.text.toString()
+            val link = binding.Link.text.toString()
+            viewModel.changeContent(content)
+            viewModel.changeLink(link)
+            viewModel.save()
+            AndroidUtils.hideKeyboard(requireView())
+            true
+        }
         viewModel.postCreated.observe(viewLifecycleOwner) {
             findNavController().navigateUp()
         }

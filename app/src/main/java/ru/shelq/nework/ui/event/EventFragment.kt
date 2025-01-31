@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -24,8 +23,6 @@ import ru.shelq.nework.adapter.EventOnInteractionListener
 import ru.shelq.nework.auth.AppAuth
 import ru.shelq.nework.databinding.EventFragmentBinding
 import ru.shelq.nework.dto.Event
-import ru.shelq.nework.dto.Post
-import ru.shelq.nework.ui.post.PostFragment.Companion.id
 import ru.shelq.nework.util.AndroidUtils
 import ru.shelq.nework.util.MediaLifecycleObserver
 import ru.shelq.nework.util.StringArg
@@ -92,6 +89,14 @@ class EventFragment : Fragment() {
                 val shareIntent =
                     Intent.createChooser(intent, getString(R.string.share))
                 startActivity(shareIntent)
+            }
+
+            override fun onParticipate(event: Event) {
+                if (appAuth.authenticated()) {
+                    viewModel.participateByEvent(event)
+                } else {
+                    AndroidUtils.showSignInDialog(this@EventFragment)
+                }
             }
 
         })

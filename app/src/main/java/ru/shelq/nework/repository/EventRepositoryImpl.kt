@@ -115,14 +115,34 @@ class EventRepositoryImpl @Inject constructor(
     }
 
     override suspend fun save(event: Event) {
+
         try {
-            val response = apiService.saveEvent(event)
+
+            val response = apiService.saveEvent(event.toEventApi())
             if (!response.isSuccessful) {
                 throw ApiError(response.code(), response.message())
             }
 
             val body = response.body() ?: throw ApiError(response.code(), response.message())
             eventDao.insert(EventEntity.fromDto(body))
+        } catch (e: IOException) {
+            throw NetworkError
+        } catch (e: Exception) {
+            throw UnknownError
+        }
+    }
+
+    override suspend fun saveWithAttachment(
+        event: Event,
+        upload: MediaUpload,
+        attachmentType: AttachmentType
+    ) {
+        try {
+            val media = upload(upload)
+            val eventWithAttachment = event.copy(attachment = Attachment(media.url, attachmentType))
+            save(eventWithAttachment)
+        } catch (e: AppError) {
+            throw e
         } catch (e: IOException) {
             throw NetworkError
         } catch (e: Exception) {
@@ -149,23 +169,6 @@ class EventRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun saveWithAttachment(
-        event: Event,
-        upload: MediaUpload,
-        attachmentType: AttachmentType
-    ) {
-        try {
-            val media = upload(upload)
-            val eventWithAttachment = event.copy(attachment = Attachment(media.url, attachmentType))
-            save(eventWithAttachment)
-        } catch (e: AppError) {
-            throw e
-        } catch (e: IOException) {
-            throw NetworkError
-        } catch (e: Exception) {
-            throw UnknownError
-        }
-    }
 
     override suspend fun getEventById(eventId: Long): Flow<Event> {
         try {
@@ -244,6 +247,40 @@ class EventRepositoryImpl @Inject constructor(
             }
         }
         return participants
+    }
+
+    override suspend fun participateById(event: Event): Event {
+        try {
+            participateByIdLocal(event)
+            val response = if (!event.participatedByMe) {
+                apiService.participateEventById(event.id)
+            } else {
+                apiService.notParticipateEventById(event.id)
+            }
+            if (!response.isSuccessful) {
+                throw ApiError(response.code(), response.message())
+            }
+            return response.body() ?: throw ApiError(response.code(), response.message())
+        } catch (e: IOException) {
+            participateByIdLocal(event)
+            throw NetworkError
+        } catch (e: Exception) {
+            participateByIdLocal(event)
+            throw UnknownError
+        }
+    }
+
+    override suspend fun participateByIdLocal(event: Event) {
+        return if (event.participatedByMe) {
+            val list = event.participantsIds.filter {
+                it != auth.authState.value.id
+            }
+            eventDao.participateById(event.id, list)
+        } else {
+            val list = event.participantsIds.plus(auth.authState.value.id)
+
+            eventDao.participateById(event.id, list)
+        }
     }
 
     override suspend fun readNewEvents() {

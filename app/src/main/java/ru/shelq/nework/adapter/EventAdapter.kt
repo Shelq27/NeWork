@@ -26,6 +26,7 @@ interface EventOnInteractionListener {
     fun onEdit(event: Event) {}
     fun onOpen(event: Event) {}
     fun onShare(event: Event) {}
+    fun onParticipate(event: Event) {}
 
 }
 
@@ -52,6 +53,7 @@ class EventViewHolder(
 ) : RecyclerView.ViewHolder(binding.root) {
     private var previousPosition = -1
     private val mediaLifecycleObserver = MediaLifecycleObserver()
+
     fun bind(event: Event, position: Int) {
         binding.apply {
             EventCard.setOnClickListener {
@@ -199,6 +201,11 @@ class EventViewHolder(
                         }
                     }
                 }.show()
+            }
+            UsersIB.isChecked = event.participatedByMe
+            UsersIB.text = event.participants.toString()//"${post.likes()}"
+            UsersIB.setOnClickListener {
+                onInteractionListener.onParticipate(event)
             }
         }
     }

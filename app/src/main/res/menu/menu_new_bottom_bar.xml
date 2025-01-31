@@ -16,7 +16,7 @@
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/mention"
+        android:id="@+id/users"
         android:contentDescription="@string/desc_icon_mentioned"
         android:icon="@drawable/ic_people_24dp"
         android:title="@string/mention_item_menu"

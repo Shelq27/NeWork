@@ -15,12 +15,8 @@ import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import ru.shelq.nework.R
-import ru.shelq.nework.adapter.EventAdapter
-import ru.shelq.nework.adapter.EventOnInteractionListener
 import ru.shelq.nework.auth.AppAuth
 import ru.shelq.nework.databinding.EventDetailsFragmentBinding
-import ru.shelq.nework.databinding.PostDetailsFragmentBinding
-import ru.shelq.nework.dto.Event
 import ru.shelq.nework.dto.User
 import ru.shelq.nework.enumer.AttachmentType
 import ru.shelq.nework.util.AndroidUtils
@@ -29,7 +25,6 @@ import ru.shelq.nework.util.AndroidUtils.share
 import ru.shelq.nework.util.MediaLifecycleObserver
 import ru.shelq.nework.util.idArg
 import ru.shelq.nework.viewmodel.EventViewModel
-import ru.shelq.nework.viewmodel.PostViewModel
 import javax.inject.Inject
 
 @Suppress("DEPRECATION")
@@ -64,13 +59,13 @@ class EventDetailsFragment : Fragment() {
         lifecycle.addObserver(mediaObserver)
 
         val eventId = arguments?.id ?: -1
-
         viewModel.getEventById(eventId)
 
         viewModel.selectedEvent.observe(viewLifecycleOwner) { event ->
             clearParticipantsAvatars()
             clearSpeakersAvatars()
             clearLikersAvatars()
+
             if (event != null) {
                 if (event.likeOwnerIds.isNotEmpty()) {
                     if (needLoadLikersAvatars) {
@@ -117,21 +112,24 @@ class EventDetailsFragment : Fragment() {
 
                 binding.apply {
 
-                    EventDetailsTBL.setNavigationOnClickListener {
-                        findNavController().navigateUp()
-                    }
-                    EventDetailsTBL.setOnMenuItemClickListener { menuItem ->
-                        when (menuItem.itemId) {
-                            R.id.share -> {
-                                share(requireContext(), binding.TextEventTV.text.toString())
-                                true
-                            }
+                    EventDetailsTBL.run {
+                        setNavigationOnClickListener {
+                            viewModel.reset()
+                            findNavController().navigateUp()
 
-                            else -> super.onOptionsItemSelected(menuItem)
+                        }
+                        setOnMenuItemClickListener { menuItem ->
+                            when (menuItem.itemId) {
+                                R.id.share -> {
+                                    share(requireContext(), binding.TextEventTV.text.toString())
+                                    true
+                                }
+
+                                else -> super.onOptionsItemSelected(menuItem)
+                            }
                         }
 
                     }
-
                     AvatarIV.loadImgCircle(event.authorAvatar)
                     AuthorTV.text = event.author
                     if (event.authorJob != null) {
@@ -147,18 +145,35 @@ class EventDetailsFragment : Fragment() {
                         LinkPostTV.visibility = View.GONE
                     }
                     DateEventTV.text = AndroidUtils.dateFormatToText(event.datetime, root.context)
-                    ParticipantB.text = event.participantsIds.size.toString()
-                    LikeIB.text = event.likeOwnerIds.size.toString()
-                    LikeIB.isChecked = event.likedByMe
 
-                    LikeIB.setOnClickListener {
-                        if (auth.authenticated()) {
-                            viewModel.likeByEvent(event)
-                        } else {
-                            LikeIB.isChecked = event.likedByMe
-                            AndroidUtils.showSignInDialog(this@EventDetailsFragment)
+
+                    ParticipantB.run {
+                        text = event.participantsIds.size.toString()
+                        isChecked = event.participatedByMe
+                        setOnClickListener {
+                            if (auth.authenticated()) {
+                                viewModel.participateByEvent(event)
+                            } else {
+                                isChecked = event.participatedByMe
+                                AndroidUtils.showSignInDialog(this@EventDetailsFragment)
+                            }
                         }
                     }
+
+                    LikeIB.run {
+                        text = event.likeOwnerIds.size.toString()
+                        isChecked = event.likedByMe
+
+                        setOnClickListener {
+                            if (auth.authenticated()) {
+                                viewModel.likeByEvent(event)
+                            } else {
+                                isChecked = event.likedByMe
+                                AndroidUtils.showSignInDialog(this@EventDetailsFragment)
+                            }
+                        }
+                    }
+
 
 
 
@@ -225,7 +240,6 @@ class EventDetailsFragment : Fragment() {
                 }
             }
         }
-
         viewModel.likersLoaded.observe(viewLifecycleOwner) {
             viewModel.likers.value?.forEach { user ->
                 likerNumber++
@@ -245,7 +259,6 @@ class EventDetailsFragment : Fragment() {
                 }
             }
         }
-
         viewModel.participantsLoaded.observe(viewLifecycleOwner) {
             viewModel.participants.value?.forEach { user ->
                 participantNumber++
@@ -255,7 +268,6 @@ class EventDetailsFragment : Fragment() {
                 }
             }
         }
-
         viewModel.dataState.observe(viewLifecycleOwner) { state ->
             if (state.error) {
                 Snackbar.make(binding.root, R.string.error_loading, Snackbar.LENGTH_LONG)

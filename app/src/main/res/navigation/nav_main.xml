@@ -58,7 +58,7 @@
 
         <fragment
             android:id="@+id/chooseUsersFragment"
-            android:name="ru.shelq.nework.ui.post.ChooseUsersFragment"
+            android:name="ru.shelq.nework.ui.post.ChooseMentionedFragment"
             android:label="ChooseUsersFragment"
             tools:layout="@layout/choose_users_fragment" >
 
@@ -108,7 +108,11 @@
             android:id="@+id/eventNewFragment"
             android:name="ru.shelq.nework.ui.event.EventNewFragment"
             android:label="event_new_fragment"
-            tools:layout="@layout/event_new_fragment" />
+            tools:layout="@layout/event_new_fragment" >
+            <action
+                android:id="@+id/action_eventNewFragment_to_chooseSpeakersFragment"
+                app:destination="@id/chooseSpeakersFragment" />
+        </fragment>
         <fragment
             android:id="@+id/eventDetailsFragment"
             android:name="ru.shelq.nework.ui.event.EventDetailsFragment"
@@ -142,6 +146,12 @@
             android:name="ru.shelq.nework.ui.event.EventSpeakersFragment"
             android:label="EventSpeakersFragment"
             tools:layout="@layout/event_speakers_fragment"
+            />
+        <fragment
+            android:id="@+id/chooseSpeakersFragment"
+            android:name="ru.shelq.nework.ui.event.ChooseSpeakersFragment"
+            android:label="ChooseSpeakersFragment"
+            tools:layout="@layout/choose_users_fragment"
             />
     </navigation>
     <navigation
