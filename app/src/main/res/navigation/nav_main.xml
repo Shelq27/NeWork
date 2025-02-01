@@ -72,6 +72,9 @@
             <action
                 android:id="@+id/action_postNewFragment_to_chooseUsersFragment"
                 app:destination="@id/chooseUsersFragment" />
+            <action
+                android:id="@+id/action_postNewFragment_to_postMapFragment"
+                app:destination="@id/postMapFragment" />
         </fragment>
         <fragment
             android:id="@+id/postLikersFragment"
@@ -84,7 +87,15 @@
             android:label="PostMentionedFragment"
             tools:layout="@layout/post_mentioned_fragment"/>
 
-
+        <fragment
+            android:id="@+id/postMapFragment"
+            android:name="ru.shelq.nework.ui.post.PostMapFragment"
+            android:label="post_map_fragment"
+            tools:layout="@layout/post_map_fragment" >
+            <action
+                android:id="@+id/action_postMapFragment_to_postNewFragment"
+                app:destination="@id/postNewFragment" />
+        </fragment>
     </navigation>
 
 

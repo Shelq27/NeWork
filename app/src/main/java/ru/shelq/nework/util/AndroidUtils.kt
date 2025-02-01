@@ -1,15 +1,26 @@
 package ru.shelq.nework.util
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.net.Uri
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
+import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.startActivity
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
+import com.yandex.mapkit.Animation
+import com.yandex.mapkit.geometry.Point
+import com.yandex.mapkit.map.CameraPosition
+import com.yandex.mapkit.map.MapObject
+import com.yandex.mapkit.mapview.MapView
+import com.yandex.runtime.image.ImageProvider
 import ru.shelq.nework.R
 import java.io.File
 import java.io.FileOutputStream
@@ -108,6 +119,33 @@ object AndroidUtils {
         return tempFile
     }
 
+    private fun createBitmapFromVector(context: Context, art: Int): Bitmap? {
+        val drawable = ContextCompat.getDrawable(context, art) ?: return null
+        val bitmap = Bitmap.createBitmap(
+            drawable.intrinsicWidth,
+            drawable.intrinsicHeight,
+            Bitmap.Config.ARGB_8888
+        )
+        val canvas = Canvas(bitmap)
+        drawable.setBounds(0, 0, canvas.width, canvas.height)
+        drawable.draw(canvas)
+        return bitmap
+    }
+
+    fun moveCamera(mapView: MapView, point: Point, zoom: Float = 16.5f) {
+        mapView.map.move(
+            CameraPosition(point, zoom, 0.0f, 0.0f),
+            Animation(Animation.Type.SMOOTH, 0f),
+            null
+        )
+    }
+
+    fun addMarkerOnMap(context: Context, mapView: MapView, point: Point): MapObject {
+        val markerPin = createBitmapFromVector(context, R.drawable.ic_location_point_24dp)
+        val marker = mapView.map.mapObjects.addPlacemark(point, ImageProvider.fromBitmap(markerPin))
+        marker.opacity = 0.5f //
+        return marker
+    }
 
 }
 

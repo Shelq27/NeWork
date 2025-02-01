@@ -23,7 +23,7 @@ import ru.shelq.nework.util.AndroidUtils
 import ru.shelq.nework.util.AndroidUtils.loadImgCircle
 import ru.shelq.nework.util.AndroidUtils.share
 import ru.shelq.nework.util.MediaLifecycleObserver
-import ru.shelq.nework.util.idArg
+import ru.shelq.nework.util.IdArg
 import ru.shelq.nework.viewmodel.EventViewModel
 import javax.inject.Inject
 
@@ -31,7 +31,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class EventDetailsFragment : Fragment() {
     companion object {
-        var Bundle.id by idArg
+        var Bundle.id by IdArg
     }
 
     @Inject

@@ -13,17 +13,23 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
+import com.yandex.mapkit.MapKitFactory
+import com.yandex.mapkit.geometry.Point
 import dagger.hilt.android.AndroidEntryPoint
 import ru.shelq.nework.R
 import ru.shelq.nework.auth.AppAuth
 import ru.shelq.nework.databinding.PostDetailsFragmentBinding
 import ru.shelq.nework.dto.User
 import ru.shelq.nework.enumer.AttachmentType
+import ru.shelq.nework.ui.post.PostMapFragment.Companion.lat
+import ru.shelq.nework.ui.post.PostMapFragment.Companion.long
 import ru.shelq.nework.util.AndroidUtils
+import ru.shelq.nework.util.AndroidUtils.addMarkerOnMap
 import ru.shelq.nework.util.AndroidUtils.loadImgCircle
+import ru.shelq.nework.util.AndroidUtils.moveCamera
 import ru.shelq.nework.util.AndroidUtils.share
 import ru.shelq.nework.util.MediaLifecycleObserver
-import ru.shelq.nework.util.idArg
+import ru.shelq.nework.util.IdArg
 import ru.shelq.nework.viewmodel.PostViewModel
 import javax.inject.Inject
 
@@ -31,7 +37,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class PostDetailsFragment : Fragment() {
     companion object {
-        var Bundle.id by idArg
+        var Bundle.id by IdArg
     }
 
     @Inject
@@ -56,6 +62,9 @@ class PostDetailsFragment : Fragment() {
         binding = PostDetailsFragmentBinding.inflate(inflater, container, false)
         lifecycle.addObserver(mediaObserver)
         val postId = arguments?.id ?: -1
+
+
+
         viewModel.getPostById(postId)
 
         viewModel.selectedPost.observe(viewLifecycleOwner) { post ->
@@ -87,6 +96,18 @@ class PostDetailsFragment : Fragment() {
                 binding.listAvatarsMentioned.ShowMoreB.setOnClickListener {
                     findNavController().navigate(R.id.action_postDetailsFragment_to_postMentionedFragment)
                 }
+
+                if (post.coords != null) {
+                    val point = Point(post.coords.lat, post.coords.long)
+                    binding.GeoPostMW.visibility = View.VISIBLE
+                    moveToMarker(point)// Перемещаем камеру в определенную область на карте
+                    setMarker(point)// Устанавливаем маркер на карте
+
+                } else {
+                    binding.GeoPostMW.visibility = View.GONE
+                }
+
+
 
 
                 binding.apply {
@@ -236,6 +257,27 @@ class PostDetailsFragment : Fragment() {
 
 
         return binding.root
+    }
+    // Отображаем карты перед тем моментом, когда активити с картой станет видимой пользователю:
+    override fun onStart() {
+        super.onStart()
+        MapKitFactory.getInstance().onStart()
+        binding.GeoPostMW.onStart()
+    }
+
+    // Останавливаем обработку карты, когда активити с картой становится невидимым для пользователя:
+    override fun onStop() {
+        binding.GeoPostMW.onStop()
+        MapKitFactory.getInstance().onStop()
+        super.onStop()
+    }
+
+    private fun setMarker(point: Point) {
+        addMarkerOnMap(requireContext(), binding.GeoPostMW, point)
+    }
+
+    private fun moveToMarker(point: Point) {
+        moveCamera(binding.GeoPostMW, point)
     }
 
     private fun clearLikersAvatars() {

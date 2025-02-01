@@ -18,7 +18,7 @@ import ru.shelq.nework.R
 import ru.shelq.nework.adapter.FragmentPageAdapter
 import ru.shelq.nework.auth.AppAuth
 import ru.shelq.nework.databinding.UserDetailsFragmentBinding
-import ru.shelq.nework.util.idArg
+import ru.shelq.nework.util.IdArg
 import ru.shelq.nework.viewmodel.UserViewModel
 import javax.inject.Inject
 
@@ -32,7 +32,7 @@ class UserDetailsFragment : Fragment() {
     private val userViewModel: UserViewModel by viewModels(ownerProducer = ::requireActivity)
 
     companion object {
-        var Bundle.id by idArg
+        var Bundle.id by IdArg
     }
 
     override fun onCreateView(

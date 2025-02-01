@@ -16,16 +16,23 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.snackbar.Snackbar
+import com.yandex.mapkit.MapKitFactory
+import com.yandex.mapkit.geometry.Point
 import dagger.hilt.android.AndroidEntryPoint
 import ru.shelq.nework.R
 import ru.shelq.nework.databinding.PostNewFragmentBinding
 import ru.shelq.nework.dto.Attachment
+import ru.shelq.nework.dto.Coordinates
 import ru.shelq.nework.enumer.AttachmentType
 import ru.shelq.nework.ui.post.ChooseMentionedFragment.Companion.longArrayArg
+import ru.shelq.nework.ui.post.PostMapFragment.Companion.lat
+import ru.shelq.nework.ui.post.PostMapFragment.Companion.long
 import ru.shelq.nework.util.AndroidUtils
+import ru.shelq.nework.util.AndroidUtils.addMarkerOnMap
 import ru.shelq.nework.util.AndroidUtils.getFile
+import ru.shelq.nework.util.AndroidUtils.moveCamera
+import ru.shelq.nework.util.IdArg
 import ru.shelq.nework.util.MediaLifecycleObserver
-import ru.shelq.nework.util.idArg
 import ru.shelq.nework.viewmodel.PostViewModel
 import java.io.FileNotFoundException
 import java.io.IOException
@@ -34,13 +41,16 @@ import java.io.IOException
 class PostNewFragment : Fragment() {
     companion object {
         const val MAX_SIZE = 15728640
-        var Bundle.id: Long? by idArg
+        var Bundle.id: Long? by IdArg
 
     }
+
 
     private val viewModel: PostViewModel by viewModels(ownerProducer = ::requireActivity)
     private val mediaObserver = MediaLifecycleObserver()
     private lateinit var checkedUsers: LongArray
+    private lateinit var binding: PostNewFragmentBinding
+
 
     private fun removeAttachment() {
         viewModel.changeAttachment(null, null, null, null)
@@ -51,19 +61,28 @@ class PostNewFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
-
-       val binding = PostNewFragmentBinding.inflate(layoutInflater)
+        binding = PostNewFragmentBinding.inflate(layoutInflater)
         lifecycle.addObserver(mediaObserver)
+
+
         binding.NewPostTTB.setNavigationOnClickListener {
             findNavController().navigateUp()
             viewModel.reset()
         }
-
-
         val postId = arguments?.id ?: -1L
+
+
         if (postId != -1L) {
             viewModel.getPostById(postId)
+        }
+
+        val longCoord = arguments?.long ?: -0.0
+        val latCoord = arguments?.lat ?: -0.0
+        if (longCoord != -0.0 && latCoord != -0.0) {
+            val point = Point(latCoord, longCoord)
+            setMarker(point)
+            moveToMarker(point)
+            viewModel.changeCoords(Coordinates(latCoord, longCoord))
         }
 
         viewModel.selectedPost.observe(viewLifecycleOwner) {
@@ -71,10 +90,6 @@ class PostNewFragment : Fragment() {
                 viewModel.edit(it)
             }
         }
-
-        //Редактирование
-
-
         viewModel.edited.observe(viewLifecycleOwner) {
             if (viewModel.edited.value?.id != 0L && viewModel.changed.value != true) {
                 val edited = viewModel.edited.value
@@ -84,9 +99,12 @@ class PostNewFragment : Fragment() {
                 edited?.attachment?.let {
                     viewModel.changeAttachment(it.url, null, null, it.type)
                 }
-
                 edited?.mentionIds?.let {
                     viewModel.changeMentionedNewPost(it)
+                }
+
+                edited?.coords?.let {
+                    viewModel.changeCoords(it)
                 }
             }
         }
@@ -185,9 +203,26 @@ class PostNewFragment : Fragment() {
             }
 
         }
+
         viewModel.mentionedNewPost.observe(viewLifecycleOwner) {
             checkedUsers = it.toLongArray()
         }
+
+        viewModel.coords.observe(viewLifecycleOwner) {
+            binding.GeoPostMW.map.mapObjects.clear()
+            if (it == null) {
+                binding.CoordsContainerCL.visibility = View.GONE
+            } else {
+                binding.CoordsContainerCL.visibility = View.VISIBLE
+                AndroidUtils.moveCamera(binding.GeoPostMW, Point(it.lat, it.long))
+                AndroidUtils.addMarkerOnMap(
+                    requireContext(),
+                    binding.GeoPostMW,
+                    Point(it.lat, it.long)
+                )
+            }
+        }
+
         binding.ContentPostET.requestFocus()
 
         val pickPhotoLauncher =
@@ -207,7 +242,6 @@ class PostNewFragment : Fragment() {
                     }
                 }
             }
-
 
 
 
@@ -311,15 +345,17 @@ class PostNewFragment : Fragment() {
                 }
 
                 R.id.geolocation -> {
+                    findNavController().navigate(
+                        R.id.action_postNewFragment_to_postMapFragment
+                    )
                     true
                 }
 
                 else -> false
             }
-
         }
-        binding.NewPostTTB.setOnMenuItemClickListener {
 
+        binding.NewPostTTB.setOnMenuItemClickListener {
             val content = binding.ContentPostET.text.toString()
             val link = binding.Link.text.toString()
             viewModel.changeContent(content)
@@ -329,12 +365,36 @@ class PostNewFragment : Fragment() {
             true
         }
         viewModel.postCreated.observe(viewLifecycleOwner) {
-            findNavController().navigateUp()
+            findNavController().navigate(R.id.postFragment)
         }
 
         return binding.root
     }
+
+    // Отображаем карты перед тем моментом, когда активити с картой станет видимой пользователю:
+    override fun onStart() {
+        super.onStart()
+        MapKitFactory.getInstance().onStart()
+        binding.GeoPostMW.onStart()
+    }
+
+    // Останавливаем обработку карты, когда активити с картой становится невидимым для пользователя:
+    override fun onStop() {
+        binding.GeoPostMW.onStop()
+        MapKitFactory.getInstance().onStop()
+        super.onStop()
+    }
+
+    private fun setMarker(point: Point) {
+        addMarkerOnMap(requireContext(), binding.GeoPostMW, point)
+    }
+
+    private fun moveToMarker(point: Point) {
+        moveCamera(binding.GeoPostMW, point)
+    }
 }
+
+
 
 
 

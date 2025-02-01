@@ -4,8 +4,8 @@ import android.os.Bundle
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
-object idArg : ReadWriteProperty<Bundle,Long?> {
-    override fun getValue(thisRef: Bundle, property: KProperty<*>): Long? =
+object IdArg : ReadWriteProperty<Bundle,Long?> {
+    override fun getValue(thisRef: Bundle, property: KProperty<*>): Long =
         thisRef.getLong(property.name)
 
 
@@ -25,3 +25,15 @@ object LongArrayArg: ReadWriteProperty<Bundle, LongArray?> {
     override fun getValue(thisRef: Bundle, property: KProperty<*>): LongArray? =
         thisRef.getLongArray(property.name)
 }
+object DoubleArg : ReadWriteProperty<Bundle,Double?> {
+    override fun getValue(thisRef: Bundle, property: KProperty<*>): Double =
+        thisRef.getDouble(property.name)
+
+
+    override fun setValue(thisRef: Bundle, property: KProperty<*>, value: Double?) {
+        if (value != null) {
+            thisRef.putDouble(property.name,value)
+        }
+    }
+}
+

@@ -23,11 +23,9 @@ import ru.shelq.nework.adapter.PostOnInteractionListener
 import ru.shelq.nework.auth.AppAuth
 import ru.shelq.nework.databinding.PostFragmentBinding
 import ru.shelq.nework.dto.Post
-import ru.shelq.nework.dto.User
 import ru.shelq.nework.util.AndroidUtils
 import ru.shelq.nework.util.MediaLifecycleObserver
-import ru.shelq.nework.util.StringArg
-import ru.shelq.nework.util.idArg
+import ru.shelq.nework.util.IdArg
 import ru.shelq.nework.viewmodel.PostViewModel
 import javax.inject.Inject
 
@@ -40,7 +38,7 @@ class PostFragment : Fragment() {
     private val mediaObserver = MediaLifecycleObserver()
 
     companion object {
-        var Bundle.id by idArg
+        var Bundle.id by IdArg
     }
 
     override fun onCreateView(

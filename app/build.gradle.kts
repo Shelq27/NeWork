@@ -10,11 +10,11 @@ plugins {
 
 android {
     namespace = "ru.shelq.nework"
-    compileSdk = 34
+    compileSdk = 35
     defaultConfig {
         applicationId = "ru.shelq.nework"
         minSdk = 31
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -25,11 +25,9 @@ android {
             load(rootProject.file("apikey.properties").reader())
         }
         val apiKey = properties.getProperty("API_KEY") ?: ""
-        buildConfigField(
-            "String",
-            "API_KEY",
-            apiKey
-        )
+        buildConfigField("String", "API_KEY", apiKey)
+        val mapKey = properties.getProperty("MAP_KEY") ?: ""
+        buildConfigField("String", "MAP_KEY", mapKey)
     }
     buildFeatures {
         viewBinding = true
@@ -82,6 +80,7 @@ dependencies {
     implementation(libs.okhttp)
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
+    //noinspection KaptUsageInsteadOfKsp
     kapt(libs.androidx.room.compiler)
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
@@ -97,6 +96,8 @@ dependencies {
     implementation(libs.androidx.room.paging)
     implementation(libs.github.glide)
     implementation(libs.imagepicker)
+    implementation(libs.maps.mobile)
+
 
 
 }

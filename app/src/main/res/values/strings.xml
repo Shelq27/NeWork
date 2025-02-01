@@ -92,4 +92,8 @@
     <string name="ok">Ok</string>
     <string name="cancel">Cancel</string>
     <string name="looking_for_a_job">looking for a job</string>
+    <string name="need_permission">Location permission is required</string>
+    <string name="desc_button_plus">button plus zoom</string>
+    <string name="desc_button_minus">button minus zoom</string>
+    <string name="desc_button_location">button get location</string>
 </resources>

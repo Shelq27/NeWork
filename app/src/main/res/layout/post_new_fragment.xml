@@ -98,7 +98,30 @@
                     android:visibility="gone"
                     tools:visibility="visible" />
             </FrameLayout>
-
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/CoordsContainerCL"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone">
+                <com.yandex.mapkit.mapview.MapView
+                    android:id="@+id/GeoPostMW"
+                    android:layout_width="match_parent"
+                    android:layout_height="221dp"
+                    android:layout_marginTop="@dimen/common_spacing"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
+                </com.yandex.mapkit.mapview.MapView>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/remove_coords"
+                    android:layout_width="@dimen/button_remove_width"
+                    android:layout_height="@dimen/button_remove_height"
+                    android:text="@string/text_button_remove"
+                    android:textAllCaps="false"
+                    app:cornerRadius="100dp"
+                    app:layout_constraintTop_toBottomOf="@id/GeoPostMW"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
 

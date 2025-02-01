@@ -11,8 +11,8 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/removeAudio"
-        android:layout_width="100dp"
-        android:layout_height="@dimen/icon_min_size"
+        android:layout_width="@dimen/button_remove_width"
+        android:layout_height="@dimen/button_remove_height"
         android:text="@string/text_button_remove"
         android:textAllCaps="false"
         app:cornerRadius="100dp"

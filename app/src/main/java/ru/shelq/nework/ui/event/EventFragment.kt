@@ -26,7 +26,7 @@ import ru.shelq.nework.dto.Event
 import ru.shelq.nework.util.AndroidUtils
 import ru.shelq.nework.util.MediaLifecycleObserver
 import ru.shelq.nework.util.StringArg
-import ru.shelq.nework.util.idArg
+import ru.shelq.nework.util.IdArg
 import ru.shelq.nework.viewmodel.EventViewModel
 import javax.inject.Inject
 
@@ -41,7 +41,7 @@ class EventFragment : Fragment() {
 
     companion object {
         var Bundle.text by StringArg
-        var Bundle.id by idArg
+        var Bundle.id by IdArg
 
     }
 

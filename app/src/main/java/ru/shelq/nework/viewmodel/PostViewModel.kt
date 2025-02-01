@@ -99,6 +99,8 @@ open class PostViewModel @Inject constructor(
     val coords: LiveData<Coordinates?>
         get() = _coords
 
+
+
     private val _mentioned = MutableLiveData<List<User>>(emptyList())
     val mentioned: LiveData<List<User>>
         get() = _mentioned
@@ -283,7 +285,6 @@ open class PostViewModel @Inject constructor(
         _dataState.value = FeedModelState()
     }
 
-
     fun getMentioned(post: Post) = viewModelScope.launch {
         try {
             _dataState.value = FeedModelState(loading = true)
@@ -295,8 +296,6 @@ open class PostViewModel @Inject constructor(
             _dataState.value = FeedModelState(error = true)
         }
     }
-
-
 
     fun getLikers(post: Post) = viewModelScope.launch {
         try {
@@ -310,10 +309,15 @@ open class PostViewModel @Inject constructor(
             _dataState.value = FeedModelState(error = true)
         }
     }
+
     fun reset() {
         _changed.value = false
         selectedPost.value = null
     }
 
+    fun changeCoords(coords: Coordinates?) {
+        _coords.value = coords
+        _changed.value = true
+    }
 
 }

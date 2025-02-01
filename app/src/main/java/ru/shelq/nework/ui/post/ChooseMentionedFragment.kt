@@ -12,6 +12,7 @@ import ru.shelq.nework.adapter.CheckOnInteractionListener
 import ru.shelq.nework.adapter.ChooseUserAdapter
 import ru.shelq.nework.databinding.ChooseUsersFragmentBinding
 import ru.shelq.nework.dto.User
+import ru.shelq.nework.util.DoubleArg
 import ru.shelq.nework.util.LongArrayArg
 import ru.shelq.nework.viewmodel.PostViewModel
 import ru.shelq.nework.viewmodel.UserViewModel
@@ -23,6 +24,7 @@ class ChooseMentionedFragment : Fragment() {
     companion object {
         var Bundle.longArrayArg: LongArray? by LongArrayArg
     }
+
     private val userViewModel: UserViewModel by viewModels()
     private val postViewModel: PostViewModel by viewModels(ownerProducer = ::requireActivity)
 

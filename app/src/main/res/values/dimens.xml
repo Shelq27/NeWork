@@ -15,7 +15,8 @@
     <dimen name="size_text_header">32sp</dimen>
     <dimen name="size_enter_date_width">140dp</dimen>
     <dimen name="size_enter_date_height">60dp</dimen>
-
+    <dimen name="button_remove_width">100dp</dimen>
+    <dimen name="button_remove_height">48dp</dimen>
 
 
 </resources>
