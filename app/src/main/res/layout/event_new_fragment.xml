@@ -112,8 +112,7 @@
                     android:layout_height="221dp"
                     android:layout_marginTop="@dimen/common_spacing"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"></com.yandex.mapkit.mapview.MapView>
-
+                    app:layout_constraintTop_toTopOf="parent"/>
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/RemoveCoords"
                     android:layout_width="@dimen/button_remove_width"
