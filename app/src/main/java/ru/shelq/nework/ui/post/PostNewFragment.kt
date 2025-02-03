@@ -90,9 +90,8 @@ class PostNewFragment : Fragment() {
                 viewModel.edit(it)
             }
         }
-        println(viewModel.edited.value?.id)
+
         viewModel.edited.observe(viewLifecycleOwner) {
-            println( "Wath  = " + viewModel.edited.value?.id)
             if (viewModel.edited.value?.id != 0L && viewModel.changed.value != true) {
                 val edited = viewModel.edited.value
                 binding.ContentPostET.setText(edited?.content)

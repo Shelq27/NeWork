@@ -108,7 +108,6 @@ class PostDetailsFragment : Fragment() {
                         NameJobTV.text = getText(R.string.looking_for_a_job)
                     }
                     PostDetailsTBL.setNavigationOnClickListener {
-                        viewModel.reset()
                         findNavController().navigateUp()
                     }
 

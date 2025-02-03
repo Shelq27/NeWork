@@ -243,6 +243,7 @@ class EventViewModel @Inject constructor(
     }
 
 
+
     fun changeLink(link: String) {
         val text = link.trim()
         if (edited.value?.link == text) {

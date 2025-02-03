@@ -61,10 +61,14 @@ class AppActivity : AppCompatActivity() {
             when (destination.id) {
                 R.id.postFragment,
                 R.id.userFragment
-                ->{
+                -> {
                     postViewModel.reset()
+                    postViewModel.selectedPost
                 }
-                R.id.eventFragment -> eventViewModel.reset()
+
+                R.id.eventFragment -> {
+                    eventViewModel.reset()
+                }
             }
 
             when (destination.id) {
@@ -72,6 +76,7 @@ class AppActivity : AppCompatActivity() {
                 R.id.eventFragment,
                 R.id.userFragment,
                 -> {
+
                     bottomNavigation.isVisible = true
                     appTopBar.isVisible = true
                 }

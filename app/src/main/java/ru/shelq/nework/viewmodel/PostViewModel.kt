@@ -243,7 +243,7 @@ open class PostViewModel @Inject constructor(
         }
     }
 
-    fun clearEdit() {
+    private fun clearEdit() {
         edited.value = empty
         _attachment.value = null
         _coords.value = null
@@ -312,7 +312,6 @@ open class PostViewModel @Inject constructor(
 
     fun reset() {
         _changed.value = false
-        edited.value = empty
         selectedPost.value = null
     }
 
