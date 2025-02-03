@@ -75,7 +75,6 @@ class PostNewFragment : Fragment() {
         }
 
         val longCoord = arguments?.long ?: -0.0
-        println(longCoord)
         val latCoord = arguments?.lat ?: -0.0
 
         if (longCoord != -0.0 && latCoord != -0.0) {

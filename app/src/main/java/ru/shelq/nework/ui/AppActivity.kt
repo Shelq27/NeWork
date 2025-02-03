@@ -63,7 +63,6 @@ class AppActivity : AppCompatActivity() {
                 R.id.userFragment
                 -> {
                     postViewModel.reset()
-                    postViewModel.selectedPost
                 }
 
                 R.id.eventFragment -> {
