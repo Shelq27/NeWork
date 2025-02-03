@@ -48,7 +48,6 @@ class PostFragment : Fragment() {
     ): View {
         val binding = PostFragmentBinding.inflate(inflater, container, false)
         lifecycle.addObserver(mediaObserver)
-
         val adapter = PostAdapter(object : PostOnInteractionListener {
             override fun onLike(post: Post) {
                 if (appAuth.authenticated()) {
@@ -64,8 +63,8 @@ class PostFragment : Fragment() {
 
             override fun onEdit(post: Post) {
                 findNavController().navigate(R.id.action_postFragment_to_postNewFragment,
-                    Bundle().apply {
-                        id = post.id
+                    Bundle().also {
+                        it.id = post.id
                     })
             }
 

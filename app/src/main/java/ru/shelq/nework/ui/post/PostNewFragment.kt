@@ -41,8 +41,7 @@ import java.io.IOException
 class PostNewFragment : Fragment() {
     companion object {
         const val MAX_SIZE = 15728640
-        var Bundle.id: Long? by IdArg
-
+        var Bundle.id by IdArg
     }
 
 
@@ -69,21 +68,13 @@ class PostNewFragment : Fragment() {
             findNavController().navigateUp()
         }
 
+
+
+
         val postId = arguments?.id ?: -1L
         if (postId != -1L) {
             viewModel.getPostById(postId)
         }
-
-        val longCoord = arguments?.long ?: -0.0
-        val latCoord = arguments?.lat ?: -0.0
-
-        if (longCoord != -0.0 && latCoord != -0.0) {
-            val point = Point(latCoord, longCoord)
-            setMarker(point)
-            moveToMarker(point)
-            viewModel.changeCoords(Coordinates(latCoord, longCoord))
-        }
-
         viewModel.selectedPost.observe(viewLifecycleOwner) {
             it?.let {
                 viewModel.edit(it)
@@ -109,6 +100,15 @@ class PostNewFragment : Fragment() {
             }
         }
 
+        val longCoord = arguments?.long ?: -0.0
+        val latCoord = arguments?.lat ?: -0.0
+
+        if (longCoord != -0.0 && latCoord != -0.0) {
+            val point = Point(latCoord, longCoord)
+            setMarker(point)
+            moveToMarker(point)
+            viewModel.changeCoords(Coordinates(latCoord, longCoord))
+        }
 
         val resultLauncher =
             registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->

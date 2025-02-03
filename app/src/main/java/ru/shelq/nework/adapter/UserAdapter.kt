@@ -1,6 +1,5 @@
 package ru.shelq.nework.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -13,6 +12,7 @@ import ru.shelq.nework.dto.User
 
 interface UserOnInteractionListener {
     fun onUserClick(user: User) {}
+
 
 }
 class UserAdapter(
