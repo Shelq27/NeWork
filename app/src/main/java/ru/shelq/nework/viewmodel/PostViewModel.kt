@@ -247,14 +247,17 @@ open class PostViewModel @Inject constructor(
         _coords.value = null
         _mentionedNewPost.value = emptyList()
         _changed.value = false
-
-
     }
 
     fun changeMentionedNewPost(list: List<Long>) {
         _mentionedNewPost.value = list
         _changed.value = true
     }
+    fun reset() {
+        _changed.value = false
+        selectedPost.value = null
+    }
+
 
     fun likeByPost(post: Post) = viewModelScope.launch {
         try {
@@ -308,11 +311,7 @@ open class PostViewModel @Inject constructor(
         }
     }
 
-    fun reset() {
-//        edit(post = null)
-        _changed.value = false
-        selectedPost.value = null
-    }
+
 
     fun changeCoords(coords: Coordinates?) {
         _coords.value = coords

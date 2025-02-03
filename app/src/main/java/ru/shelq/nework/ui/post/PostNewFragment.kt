@@ -67,6 +67,7 @@ class PostNewFragment : Fragment() {
         if (postId != -1L) {
             viewModel.getPostById(postId)
         }
+
         viewModel.selectedPost.observe(viewLifecycleOwner) {
             it?.let {
                 viewModel.edit(it)

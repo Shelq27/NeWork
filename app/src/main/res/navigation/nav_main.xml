@@ -54,6 +54,12 @@
             <action
                 android:id="@+id/action_postDetailsFragment_to_postMentionedFragment"
                 app:destination="@id/postMentionedFragment" />
+            <action
+                android:id="@+id/action_postDetailsFragment_to_postMapFragment"
+                app:destination="@id/postMapFragment" />
+            <action
+                android:id="@+id/action_postDetailsFragment_to_postFragment"
+                app:destination="@id/postFragment" />
         </fragment>
 
         <fragment
@@ -95,6 +101,9 @@
             <action
                 android:id="@+id/action_postMapFragment_to_postNewFragment"
                 app:destination="@id/postNewFragment" />
+            <action
+                android:id="@+id/action_postMapFragment_to_postDetailsFragment"
+                app:destination="@id/postDetailsFragment" />
         </fragment>
     </navigation>
 
@@ -145,6 +154,12 @@
             <action
                 android:id="@+id/action_eventDetailsFragment_to_eventSpeakersFragment"
                 app:destination="@id/eventSpeakersFragment" />
+            <action
+                android:id="@+id/action_eventDetailsFragment_to_eventMapFragment"
+                app:destination="@id/eventMapFragment" />
+            <action
+                android:id="@+id/action_eventDetailsFragment_to_eventFragment"
+                app:destination="@id/eventFragment" />
         </fragment>
         <fragment
             android:id="@+id/eventLikersFragment"
@@ -179,6 +194,9 @@
             <action
                 android:id="@+id/action_eventMapFragment_to_eventNewFragment"
                 app:destination="@id/eventNewFragment" />
+            <action
+                android:id="@+id/action_eventMapFragment_to_eventDetailsFragment"
+                app:destination="@id/eventDetailsFragment" />
         </fragment>
     </navigation>
     <navigation

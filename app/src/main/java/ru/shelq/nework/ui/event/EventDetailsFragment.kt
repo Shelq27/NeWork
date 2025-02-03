@@ -21,6 +21,9 @@ import ru.shelq.nework.auth.AppAuth
 import ru.shelq.nework.databinding.EventDetailsFragmentBinding
 import ru.shelq.nework.dto.User
 import ru.shelq.nework.enumer.AttachmentType
+import ru.shelq.nework.ui.post.PostDetailsFragment.Companion.id
+import ru.shelq.nework.ui.post.PostDetailsFragment.Companion.saveLat
+import ru.shelq.nework.ui.post.PostDetailsFragment.Companion.saveLong
 import ru.shelq.nework.util.AndroidUtils
 import ru.shelq.nework.util.AndroidUtils.addMarkerOnMap
 import ru.shelq.nework.util.AndroidUtils.loadImgCircle
@@ -61,7 +64,8 @@ class EventDetailsFragment : Fragment() {
     ): View {
         binding = EventDetailsFragmentBinding.inflate(inflater, container, false)
         lifecycle.addObserver(mediaObserver)
-
+        viewModel.reset()
+        viewModel.edit(null)
         val eventId = arguments?.id ?: -1
         viewModel.getEventById(eventId)
 
@@ -113,23 +117,14 @@ class EventDetailsFragment : Fragment() {
                     findNavController().navigate(R.id.action_eventDetailsFragment_to_eventSpeakersFragment)
                 }
 
-                if (event.coords != null) {
-                    val point = Point(event.coords.lat, event.coords.long)
-                    binding.GeoEventMW.visibility = View.VISIBLE
-                    moveToMarker(point)// Перемещаем камеру в определенную область на карте
-                    setMarker(point)// Устанавливаем маркер на карте
 
-                } else {
-                    binding.GeoEventMW.visibility = View.GONE
-                }
 
 
                 binding.apply {
 
                     EventDetailsTBL.run {
                         setNavigationOnClickListener {
-                            viewModel.reset()
-                            findNavController().navigateUp()
+                            findNavController().navigate(R.id.action_eventDetailsFragment_to_eventFragment)
 
                         }
                         setOnMenuItemClickListener { menuItem ->
@@ -165,7 +160,6 @@ class EventDetailsFragment : Fragment() {
                     ParticipantB.run {
                         text = event.participantsIds.size.toString()
                         isChecked = event.participatedByMe
-
                         setOnClickListener {
                             if (auth.authenticated()) {
                                 viewModel.participateByEvent(event)
@@ -191,7 +185,26 @@ class EventDetailsFragment : Fragment() {
                     }
 
 
+                    if (event.coords != null) {
+                        val point = Point(event.coords.lat, event.coords.long)
+                        GeoEventMW.visibility = View.VISIBLE
+                        moveToMarker(point)// Перемещаем камеру в определенную область на карте
+                        setMarker(point)// Устанавливаем маркер на карте
+                        GeoEventMW.setNoninteractive(true)
+                        GeoEventMW.setOnClickListener {
+                            GeoEventMW.onStop()
+                            findNavController().navigate(
+                                R.id.action_eventDetailsFragment_to_eventMapFragment,
+                                args = Bundle().apply {
+                                    id = event.id
+                                    saveLat = event.coords.lat
+                                    saveLong = event.coords.long
+                                })
+                        }
 
+                    } else {
+                        GeoEventMW.visibility = View.GONE
+                    }
 
                     if (event.attachment?.url != null) {
                         AttachmentGroup.isVisible = true

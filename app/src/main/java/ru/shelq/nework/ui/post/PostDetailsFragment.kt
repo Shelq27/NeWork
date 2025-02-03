@@ -21,15 +21,14 @@ import ru.shelq.nework.auth.AppAuth
 import ru.shelq.nework.databinding.PostDetailsFragmentBinding
 import ru.shelq.nework.dto.User
 import ru.shelq.nework.enumer.AttachmentType
-import ru.shelq.nework.ui.post.PostMapFragment.Companion.lat
-import ru.shelq.nework.ui.post.PostMapFragment.Companion.long
 import ru.shelq.nework.util.AndroidUtils
 import ru.shelq.nework.util.AndroidUtils.addMarkerOnMap
 import ru.shelq.nework.util.AndroidUtils.loadImgCircle
 import ru.shelq.nework.util.AndroidUtils.moveCamera
 import ru.shelq.nework.util.AndroidUtils.share
-import ru.shelq.nework.util.MediaLifecycleObserver
+import ru.shelq.nework.util.DoubleArg
 import ru.shelq.nework.util.IdArg
+import ru.shelq.nework.util.MediaLifecycleObserver
 import ru.shelq.nework.viewmodel.PostViewModel
 import javax.inject.Inject
 
@@ -38,6 +37,8 @@ import javax.inject.Inject
 class PostDetailsFragment : Fragment() {
     companion object {
         var Bundle.id by IdArg
+        var Bundle.saveLat: Double by DoubleArg
+        var Bundle.saveLong: Double by DoubleArg
     }
 
     @Inject
@@ -108,7 +109,7 @@ class PostDetailsFragment : Fragment() {
                         NameJobTV.text = getText(R.string.looking_for_a_job)
                     }
                     PostDetailsTBL.setNavigationOnClickListener {
-                        findNavController().navigateUp()
+                        findNavController().navigate(R.id.action_postDetailsFragment_to_postFragment)
                     }
 
                     PostDetailsTBL.setOnMenuItemClickListener { menuItem ->
@@ -159,6 +160,17 @@ class PostDetailsFragment : Fragment() {
                         GeoPostMW.visibility = View.VISIBLE
                         moveToMarker(point)// Перемещаем камеру в определенную область на карте
                         setMarker(point)// Устанавливаем маркер на карте
+                        GeoPostMW.setNoninteractive(true)
+                        GeoPostMW.setOnClickListener {
+                            GeoPostMW.onStop()
+                            findNavController().navigate(
+                                R.id.action_postDetailsFragment_to_postMapFragment,
+                                args = Bundle().apply {
+                                    id = post.id
+                                    saveLat = post.coords.lat
+                                    saveLong = post.coords.long
+                                })
+                        }
 
                     } else {
                         GeoPostMW.visibility = View.GONE

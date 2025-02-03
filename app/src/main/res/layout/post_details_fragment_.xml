@@ -198,7 +198,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/element_spacing"
                 android:orientation="horizontal"
-                app:layout_constraintBottom_toTopOf="@id/GeoPostMW"
+                app:layout_constraintBottom_toTopOf="@id/ContainerMap"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/TitleMentionedTV">
@@ -216,19 +216,26 @@
                     android:id="@+id/list_avatars_mentioned"
                     layout="@layout/avatars_multiple" />
             </LinearLayout>
-
-            <com.yandex.mapkit.mapview.MapView
-                android:id="@+id/GeoPostMW"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/ContainerMap"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/max_size_attachment"
-                android:layout_marginTop="@dimen/common_spacing"
-                android:clickable="false"
-                android:visibility="gone"
+                android:layout_height="wrap_content"
+                android:clickable="true"
                 app:layout_constraintBottom_toTopOf="@id/TitleLinkTV"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/GroupMentionedLL"
-                tools:visibility="visible" />
+                >
+                <com.yandex.mapkit.mapview.MapView
+                    android:id="@+id/GeoPostMW"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/max_size_attachment"
+                    android:layout_marginTop="@dimen/common_spacing"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    tools:ignore="MissingConstraints" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
 
             <TextView
                 android:id="@+id/TitleLinkTV"
@@ -241,7 +248,7 @@
                 app:layout_constraintBottom_toTopOf="@id/LinkPostTV"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/GeoPostMW" />
+                app:layout_constraintTop_toBottomOf="@id/ContainerMap" />
 
 
             <TextView

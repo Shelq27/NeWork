@@ -22,11 +22,17 @@ import com.yandex.mapkit.user_location.UserLocationObjectListener
 import com.yandex.mapkit.user_location.UserLocationView
 import ru.shelq.nework.R
 import ru.shelq.nework.databinding.MapFragmentBinding
+import ru.shelq.nework.ui.post.PostDetailsFragment.Companion.saveLat
+import ru.shelq.nework.ui.post.PostDetailsFragment.Companion.saveLong
+import ru.shelq.nework.ui.post.PostMapFragment.Companion.id
 import ru.shelq.nework.util.AndroidUtils.addMarkerOnMap
+import ru.shelq.nework.util.AndroidUtils.moveCamera
 import ru.shelq.nework.util.DoubleArg
+import ru.shelq.nework.util.IdArg
 
 class EventMapFragment: Fragment() {
     companion object {
+        var Bundle.id by IdArg
         var Bundle.lat: Double by DoubleArg
         var Bundle.long: Double by DoubleArg
     }
@@ -103,9 +109,6 @@ class EventMapFragment: Fragment() {
             userLocation = MapKitFactory.getInstance().createUserLocationLayer(mapWindow)
             userLocation.isVisible = true
             userLocation.isHeadingEnabled = false
-            // При входе в приложение показываем текущее местоположение
-            userLocation.setObjectListener(locationObjectListener)
-
 
         }
         binding.plus.setOnClickListener {
@@ -132,7 +135,30 @@ class EventMapFragment: Fragment() {
         binding.GeoPostMW.map?.addInputListener(mapInputListener)
         binding.location.setOnClickListener {
             permissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+            userLocation.setObjectListener(locationObjectListener)
+
         }
+        val postId = arguments?.id ?: -1L
+        val saveLat = arguments?.saveLat ?: 0.0
+        val saveLong = arguments?.saveLong ?: 0.0
+
+        if (saveLat != 0.0 && saveLong != 0.0) {
+            val point = Point(saveLat, saveLong)
+            binding.save.visibility = View.GONE
+            binding.back.visibility = View.VISIBLE
+            moveToMarker(point)// Перемещаем камеру в определенную область на карте
+            setMarker(point)
+            binding.back.setOnClickListener {
+                binding.GeoPostMW.onStop()
+
+                findNavController().navigate(
+                    R.id.action_eventMapFragment_to_eventDetailsFragment,
+                    args = Bundle().apply {
+                        id = postId
+                    })
+            }
+        }
+
         binding.save.setOnClickListener {
             findNavController().navigate(
                 R.id.action_eventMapFragment_to_eventNewFragment,
@@ -162,6 +188,12 @@ class EventMapFragment: Fragment() {
         super.onDestroyView()
         mapView = null
     }
+    private fun setMarker(point: Point) {
+        addMarkerOnMap(requireContext(), binding.GeoPostMW, point)
+    }
 
+    private fun moveToMarker(point: Point) {
+        moveCamera(binding.GeoPostMW, point)
+    }
 
 }

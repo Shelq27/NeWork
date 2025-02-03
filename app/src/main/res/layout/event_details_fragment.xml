@@ -234,7 +234,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/element_spacing"
                 android:orientation="horizontal"
-                app:layout_constraintBottom_toTopOf="@id/GeoEventMW"
+                app:layout_constraintBottom_toTopOf="@id/ContainerMap"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/TitleParticipantTV">
@@ -251,6 +251,16 @@
                     android:id="@+id/list_avatars_participant"
                     layout="@layout/avatars_multiple" />
             </LinearLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/ContainerMap"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                app:layout_constraintBottom_toTopOf="@id/TitleLinkTV"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/GroupParticipantLL">
+
 
             <com.yandex.mapkit.mapview.MapView
                 android:id="@+id/GeoEventMW"
@@ -259,12 +269,9 @@
                 android:layout_marginTop="@dimen/common_spacing"
                 android:clickable="false"
                 android:visibility="gone"
-                app:layout_constraintBottom_toTopOf="@id/TitleLinkTV"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/GroupParticipantLL"
-                app:layout_constraintVertical_chainStyle="packed"
-                tools:visibility="visible" />
+                tools:visibility="visible"
+                tools:ignore="MissingConstraints" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
                 android:id="@+id/TitleLinkTV"
@@ -277,7 +284,7 @@
                 app:layout_constraintBottom_toTopOf="@id/LinkPostTV"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/GeoEventMW" />
+                app:layout_constraintTop_toBottomOf="@id/ContainerMap" />
 
 
             <TextView

@@ -24,6 +24,7 @@ import ru.shelq.nework.auth.AppAuth
 import ru.shelq.nework.databinding.EventFragmentBinding
 import ru.shelq.nework.dto.Event
 import ru.shelq.nework.util.AndroidUtils
+import ru.shelq.nework.util.DoubleArg
 import ru.shelq.nework.util.IdArg
 import ru.shelq.nework.util.MediaLifecycleObserver
 import ru.shelq.nework.viewmodel.EventViewModel
@@ -40,7 +41,8 @@ class EventFragment : Fragment() {
 
     companion object {
         var Bundle.id by IdArg
-
+        var Bundle.saveLat: Double by DoubleArg
+        var Bundle.saveLong: Double by DoubleArg
     }
 
     override fun onCreateView(
@@ -50,6 +52,7 @@ class EventFragment : Fragment() {
     ): View {
         val binding = EventFragmentBinding.inflate(inflater, container, false)
         lifecycle.addObserver(mediaObserver)
+
         val adapter = EventAdapter(object : EventOnInteractionListener {
             override fun onLike(event: Event) {
                 if (appAuth.authenticated()) {
@@ -141,6 +144,8 @@ class EventFragment : Fragment() {
 
         binding.AddNewEventIB.setOnClickListener {
             if (appAuth.authenticated()) {
+                viewModel.edit(null)
+                viewModel.reset()
                 findNavController().navigate(R.id.action_eventFragment_to_eventNewFragment)
             } else {
                 AndroidUtils.showSignInDialog(this)

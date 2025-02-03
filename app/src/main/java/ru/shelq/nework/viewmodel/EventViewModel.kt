@@ -279,6 +279,17 @@ class EventViewModel @Inject constructor(
             _dataState.value = FeedModelState(error = true)
         }
     }
+    fun participateByEvent(event: Event) = viewModelScope.launch {
+        try {
+            _dataState.value = FeedModelState(loading = true)
+            repository.participateById(event)
+            _dataState.value = FeedModelState()
+
+        } catch (e: Exception) {
+
+            _dataState.value = FeedModelState(error = true)
+        }
+    }
 
     fun readNewEvents() = viewModelScope.launch {
         repository.readNewEvents()
@@ -353,19 +364,7 @@ class EventViewModel @Inject constructor(
         }
     }
 
-    fun participateByEvent(event: Event) = viewModelScope.launch {
-        try {
-            _dataState.value = FeedModelState(loading = true)
-            repository.participateById(event)
-            _dataState.value = FeedModelState()
-            if (selectedEvent.value != null) {
-                getEventById(event.id)
-            }
-        } catch (e: Exception) {
 
-            _dataState.value = FeedModelState(error = true)
-        }
-    }
 
     fun getParticipants(event: Event) = viewModelScope.launch {
         try {

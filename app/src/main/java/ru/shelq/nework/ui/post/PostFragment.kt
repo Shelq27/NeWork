@@ -49,6 +49,8 @@ class PostFragment : Fragment() {
     ): View {
         val binding = PostFragmentBinding.inflate(inflater, container, false)
         lifecycle.addObserver(mediaObserver)
+        viewModel.reset()
+        viewModel.edit(null)
         val adapter = PostAdapter(object : PostOnInteractionListener {
             override fun onLike(post: Post) {
                 if (appAuth.authenticated()) {
@@ -132,6 +134,8 @@ class PostFragment : Fragment() {
 
         binding.AddNewPostIB.setOnClickListener {
             if (appAuth.authenticated()) {
+                viewModel.edit(null)
+                viewModel.reset()
                 findNavController().navigate(R.id.action_postFragment_to_postNewFragment)
             } else {
                 AndroidUtils.showSignInDialog(this)
