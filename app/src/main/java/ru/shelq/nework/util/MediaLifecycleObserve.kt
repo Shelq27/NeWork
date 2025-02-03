@@ -19,6 +19,7 @@ class MediaLifecycleObserver : LifecycleEventObserver {
     private var handler = Handler()
     private var playButton: ImageButton? = null
     private var seekBar: SeekBar? = null
+    var pause: Boolean = false
     private lateinit var seekBarListener: SeekBar.OnSeekBarChangeListener
 
     private fun pause() {
@@ -67,28 +68,34 @@ class MediaLifecycleObserver : LifecycleEventObserver {
             mediaPlayer = MediaPlayer()
         }
         try {
-
-
-
-
             if (!mediaPlayer!!.isPlaying) {
-                mediaPlayer!!.reset()
-                try {
-                    mediaPlayer!!.setDataSource(attachment.url)
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-                    mediaPlayer!!.prepareAsync()
-                mediaPlayer!!.setOnPreparedListener {
-                    it.setVolume(15F, 15F)
-                    it.start()
-                    seekBar.progress = 0
-                    seekBar.max = it.duration
+                if (pause) {
+                    mediaPlayer!!.seekTo(mediaPlayer!!.currentPosition)
+                    mediaPlayer!!.start()
+                    playButton.setBackgroundResource(R.drawable.ic_pause_48dp)
+                    pause = false
                     attachment.isPlaying = true
+                } else {
+
+                    mediaPlayer!!.reset()
+                    try {
+                        mediaPlayer!!.setDataSource(attachment.url)
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                    mediaPlayer!!.prepareAsync()
+                    mediaPlayer!!.setOnPreparedListener {
+                        it.setVolume(15F, 15F)
+                        it.start()
+                        playButton.setBackgroundResource(R.drawable.ic_pause_48dp)
+                        seekBar.progress = 0
+                        seekBar.max = it.duration
+                        attachment.isPlaying = true
+                    }
                 }
-                playButton.setBackgroundResource(R.drawable.ic_pause_48dp)
             } else {
                 pause()
+                pause = true
                 attachment.isPlaying = false
             }
             seekbar(attachment)
@@ -111,6 +118,12 @@ class MediaLifecycleObserver : LifecycleEventObserver {
         }
         try {
             if (!mediaPlayer!!.isPlaying) {
+                if (pause) {
+                    mediaPlayer!!.seekTo(mediaPlayer!!.currentPosition)
+                    mediaPlayer!!.start()
+                    playButton.setBackgroundResource(R.drawable.ic_pause_48dp)
+                    pause = false
+                } else{
                 mediaPlayer!!.reset()
                 //загрузка трека
                 try {
@@ -122,12 +135,14 @@ class MediaLifecycleObserver : LifecycleEventObserver {
                 mediaPlayer!!.setOnPreparedListener {
                     it.setVolume(15F, 15F)
                     it.start()
+                    playButton.setBackgroundResource(R.drawable.ic_pause_48dp)
                     seekBar.progress = 0
                     seekBar.max = it.duration
                 }
-                playButton.setBackgroundResource(R.drawable.ic_pause_48dp)
+                }
             } else {
                 pause()
+                pause = true
             }
             seekbar(null)
 
