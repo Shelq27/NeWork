@@ -5,7 +5,6 @@ import kotlinx.coroutines.flow.Flow
 import ru.shelq.nework.dto.Event
 import ru.shelq.nework.dto.Media
 import ru.shelq.nework.dto.MediaUpload
-import ru.shelq.nework.dto.Post
 import ru.shelq.nework.dto.User
 import ru.shelq.nework.enumer.AttachmentType
 

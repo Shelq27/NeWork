@@ -56,21 +56,13 @@ class PostNewFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = PostNewFragmentBinding.inflate(layoutInflater)
         lifecycle.addObserver(mediaObserver)
-
-
         binding.NewPostTTB.setNavigationOnClickListener {
             findNavController().navigateUp()
         }
-
-
-
-
         val postId = arguments?.id ?: -1L
         if (postId != -1L) {
             viewModel.getPostById(postId)
@@ -80,7 +72,6 @@ class PostNewFragment : Fragment() {
                 viewModel.edit(it)
             }
         }
-
         viewModel.edited.observe(viewLifecycleOwner) {
             if (viewModel.edited.value?.id != 0L && viewModel.changed.value != true) {
                 val edited = viewModel.edited.value
@@ -99,7 +90,6 @@ class PostNewFragment : Fragment() {
                 }
             }
         }
-
         val longCoord = arguments?.long ?: -0.0
         val latCoord = arguments?.lat ?: -0.0
 
@@ -166,13 +156,10 @@ class PostNewFragment : Fragment() {
                         binding.videoContainer.videoLoad.visibility = View.GONE
                         binding.imageContainer.photoContainer.visibility = View.VISIBLE
                         if (it.url != null) {
-                            Glide.with(binding.imageContainer.photo)
-                                .load("${it.url}")
+                            Glide.with(binding.imageContainer.photo).load("${it.url}")
                                 .placeholder(R.drawable.ic_downloading_100dp)
-                                .error(R.drawable.ic_error_outline_100dp)
-                                .timeout(10_000)
-                                .centerCrop()
-                                .into(binding.imageContainer.photo)
+                                .error(R.drawable.ic_error_outline_100dp).timeout(10_000)
+                                .centerCrop().into(binding.imageContainer.photo)
                         } else {
                             binding.imageContainer.photo.setImageURI(it.uri)
                         }
@@ -216,9 +203,7 @@ class PostNewFragment : Fragment() {
                 binding.CoordsContainerCL.visibility = View.VISIBLE
                 moveCamera(binding.GeoPostMW, Point(it.lat, it.long))
                 addMarkerOnMap(
-                    requireContext(),
-                    binding.GeoPostMW,
-                    Point(it.lat, it.long)
+                    requireContext(), binding.GeoPostMW, Point(it.lat, it.long)
                 )
             }
         }
@@ -232,9 +217,7 @@ class PostNewFragment : Fragment() {
                 when (it.resultCode) {
                     ImagePicker.RESULT_ERROR -> {
                         Snackbar.make(
-                            binding.root,
-                            ImagePicker.getError(it.data),
-                            Snackbar.LENGTH_LONG
+                            binding.root, ImagePicker.getError(it.data), Snackbar.LENGTH_LONG
                         ).show()
                     }
 
@@ -244,11 +227,6 @@ class PostNewFragment : Fragment() {
                     }
                 }
             }
-
-
-
-
-
 
         binding.imageContainer.removePhoto.setOnClickListener {
             removeAttachment()
@@ -272,10 +250,8 @@ class PostNewFragment : Fragment() {
                 )
             } else {
                 requireContext().contentResolver.openAssetFileDescriptor(
-                    viewModel.attachment.value!!.uri!!,
-                    "r"
-                )
-                    ?.let {
+                    viewModel.attachment.value!!.uri!!, "r"
+                )?.let {
                         mediaObserver.playAudioFromDescriptor(
                             it,
                             binding.audioContainer.audioPlay.audioSB,
@@ -319,16 +295,12 @@ class PostNewFragment : Fragment() {
             when (menuItem.itemId) {
 
                 R.id.take_photo -> {
-                    ImagePicker.with(this)
-                        .crop()
-                        .compress(MAX_SIZE)
-                        .galleryMimeTypes(
+                    ImagePicker.with(this).crop().compress(MAX_SIZE).galleryMimeTypes(
                             arrayOf(
                                 "image/png",
                                 "image/jpeg",
                             )
-                        )
-                        .createIntent(pickPhotoLauncher::launch)
+                        ).createIntent(pickPhotoLauncher::launch)
                     true
                 }
 
@@ -339,7 +311,8 @@ class PostNewFragment : Fragment() {
                 }
 
                 R.id.users -> {
-                    findNavController().navigate(R.id.action_postNewFragment_to_chooseUsersFragment,
+                    findNavController().navigate(
+                        R.id.action_postNewFragment_to_chooseUsersFragment,
                         args = Bundle().apply {
                             longArrayArg = checkedUsers
                         })
@@ -356,7 +329,6 @@ class PostNewFragment : Fragment() {
                 else -> false
             }
         }
-
         binding.NewPostTTB.setOnMenuItemClickListener {
             val content = binding.ContentPostET.text.toString()
             val link = binding.Link.text.toString()

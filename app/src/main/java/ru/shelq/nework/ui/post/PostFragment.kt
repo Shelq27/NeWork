@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -34,7 +35,7 @@ class PostFragment : Fragment() {
 
     @Inject
     lateinit var appAuth: AppAuth
-    val viewModel: PostViewModel by viewModels()
+    val viewModel: PostViewModel by activityViewModels()
     private val mediaObserver = MediaLifecycleObserver()
 
     companion object {
@@ -62,6 +63,7 @@ class PostFragment : Fragment() {
             }
 
             override fun onEdit(post: Post) {
+                viewModel.edit(post)
                 findNavController().navigate(R.id.action_postFragment_to_postNewFragment,
                     Bundle().also {
                         it.id = post.id

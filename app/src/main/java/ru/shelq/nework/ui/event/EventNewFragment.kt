@@ -75,20 +75,16 @@ class EventNewFragment : Fragment() {
         lifecycle.addObserver(mediaObserver)
         binding.NewEventTTB.setNavigationOnClickListener {
             findNavController().navigateUp()
-            viewModel.reset()
         }
-
         val eventId = arguments?.id ?: -1L
         if (eventId != -1L) {
             viewModel.getEventById(eventId)
         }
-
         viewModel.selectedEvent.observe(viewLifecycleOwner) {
             it?.let {
                 viewModel.edit(it)
             }
         }
-
         viewModel.edited.observe(viewLifecycleOwner) {
             if (viewModel.edited.value?.id != 0L && viewModel.changed.value != true) {
                 val edited = viewModel.edited.value
@@ -98,16 +94,16 @@ class EventNewFragment : Fragment() {
                 edited?.attachment?.let {
                     viewModel.changeAttachment(it.url, null, null, it.type)
                 }
-
-                edited?.participantsIds?.let {
+                edited?.speakerIds?.let {
                     viewModel.changeSpeakersNewEvent(it)
+                }
+                edited?.coords?.let {
+                    viewModel.changeCoords(it)
                 }
             }
         }
-
         val longCoord = arguments?.long ?: -0.0
         val latCoord = arguments?.lat ?: -0.0
-
         if (longCoord != -0.0 && latCoord != -0.0) {
             val point = Point(latCoord, longCoord)
             setMarker(point)
@@ -115,24 +111,6 @@ class EventNewFragment : Fragment() {
             viewModel.changeCoords(Coordinates(latCoord, longCoord))
         }
 
-
-        val pickPhotoLauncher =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-                when (it.resultCode) {
-                    ImagePicker.RESULT_ERROR -> {
-                        Snackbar.make(
-                            binding.root,
-                            ImagePicker.getError(it.data),
-                            Snackbar.LENGTH_LONG
-                        ).show()
-                    }
-
-                    Activity.RESULT_OK -> {
-                        val uri: Uri? = it.data?.data
-                        viewModel.changeAttachment(null, uri, uri?.toFile(), AttachmentType.IMAGE)
-                    }
-                }
-            }
         val resultLauncher =
             registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
                 try {
@@ -247,6 +225,23 @@ class EventNewFragment : Fragment() {
         }
         binding.ContentEventET.requestFocus()
 
+        val pickPhotoLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+                when (it.resultCode) {
+                    ImagePicker.RESULT_ERROR -> {
+                        Snackbar.make(
+                            binding.root,
+                            ImagePicker.getError(it.data),
+                            Snackbar.LENGTH_LONG
+                        ).show()
+                    }
+
+                    Activity.RESULT_OK -> {
+                        val uri: Uri? = it.data?.data
+                        viewModel.changeAttachment(null, uri, uri?.toFile(), AttachmentType.IMAGE)
+                    }
+                }
+            }
 
         binding.imageContainer.removePhoto.setOnClickListener {
             removeAttachment()
@@ -431,7 +426,7 @@ class EventNewFragment : Fragment() {
             true
         }
         viewModel.eventCreated.observe(viewLifecycleOwner) {
-            findNavController().navigate(R.id.action_eventNewFragment_to_eventFragment)
+            findNavController().navigate(R.id.eventFragment)
         }
         return binding.root
     }

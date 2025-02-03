@@ -175,16 +175,16 @@ open class PostViewModel @Inject constructor(
                 coords = _coords.value,
                 mentionIds = _mentionedNewPost.value!!
             )
+
             _postCreated.value = Unit
+
             viewModelScope.launch {
                 try {
                     when (_attachment.value) {
                         null -> {
                             repository.save(newPost.copy(attachment = null))
                         }
-
                         else -> {
-
                             if (_attachment.value?.url != null) {
                                 repository.save(newPost)
                             } else {
@@ -206,9 +206,7 @@ open class PostViewModel @Inject constructor(
             }
         }
         clearEdit()
-        reset()
     }
-
     fun changeLink(link: String) {
         val text = link.trim()
         if (edited.value?.link == text) {
@@ -311,6 +309,7 @@ open class PostViewModel @Inject constructor(
     }
 
     fun reset() {
+//        edit(post = null)
         _changed.value = false
         selectedPost.value = null
     }

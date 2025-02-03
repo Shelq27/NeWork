@@ -2,7 +2,6 @@ package ru.shelq.nework.repository
 
 import androidx.paging.PagingData
 import kotlinx.coroutines.flow.Flow
-import ru.shelq.nework.dto.Jobs
 import ru.shelq.nework.dto.Media
 import ru.shelq.nework.dto.MediaUpload
 import ru.shelq.nework.dto.Post

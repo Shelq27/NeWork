@@ -185,6 +185,7 @@ class EventViewModel @Inject constructor(
                 type = _eventType.value!!
             )
             _eventCreated.value = Unit
+
             viewModelScope.launch {
                 try {
                     when (_attachment.value) {
@@ -214,7 +215,6 @@ class EventViewModel @Inject constructor(
             }
         }
         clearEdit()
-        reset()
     }
 
     fun edit(event: Event?) {
@@ -238,7 +238,6 @@ class EventViewModel @Inject constructor(
 
     fun reset() {
         _changed.value = false
-        edited.value = empty
         selectedEvent.value = null
     }
 

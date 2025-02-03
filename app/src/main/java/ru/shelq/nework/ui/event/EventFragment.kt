@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -24,9 +24,8 @@ import ru.shelq.nework.auth.AppAuth
 import ru.shelq.nework.databinding.EventFragmentBinding
 import ru.shelq.nework.dto.Event
 import ru.shelq.nework.util.AndroidUtils
-import ru.shelq.nework.util.MediaLifecycleObserver
-import ru.shelq.nework.util.StringArg
 import ru.shelq.nework.util.IdArg
+import ru.shelq.nework.util.MediaLifecycleObserver
 import ru.shelq.nework.viewmodel.EventViewModel
 import javax.inject.Inject
 
@@ -37,10 +36,9 @@ class EventFragment : Fragment() {
     @Inject
     lateinit var appAuth: AppAuth
     private val mediaObserver = MediaLifecycleObserver()
-    val viewModel: EventViewModel by viewModels()
+    val viewModel: EventViewModel by activityViewModels()
 
     companion object {
-        var Bundle.text by StringArg
         var Bundle.id by IdArg
 
     }
@@ -66,10 +64,10 @@ class EventFragment : Fragment() {
             }
 
             override fun onEdit(event: Event) {
-                findNavController().navigate(R.id.action_eventFragment_to_eventNewFragment,
-                    Bundle().apply{
-                        id = event.id
-                    })
+                viewModel.edit(event)
+                findNavController().navigate(
+                    R.id.action_eventFragment_to_eventNewFragment,
+                    Bundle().also { it.id = event.id })
             }
 
             override fun onOpen(event: Event) {
