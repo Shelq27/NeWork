@@ -20,19 +20,26 @@ import com.bumptech.glide.Glide
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
+import com.yandex.mapkit.MapKitFactory
+import com.yandex.mapkit.geometry.Point
 import dagger.hilt.android.AndroidEntryPoint
 import ru.shelq.nework.R
 import ru.shelq.nework.databinding.EventBottomSheetDialogBinding
 import ru.shelq.nework.databinding.EventNewFragmentBinding
 import ru.shelq.nework.dto.Attachment
+import ru.shelq.nework.dto.Coordinates
 import ru.shelq.nework.enumer.AttachmentType
 import ru.shelq.nework.enumer.EventType
 import ru.shelq.nework.ui.post.ChooseMentionedFragment.Companion.longArrayArg
+import ru.shelq.nework.ui.post.PostMapFragment.Companion.lat
+import ru.shelq.nework.ui.post.PostMapFragment.Companion.long
 import ru.shelq.nework.ui.post.PostNewFragment
 import ru.shelq.nework.util.AndroidUtils
+import ru.shelq.nework.util.AndroidUtils.addMarkerOnMap
 import ru.shelq.nework.util.AndroidUtils.calendarToUTCDate
 import ru.shelq.nework.util.AndroidUtils.dateUTCToCalendar
 import ru.shelq.nework.util.AndroidUtils.getFile
+import ru.shelq.nework.util.AndroidUtils.moveCamera
 import ru.shelq.nework.util.MediaLifecycleObserver
 import ru.shelq.nework.util.IdArg
 import ru.shelq.nework.viewmodel.EventViewModel
@@ -53,7 +60,7 @@ class EventNewFragment : Fragment() {
     private val viewModel: EventViewModel by viewModels(ownerProducer = ::requireActivity)
     private val mediaObserver = MediaLifecycleObserver()
     private lateinit var checkedUsers: LongArray
-
+    private lateinit var binding: EventNewFragmentBinding
 
     private fun removeAttachment() {
         viewModel.changeAttachment(null, null, null, null)
@@ -64,7 +71,7 @@ class EventNewFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val binding = EventNewFragmentBinding.inflate(layoutInflater)
+        binding = EventNewFragmentBinding.inflate(layoutInflater)
         lifecycle.addObserver(mediaObserver)
         binding.NewEventTTB.setNavigationOnClickListener {
             findNavController().navigateUp()
@@ -96,6 +103,16 @@ class EventNewFragment : Fragment() {
                     viewModel.changeSpeakersNewEvent(it)
                 }
             }
+        }
+
+        val longCoord = arguments?.long ?: -0.0
+        val latCoord = arguments?.lat ?: -0.0
+
+        if (longCoord != -0.0 && latCoord != -0.0) {
+            val point = Point(latCoord, longCoord)
+            setMarker(point)
+            moveToMarker(point)
+            viewModel.changeCoords(Coordinates(latCoord, longCoord))
         }
 
 
@@ -211,6 +228,23 @@ class EventNewFragment : Fragment() {
         viewModel.speakersNewEvent.observe(viewLifecycleOwner) {
             checkedUsers = it.toLongArray()
         }
+        viewModel.coords.observe(viewLifecycleOwner) {
+            binding.GeoEventMW.map.mapObjects.clear()
+            if (it == null) {
+                binding.CoordsContainerCL.visibility = View.GONE
+            } else {
+                binding.CoordsContainerCL.visibility = View.VISIBLE
+                moveCamera(binding.GeoEventMW, Point(it.lat, it.long))
+                addMarkerOnMap(
+                    requireContext(),
+                    binding.GeoEventMW,
+                    Point(it.lat, it.long)
+                )
+            }
+        }
+        binding.RemoveCoords.setOnClickListener {
+            viewModel.changeCoords(null)
+        }
         binding.ContentEventET.requestFocus()
 
 
@@ -309,6 +343,9 @@ class EventNewFragment : Fragment() {
                 }
 
                 R.id.geolocation -> {
+                    findNavController().navigate(
+                        R.id.action_eventNewFragment_to_eventMapFragment
+                    )
                     true
                 }
 
@@ -394,8 +431,30 @@ class EventNewFragment : Fragment() {
             true
         }
         viewModel.eventCreated.observe(viewLifecycleOwner) {
-            findNavController().navigateUp()
+            findNavController().navigate(R.id.action_eventNewFragment_to_eventFragment)
         }
         return binding.root
+    }
+
+    // Отображаем карты перед тем моментом, когда активити с картой станет видимой пользователю:
+    override fun onStart() {
+        super.onStart()
+        MapKitFactory.getInstance().onStart()
+        binding.GeoEventMW.onStart()
+    }
+
+    // Останавливаем обработку карты, когда активити с картой становится невидимым для пользователя:
+    override fun onStop() {
+        binding.GeoEventMW.onStop()
+        MapKitFactory.getInstance().onStop()
+        super.onStop()
+    }
+
+    private fun setMarker(point: Point) {
+        addMarkerOnMap(requireContext(), binding.GeoEventMW, point)
+    }
+
+    private fun moveToMarker(point: Point) {
+        moveCamera(binding.GeoEventMW, point)
     }
 }

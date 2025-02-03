@@ -381,4 +381,8 @@ class EventViewModel @Inject constructor(
 
         }
     }
+    fun changeCoords(coords: Coordinates?) {
+        _coords.value = coords
+        _changed.value = true
+    }
 }

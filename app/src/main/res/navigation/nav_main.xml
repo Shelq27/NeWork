@@ -91,7 +91,7 @@
             android:id="@+id/postMapFragment"
             android:name="ru.shelq.nework.ui.post.PostMapFragment"
             android:label="post_map_fragment"
-            tools:layout="@layout/post_map_fragment" >
+            tools:layout="@layout/map_fragment" >
             <action
                 android:id="@+id/action_postMapFragment_to_postNewFragment"
                 app:destination="@id/postNewFragment" />
@@ -123,6 +123,12 @@
             <action
                 android:id="@+id/action_eventNewFragment_to_chooseSpeakersFragment"
                 app:destination="@id/chooseSpeakersFragment" />
+            <action
+                android:id="@+id/action_eventNewFragment_to_eventMapFragment"
+                app:destination="@id/eventMapFragment" />
+            <action
+                android:id="@+id/action_eventNewFragment_to_eventFragment"
+                app:destination="@id/eventFragment" />
         </fragment>
         <fragment
             android:id="@+id/eventDetailsFragment"
@@ -164,6 +170,16 @@
             android:label="ChooseSpeakersFragment"
             tools:layout="@layout/choose_users_fragment"
             />
+        <fragment
+            android:id="@+id/eventMapFragment"
+            android:name="ru.shelq.nework.ui.event.EventMapFragment"
+            android:label="EventMapFragment"
+            tools:layout="@layout/map_fragment"
+            >
+            <action
+                android:id="@+id/action_eventMapFragment_to_eventNewFragment"
+                app:destination="@id/eventNewFragment" />
+        </fragment>
     </navigation>
     <navigation
         android:id="@+id/userNavigation"

@@ -18,7 +18,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:src="@drawable/ic_check_24dp"
         android:contentDescription="@string/desc_icon_button_save" />
@@ -32,7 +32,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed"
-        android:src="@drawable/ic_add_24dp"
+        android:src="@drawable/ic_plus_zoom_24dp"
         android:contentDescription="@string/desc_button_plus" />
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/minus"
@@ -50,8 +50,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
+        android:contentDescription="@string/desc_button_location"
+        android:src="@drawable/ic_location_24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:src="@drawable/ic_location_24dp"
-        android:contentDescription="@string/desc_button_location" />
+        app:layout_constraintTop_toBottomOf="@id/minus" />
 </androidx.constraintlayout.widget.ConstraintLayout>

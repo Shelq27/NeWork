@@ -1,4 +1,4 @@
-package ru.shelq.nework.ui.post
+package ru.shelq.nework.ui.event
 
 import android.Manifest
 import android.os.Bundle
@@ -20,14 +20,12 @@ import com.yandex.mapkit.mapview.MapView
 import com.yandex.mapkit.user_location.UserLocationLayer
 import com.yandex.mapkit.user_location.UserLocationObjectListener
 import com.yandex.mapkit.user_location.UserLocationView
-import dagger.hilt.android.AndroidEntryPoint
 import ru.shelq.nework.R
 import ru.shelq.nework.databinding.MapFragmentBinding
 import ru.shelq.nework.util.AndroidUtils.addMarkerOnMap
 import ru.shelq.nework.util.DoubleArg
 
-@AndroidEntryPoint
-class PostMapFragment : Fragment() {
+class EventMapFragment: Fragment() {
     companion object {
         var Bundle.lat: Double by DoubleArg
         var Bundle.long: Double by DoubleArg
@@ -137,7 +135,7 @@ class PostMapFragment : Fragment() {
         }
         binding.save.setOnClickListener {
             findNavController().navigate(
-                R.id.action_postMapFragment_to_postNewFragment,
+                R.id.action_eventMapFragment_to_eventNewFragment,
                 args = Bundle().apply {
                     lat = mark.latitude
                     long = mark.longitude
