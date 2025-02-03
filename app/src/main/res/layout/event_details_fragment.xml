@@ -234,7 +234,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/element_spacing"
                 android:orientation="horizontal"
-                app:layout_constraintBottom_toTopOf="@id/GeoEventIV"
+                app:layout_constraintBottom_toTopOf="@id/GeoEventMW"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/TitleParticipantTV">
@@ -246,25 +246,25 @@
                     android:layout_height="@dimen/posts_avatar_size"
                     android:checkable="true"
                     tools:text="10" />
+
                 <include
                     android:id="@+id/list_avatars_participant"
                     layout="@layout/avatars_multiple" />
             </LinearLayout>
 
-            <ImageView
-                android:id="@+id/GeoEventIV"
+            <com.yandex.mapkit.mapview.MapView
+                android:id="@+id/GeoEventMW"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/element_spacing"
-                android:adjustViewBounds="true"
-                android:contentDescription="@string/desc_screen_geo_location"
+                android:layout_height="@dimen/max_size_attachment"
+                android:layout_marginTop="@dimen/common_spacing"
+                android:clickable="false"
+                android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@id/TitleLinkTV"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/GroupParticipantLL"
                 app:layout_constraintVertical_chainStyle="packed"
-                tools:layout_height="200dp"
-                tools:src="@drawable/ic_location_pin_24dp" />
+                tools:visibility="visible" />
 
             <TextView
                 android:id="@+id/TitleLinkTV"
@@ -277,7 +277,7 @@
                 app:layout_constraintBottom_toTopOf="@id/LinkPostTV"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/GeoEventIV" />
+                app:layout_constraintTop_toBottomOf="@id/GeoEventMW" />
 
 
             <TextView

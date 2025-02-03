@@ -67,17 +67,17 @@ class PostNewFragment : Fragment() {
 
         binding.NewPostTTB.setNavigationOnClickListener {
             findNavController().navigateUp()
-            viewModel.reset()
         }
+
         val postId = arguments?.id ?: -1L
-
-
         if (postId != -1L) {
             viewModel.getPostById(postId)
         }
 
         val longCoord = arguments?.long ?: -0.0
+        println(longCoord)
         val latCoord = arguments?.lat ?: -0.0
+
         if (longCoord != -0.0 && latCoord != -0.0) {
             val point = Point(latCoord, longCoord)
             setMarker(point)
@@ -90,7 +90,9 @@ class PostNewFragment : Fragment() {
                 viewModel.edit(it)
             }
         }
+        println(viewModel.edited.value?.id)
         viewModel.edited.observe(viewLifecycleOwner) {
+            println( "Wath  = " + viewModel.edited.value?.id)
             if (viewModel.edited.value?.id != 0L && viewModel.changed.value != true) {
                 val edited = viewModel.edited.value
                 binding.ContentPostET.setText(edited?.content)
@@ -214,15 +216,17 @@ class PostNewFragment : Fragment() {
                 binding.CoordsContainerCL.visibility = View.GONE
             } else {
                 binding.CoordsContainerCL.visibility = View.VISIBLE
-                AndroidUtils.moveCamera(binding.GeoPostMW, Point(it.lat, it.long))
-                AndroidUtils.addMarkerOnMap(
+                moveCamera(binding.GeoPostMW, Point(it.lat, it.long))
+                addMarkerOnMap(
                     requireContext(),
                     binding.GeoPostMW,
                     Point(it.lat, it.long)
                 )
             }
         }
-
+        binding.RemoveCoords.setOnClickListener {
+            viewModel.changeCoords(null)
+        }
         binding.ContentPostET.requestFocus()
 
         val pickPhotoLauncher =

@@ -13,6 +13,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
+import com.yandex.mapkit.MapKitFactory
+import com.yandex.mapkit.geometry.Point
 import dagger.hilt.android.AndroidEntryPoint
 import ru.shelq.nework.R
 import ru.shelq.nework.auth.AppAuth
@@ -20,7 +22,9 @@ import ru.shelq.nework.databinding.EventDetailsFragmentBinding
 import ru.shelq.nework.dto.User
 import ru.shelq.nework.enumer.AttachmentType
 import ru.shelq.nework.util.AndroidUtils
+import ru.shelq.nework.util.AndroidUtils.addMarkerOnMap
 import ru.shelq.nework.util.AndroidUtils.loadImgCircle
+import ru.shelq.nework.util.AndroidUtils.moveCamera
 import ru.shelq.nework.util.AndroidUtils.share
 import ru.shelq.nework.util.MediaLifecycleObserver
 import ru.shelq.nework.util.IdArg
@@ -109,6 +113,16 @@ class EventDetailsFragment : Fragment() {
                     findNavController().navigate(R.id.action_eventDetailsFragment_to_eventSpeakersFragment)
                 }
 
+                if (event.coords != null) {
+                    val point = Point(event.coords.lat, event.coords.long)
+                    binding.GeoEventMW.visibility = View.VISIBLE
+                    moveToMarker(point)// Перемещаем камеру в определенную область на карте
+                    setMarker(point)// Устанавливаем маркер на карте
+
+                } else {
+                    binding.GeoEventMW.visibility = View.GONE
+                }
+
 
                 binding.apply {
 
@@ -132,6 +146,7 @@ class EventDetailsFragment : Fragment() {
                     }
                     AvatarIV.loadImgCircle(event.authorAvatar)
                     AuthorTV.text = event.author
+
                     if (event.authorJob != null) {
                         NameJobTV.text = event.authorJob
                     } else {
@@ -150,6 +165,7 @@ class EventDetailsFragment : Fragment() {
                     ParticipantB.run {
                         text = event.participantsIds.size.toString()
                         isChecked = event.participatedByMe
+
                         setOnClickListener {
                             if (auth.authenticated()) {
                                 viewModel.participateByEvent(event)
@@ -240,6 +256,7 @@ class EventDetailsFragment : Fragment() {
                 }
             }
         }
+
         viewModel.likersLoaded.observe(viewLifecycleOwner) {
             viewModel.likers.value?.forEach { user ->
                 likerNumber++
@@ -268,6 +285,7 @@ class EventDetailsFragment : Fragment() {
                 }
             }
         }
+
         viewModel.dataState.observe(viewLifecycleOwner) { state ->
             if (state.error) {
                 Snackbar.make(binding.root, R.string.error_loading, Snackbar.LENGTH_LONG)
@@ -277,6 +295,28 @@ class EventDetailsFragment : Fragment() {
         }
         return binding.root
     }
+
+    override fun onStart() {
+        super.onStart()
+        MapKitFactory.getInstance().onStart()
+        binding.GeoEventMW.onStart()
+    }
+
+    // Останавливаем обработку карты, когда активити с картой становится невидимым для пользователя:
+    override fun onStop() {
+        binding.GeoEventMW.onStop()
+        MapKitFactory.getInstance().onStop()
+        super.onStop()
+    }
+
+    private fun setMarker(point: Point) {
+        addMarkerOnMap(requireContext(), binding.GeoEventMW, point)
+    }
+
+    private fun moveToMarker(point: Point) {
+        moveCamera(binding.GeoEventMW, point)
+    }
+
 
     private fun clearLikersAvatars() {
         likerNumber = -1

@@ -98,6 +98,7 @@
                     android:visibility="gone"
                     tools:visibility="visible" />
             </FrameLayout>
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/CoordsContainerCL"
                 android:layout_width="match_parent"
@@ -112,7 +113,7 @@
                     app:layout_constraintStart_toStartOf="parent">
                 </com.yandex.mapkit.mapview.MapView>
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/remove_coords"
+                    android:id="@+id/RemoveCoords"
                     android:layout_width="@dimen/button_remove_width"
                     android:layout_height="@dimen/button_remove_height"
                     android:text="@string/text_button_remove"

@@ -62,14 +62,12 @@ class PostDetailsFragment : Fragment() {
         binding = PostDetailsFragmentBinding.inflate(inflater, container, false)
         lifecycle.addObserver(mediaObserver)
         val postId = arguments?.id ?: -1
-
-
-
         viewModel.getPostById(postId)
 
         viewModel.selectedPost.observe(viewLifecycleOwner) { post ->
             clearLikersAvatars()
             clearMentionAvatars()
+
 
             if (post != null) {
                 if (post.likeOwnerIds.isNotEmpty()) {
@@ -97,15 +95,7 @@ class PostDetailsFragment : Fragment() {
                     findNavController().navigate(R.id.action_postDetailsFragment_to_postMentionedFragment)
                 }
 
-                if (post.coords != null) {
-                    val point = Point(post.coords.lat, post.coords.long)
-                    binding.GeoPostMW.visibility = View.VISIBLE
-                    moveToMarker(point)// Перемещаем камеру в определенную область на карте
-                    setMarker(point)// Устанавливаем маркер на карте
 
-                } else {
-                    binding.GeoPostMW.visibility = View.GONE
-                }
 
 
 
@@ -118,8 +108,10 @@ class PostDetailsFragment : Fragment() {
                         NameJobTV.text = getText(R.string.looking_for_a_job)
                     }
                     PostDetailsTBL.setNavigationOnClickListener {
+                        viewModel.reset()
                         findNavController().navigateUp()
                     }
+
                     PostDetailsTBL.setOnMenuItemClickListener { menuItem ->
                         when (menuItem.itemId) {
                             R.id.share -> {
@@ -136,25 +128,42 @@ class PostDetailsFragment : Fragment() {
                     DatePublicationPostTV.text =
                         AndroidUtils.dateFormatToText(post.published, root.context)
                     TextPostTV.text = post.content
+
                     if (post.link != null) {
                         LinkPostTV.visibility = View.VISIBLE
                         LinkPostTV.text = post.link
                     } else {
                         LinkPostTV.visibility = View.GONE
                     }
-                    MentionedB.isChecked = post.mentionedMe
-                    MentionedB.text = post.mentionIds.size.toString()
-                    LikeIB.text = post.likeOwnerIds.size.toString()
-                    LikeIB.isChecked = post.likedByMe
-                    LikeIB.setOnClickListener {
-                        if (auth.authenticated()) {
-                            viewModel.likeByPost(post)
-                        } else {
-                            LikeIB.isChecked = post.likedByMe
-                            AndroidUtils.showSignInDialog(this@PostDetailsFragment)
+
+                    MentionedB.run {
+                        text = post.mentionIds.size.toString()
+                        isChecked = post.mentionedMe
+                    }
+
+
+                    LikeIB.run {
+                        text = post.likeOwnerIds.size.toString()
+                        isChecked = post.likedByMe
+                        setOnClickListener {
+                            if (auth.authenticated()) {
+                                viewModel.likeByPost(post)
+                            } else {
+                                isChecked = post.likedByMe
+                                AndroidUtils.showSignInDialog(this@PostDetailsFragment)
+                            }
                         }
                     }
 
+                    if (post.coords != null) {
+                        val point = Point(post.coords.lat, post.coords.long)
+                        GeoPostMW.visibility = View.VISIBLE
+                        moveToMarker(point)// Перемещаем камеру в определенную область на карте
+                        setMarker(point)// Устанавливаем маркер на карте
+
+                    } else {
+                        GeoPostMW.visibility = View.GONE
+                    }
 
                     if (post.attachment?.url != null) {
                         imageAttachment.visibility = View.GONE
@@ -258,6 +267,7 @@ class PostDetailsFragment : Fragment() {
 
         return binding.root
     }
+
     // Отображаем карты перед тем моментом, когда активити с картой станет видимой пользователю:
     override fun onStart() {
         super.onStart()

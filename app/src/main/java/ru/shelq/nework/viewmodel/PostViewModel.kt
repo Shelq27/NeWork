@@ -94,11 +94,10 @@ open class PostViewModel @Inject constructor(
     val postCreated: LiveData<Unit>
         get() = _postCreated
 
-//    Для карт
+    //    Для карт
     private val _coords = MutableLiveData<Coordinates?>()
     val coords: LiveData<Coordinates?>
         get() = _coords
-
 
 
     private val _mentioned = MutableLiveData<List<User>>(emptyList())
@@ -108,7 +107,6 @@ open class PostViewModel @Inject constructor(
     private val _mentionedNewPost = MutableLiveData<List<Long>>(emptyList())
     val mentionedNewPost: LiveData<List<Long>>
         get() = _mentionedNewPost
-
 
 
     private val _mentionedLoaded = SingleLiveEvent<Unit>()
@@ -208,6 +206,7 @@ open class PostViewModel @Inject constructor(
             }
         }
         clearEdit()
+        reset()
     }
 
     fun changeLink(link: String) {
@@ -244,12 +243,13 @@ open class PostViewModel @Inject constructor(
         }
     }
 
-     fun clearEdit() {
+    fun clearEdit() {
         edited.value = empty
         _attachment.value = null
         _coords.value = null
         _mentionedNewPost.value = emptyList()
         _changed.value = false
+
 
     }
 
@@ -312,6 +312,7 @@ open class PostViewModel @Inject constructor(
 
     fun reset() {
         _changed.value = false
+        edited.value = empty
         selectedPost.value = null
     }
 

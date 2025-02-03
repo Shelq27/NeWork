@@ -191,6 +191,7 @@ class EventViewModel @Inject constructor(
                         null -> {
                             repository.save(newEvent.copy(attachment = null))
                         }
+
                         else -> {
                             if (_attachment.value?.url != null) {
                                 repository.save(newEvent)
@@ -213,7 +214,9 @@ class EventViewModel @Inject constructor(
             }
         }
         clearEdit()
+        reset()
     }
+
     fun edit(event: Event?) {
         if (event != null) {
             edited.value = event
@@ -235,6 +238,7 @@ class EventViewModel @Inject constructor(
 
     fun reset() {
         _changed.value = false
+        edited.value = empty
         selectedEvent.value = null
     }
 
@@ -323,6 +327,7 @@ class EventViewModel @Inject constructor(
         _speakersNewEvent.value = speakersNewEvent.value?.filter { it != user.id }
         _changed.value = true
     }
+
     fun getLikers(event: Event) = viewModelScope.launch {
         try {
             _dataState.value = FeedModelState(loading = true)
@@ -347,6 +352,7 @@ class EventViewModel @Inject constructor(
             _dataState.value = FeedModelState(error = true)
         }
     }
+
     fun participateByEvent(event: Event) = viewModelScope.launch {
         try {
             _dataState.value = FeedModelState(loading = true)
@@ -360,6 +366,7 @@ class EventViewModel @Inject constructor(
             _dataState.value = FeedModelState(error = true)
         }
     }
+
     fun getParticipants(event: Event) = viewModelScope.launch {
         try {
             _dataState.value = FeedModelState(loading = true)

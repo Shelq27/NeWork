@@ -64,7 +64,7 @@ class PostFragment : Fragment() {
 
             override fun onEdit(post: Post) {
                 findNavController().navigate(R.id.action_postFragment_to_postNewFragment,
-                    Bundle().apply{
+                    Bundle().apply {
                         id = post.id
                     })
             }
@@ -138,6 +138,7 @@ class PostFragment : Fragment() {
         }
 
         binding.SwipeRefresh.setOnRefreshListener(adapter::refresh)
+
         return binding.root
     }
 
