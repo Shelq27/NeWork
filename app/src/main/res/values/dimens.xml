@@ -17,6 +17,7 @@
     <dimen name="size_enter_date_height">60dp</dimen>
     <dimen name="button_remove_width">120dp</dimen>
     <dimen name="button_remove_height">50dp</dimen>
+    <dimen name="space_toolbar_details">64dp</dimen>
 
 
 </resources>

@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">NeWork</string>
     <string name="title_reg_button">Registration</string>
     <string name="title_reg">Registration</string>
@@ -40,20 +40,20 @@
     <string name="text_menu_item_take_a_photo">Take a Photo</string>
     <string name="text_button_remove">Remove</string>
     <string name="title_new_event">New Event</string>
-    <string name="desc_button_remove">Button Remove</string>
+    <string name="desc_button_remove" tools:keep="@string/desc_button_remove">Button Remove</string>
     <string name="hint_date_event">Date</string>
-    <string name="desc_icon_calendar">Icon Calendar</string>
+    <string name="desc_icon_calendar" tools:keep="@string/desc_icon_calendar">Icon Calendar</string>
     <string name="title_type_event">Type</string>
     <string name="text_radio_button_online" translatable="false">Online</string>
     <string name="text_radio_button_offline" translatable="false">Offline</string>
     <string name="text_type_event_online" translatable="false">Online</string>
     <string name="desc_icon_button_delete">Icon Button Delete</string>
-    <string name="desc_icon_profile">Icon Profile</string>
-    <string name="profile_item_menu">Profile</string>
+    <string name="desc_icon_profile" tools:keep="@string/desc_icon_profile">Icon Profile</string>
+    <string name="profile_item_menu" tools:keep="@string/profile_item_menu">Profile</string>
     <string name="post_geolocation_item_menu">Geolocation</string>
     <string name="share_item_menu">Share</string>
-    <string name="title_tab_item_user_details_first">Wall</string>
-    <string name="title_tab_item_user_details_second">Jobs</string>
+    <string name="title_tab_item_user_details_first" tools:keep="@string/title_tab_item_user_details_first">Wall</string>
+    <string name="title_tab_item_user_details_second" tools:keep="@string/title_tab_item_user_details_second">Jobs</string>
     <string name="title_new_job">New job</string>
     <string name="hint_position_edit_text">Position</string>
     <string name="name_create_job_button">Create</string>
@@ -71,7 +71,7 @@
     <string name="hint_password_repeat_edit_text">Repeat password</string>
     <string name="sign_in_dialog">Sign in to proceed</string>
     <string name="dialog_cancel">Cancel</string>
-    <string name="sign_out_dialog">Are you sure?</string>
+    <string name="sign_out_dialog" tools:keep="@string/sign_out_dialog">Are you sure?</string>
     <string name="authentication">Authentication</string>
     <string name="don_t_have_account">Don\'t have an account? Register</string>
     <string name="password_empty">Password cannot empty</string>
@@ -88,7 +88,7 @@
     <string name="mm_dd_yyyy" translatable="false">mm/dd/yyyy</string>
     <string name="start_date">Start date</string>
     <string name="end_date">End Date\n</string>
-    <string name="ok" translatable="false">Ok</string>
+    <string name="ok" translatable="false" tools:ignore="ButtonCase">Ok</string>
     <string name="cancel">Cancel</string>
     <string name="looking_for_a_job">Looking for a job</string>
     <string name="need_permission">Location permission is required</string>
@@ -96,4 +96,7 @@
     <string name="desc_button_minus">Button minus zoom</string>
     <string name="desc_button_location">Button get location</string>
     <string name="toast_select_date_event">Select date event</string>
+    <string name="desc_button_job">Button job</string>
+    <string name="desc_tab_layout">container tab post|job</string>
+    <string name="login_button">Login</string>
 </resources>

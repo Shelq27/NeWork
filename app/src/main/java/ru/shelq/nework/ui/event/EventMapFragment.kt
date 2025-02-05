@@ -22,10 +22,8 @@ import com.yandex.mapkit.user_location.UserLocationObjectListener
 import com.yandex.mapkit.user_location.UserLocationView
 import ru.shelq.nework.R
 import ru.shelq.nework.databinding.MapFragmentBinding
-import ru.shelq.nework.ui.event.EventNewFragment.Companion.id
 import ru.shelq.nework.ui.post.PostDetailsFragment.Companion.saveLat
 import ru.shelq.nework.ui.post.PostDetailsFragment.Companion.saveLong
-import ru.shelq.nework.ui.post.PostMapFragment.Companion.id
 import ru.shelq.nework.util.AndroidUtils.addMarkerOnMap
 import ru.shelq.nework.util.AndroidUtils.moveCamera
 import ru.shelq.nework.util.DoubleArg

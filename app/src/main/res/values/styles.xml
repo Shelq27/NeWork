@@ -1,6 +1,6 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="Widget.Theme.NeWork.ButtonBar.Fullscreen" parent="">
+    <style name="Widget.Theme.NeWork.ButtonBar.Fullscreen" parent="" tools:keep="@style/Widget_Theme_NeWork_ButtonBar_Fullscreen">
         <item name="android:background">@color/black_overlay</item>
         <item name="android:buttonBarStyle">?android:attr/buttonBarStyle</item>
     </style>

@@ -12,12 +12,14 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import ru.shelq.nework.api.ApiService
 import ru.shelq.nework.auth.AppAuth
 import ru.shelq.nework.dao.PostDao
 import ru.shelq.nework.dao.WallRemoteKeyDao
 import ru.shelq.nework.db.AppDb
-import ru.shelq.nework.dto.Jobs
+import ru.shelq.nework.dto.Attachment
 import ru.shelq.nework.dto.Media
 import ru.shelq.nework.dto.MediaUpload
 import ru.shelq.nework.dto.Post
@@ -81,8 +83,8 @@ class PostRepositoryUserWallImpl @Inject constructor(
 
     override suspend fun getLikers(post: Post): List<User> {
         var likers = emptyList<User>()
-        if(post.likeOwnerIds.isNotEmpty()){
-            post.likeOwnerIds.forEach{
+        if (post.likeOwnerIds.isNotEmpty()) {
+            post.likeOwnerIds.forEach {
                 likers = likers.plus(getUser(it))
             }
         }
@@ -226,12 +228,37 @@ class PostRepositoryUserWallImpl @Inject constructor(
         upload: MediaUpload,
         attachmentType: AttachmentType
     ) {
-        TODO("Not yet implemented")
+        try {
+            val media = upload(upload)
+            val postWithAttachment = post.copy(attachment = Attachment(media.url, attachmentType))
+            save(postWithAttachment)
+        } catch (e: AppError) {
+            throw e
+        } catch (e: IOException) {
+            throw NetworkError
+        } catch (e: Exception) {
+            throw UnknownError
+        }
 
     }
 
     override suspend fun upload(upload: MediaUpload): Media {
-        TODO("Not yet implemented")
+        try {
+            val media = MultipartBody.Part.createFormData(
+                "file", upload.file.name, upload.file.asRequestBody()
+            )
+
+            val response = apiService.upload(media)
+            if (!response.isSuccessful) {
+                throw ApiError(response.code(), response.message())
+            }
+
+            return response.body() ?: throw ApiError(response.code(), response.message())
+        } catch (e: IOException) {
+            throw NetworkError
+        } catch (e: Exception) {
+            throw UnknownError
+        }
     }
 
 
@@ -246,7 +273,7 @@ class PostRepositoryUserWallImpl @Inject constructor(
     }
 
 
-    fun isMyWall(): Boolean {
+    private fun isMyWall(): Boolean {
         return userId == auth.authState.value.id
     }
 }

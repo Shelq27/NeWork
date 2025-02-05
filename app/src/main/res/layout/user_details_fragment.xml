@@ -9,8 +9,7 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/UserDetailsTB"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fitsSystemWindows="true">
+        android:layout_height="wrap_content">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/collapsingToolbar"
@@ -28,6 +27,7 @@
 
             <ImageView
                 android:id="@+id/UserAvatarIV"
+                android:layout_marginTop="@dimen/space_toolbar_details"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fitsSystemWindows="true"
@@ -39,6 +39,7 @@
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar"
                 style="@style/Toolbar"
+                app:menu="@menu/menu_user_details_top_bar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin" />
@@ -49,8 +50,8 @@
             android:id="@+id/UserDetailsTL"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/collapsingToolbar">
-        </com.google.android.material.tabs.TabLayout>
+            android:contentDescription="@string/desc_tab_layout"
+            app:layout_constraintTop_toBottomOf="@id/collapsingToolbar" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.viewpager2.widget.ViewPager2
@@ -65,9 +66,11 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/common_spacing"
         android:clickable="true"
+        android:contentDescription="@string/desc_button_job"
         android:src="@drawable/ic_add_24dp"
         android:visibility="gone"
         app:layout_anchor="@id/viewPager"
         app:layout_anchorGravity="bottom|end"
+        tools:ignore="RedundantDescriptionCheck"
         tools:visibility="visible" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

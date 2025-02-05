@@ -69,11 +69,12 @@ open class PostViewModel @Inject constructor(
 
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    val newerPostCount: Flow<Int> = data.flatMapLatest {
-        repository.getNewerPost(repository.latestReadPostId())
-            .catch { e -> throw AppError.from(e) }
-            .flowOn(Dispatchers.Default)
-    }
+    val newerPostCount: Flow<Int>
+        get() = data.flatMapLatest {
+            repository.getNewerPost(repository.latestReadPostId())
+                .catch { e -> throw AppError.from(e) }
+                .flowOn(Dispatchers.Default)
+        }
     private val _dataState = MutableLiveData<FeedModelState>()
     val dataState: LiveData<FeedModelState>
         get() = _dataState
@@ -184,6 +185,7 @@ open class PostViewModel @Inject constructor(
                         null -> {
                             repository.save(newPost.copy(attachment = null))
                         }
+
                         else -> {
                             if (_attachment.value?.url != null) {
                                 repository.save(newPost)
@@ -207,6 +209,7 @@ open class PostViewModel @Inject constructor(
         }
         clearEdit()
     }
+
     fun changeLink(link: String) {
         val text = link.trim()
         if (edited.value?.link == text) {
@@ -253,6 +256,7 @@ open class PostViewModel @Inject constructor(
         _mentionedNewPost.value = list
         _changed.value = true
     }
+
     fun reset() {
         _changed.value = false
         selectedPost.value = null
@@ -310,7 +314,6 @@ open class PostViewModel @Inject constructor(
             _dataState.value = FeedModelState(error = true)
         }
     }
-
 
 
     fun changeCoords(coords: Coordinates?) {

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">NeWork</string>
     <string name="title_reg_button">Зарегистрироваться</string>
     <string name="title_reg">Регистрация</string>
@@ -75,13 +75,13 @@
     <string name="pass_don_t_match">Пароли не совпадают</string>
     <string name="cancelled">Задание отменено</string>
     <string name="desc_select_date">Выбрать дату</string>
-    <string name="attachment_no_more_15mb">"    23 / 10000  Вложение не более 15 Мб  "</string>
+    <string name="attachment_no_more_15mb">"Вложение не более 15 Мб  "</string>
     <string name="hint_text">Текст</string>
     <string name="share">Поделиться</string>
     <string name="select_date">Выбрать дату</string>
-    <string name="enter_dates">Ввод даты[...]</string>
+    <string name="enter_dates" tools:ignore="TypographyEllipsis">Ввод даты[...]</string>
     <string name="start_date">Дата начало</string>
-    <string name="end_date">Дата конец[...]</string>
+    <string name="end_date" tools:ignore="TypographyEllipsis">Дата конец[...]</string>
     <string name="cancel">Назад</string>
     <string name="looking_for_a_job">В поисках работы</string>
     <string name="need_permission">Требуется разрешение на определение местоположения</string>
@@ -89,4 +89,7 @@
     <string name="desc_button_minus">Кнопка уменьшить маштаб</string>
     <string name="desc_button_location">Кнопка местоположения</string>
     <string name="toast_select_date_event">Выберите дату события</string>
+    <string name="desc_button_job">Кнопка работа</string>
+    <string name="desc_tab_layout">Контейнер с переключением постов и работы</string>
+    <string name="login_button">Войти</string>
 </resources>

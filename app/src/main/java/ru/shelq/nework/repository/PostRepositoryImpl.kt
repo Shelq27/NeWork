@@ -19,7 +19,6 @@ import ru.shelq.nework.dao.PostDao
 import ru.shelq.nework.dao.PostRemoteKeyDao
 import ru.shelq.nework.db.AppDb
 import ru.shelq.nework.dto.Attachment
-import ru.shelq.nework.dto.Jobs
 import ru.shelq.nework.dto.Media
 import ru.shelq.nework.dto.MediaUpload
 import ru.shelq.nework.dto.Post

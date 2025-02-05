@@ -54,6 +54,7 @@ class UserDetailsFragment : Fragment() {
         userViewModel.selectUser(userId)
         userViewModel.data.observe(viewLifecycleOwner) { users ->
             val user = users.find { it.id == userId }
+
             if (user != null) {
                 binding.apply {
                     Glide.with(UserAvatarIV)
@@ -69,6 +70,7 @@ class UserDetailsFragment : Fragment() {
             }
 
         }
+
         tabLayout = binding.UserDetailsTL
         viewPager2 = binding.viewPager
         adapter = FragmentPageAdapter(childFragmentManager, viewLifecycleOwner.lifecycle)
@@ -109,6 +111,19 @@ class UserDetailsFragment : Fragment() {
                 }
             }
         })
+
+        binding.toolbar.apply {
+            if (userId == auth.authState.value.id) {
+                menu.findItem(R.id.profile).isVisible = true
+                setOnMenuItemClickListener {
+                    auth.removeAuth()
+                    menu.findItem(R.id.profile).isVisible = false
+                    true
+                }
+            } else
+                menu.findItem(R.id.profile).isVisible = false
+        }
+
         binding.AddNewJobsIB.setOnClickListener {
             findNavController().navigate(R.id.jobNewFragment)
         }

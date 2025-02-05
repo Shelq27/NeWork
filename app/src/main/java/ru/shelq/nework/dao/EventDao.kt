@@ -8,7 +8,6 @@ import androidx.room.Query
 import androidx.room.Upsert
 import kotlinx.coroutines.flow.Flow
 import ru.shelq.nework.entity.EventEntity
-import ru.shelq.nework.entity.PostEntity
 
 @Dao
 interface EventDao {
