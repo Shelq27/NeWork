@@ -1,13 +1,12 @@
 <resources>
     <string name="app_name">NeWork</string>
-    <string name="title_login_button">Login</string>
+    <string name="title_reg_button">Registration</string>
     <string name="title_reg">Registration</string>
     <string name="hint_login_edit_text">Login</string>
     <string name="hint_password_edit_text">Password</string>
-    <string name="hint_name_edit_text">Name</string>
+    <string name="hint_name_job_edit_text">Name</string>
     <string name="avatar_load_button">Avatar Load Button</string>
     <string name="avatar_image">Avatar Image</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="posts_item_menu">Posts</string>
     <string name="events_item_menu">Events</string>
     <string name="users_item_menu">Users</string>
@@ -17,7 +16,7 @@
     <string name="desc_icon_like">Icon Like</string>
     <string name="title_participant">Participant</string>
     <string name="desc_icon_people">Icon People</string>
-    <string name="desc_screen_geo_location">Screen Geo Location</string>
+    <string name="desc_ic_geo_location">Icon Geo Location</string>
     <string name="title_site">Site</string>
     <string name="title_mentioned">Mentioned</string>
     <string name="desc_icon_mentioned">Icon Mentioned</string>
@@ -45,13 +44,13 @@
     <string name="hint_date_event">Date</string>
     <string name="desc_icon_calendar">Icon Calendar</string>
     <string name="title_type_event">Type</string>
-    <string name="text_radio_button_online">Online</string>
-    <string name="text_radio_button_offline">Offline</string>
-    <string name="text_type_event_online">Online</string>
+    <string name="text_radio_button_online" translatable="false">Online</string>
+    <string name="text_radio_button_offline" translatable="false">Offline</string>
+    <string name="text_type_event_online" translatable="false">Online</string>
     <string name="desc_icon_button_delete">Icon Button Delete</string>
     <string name="desc_icon_profile">Icon Profile</string>
     <string name="profile_item_menu">Profile</string>
-    <string name="post_geolocation_item_menu">Post Geolocation</string>
+    <string name="post_geolocation_item_menu">Geolocation</string>
     <string name="share_item_menu">Share</string>
     <string name="title_tab_item_user_details_first">Wall</string>
     <string name="title_tab_item_user_details_second">Jobs</string>
@@ -80,20 +79,21 @@
     <string name="error_format_image">Invalid image format</string>
     <string name="pass_don_t_match">Passwords don\'t match</string>
     <string name="cancelled">Task cancelled</string>
-    <string name="desc_take_date">Take Date</string>
+    <string name="desc_select_date">Select Date</string>
     <string name="attachment_no_more_15mb">Attachment no more 15Mb</string>
     <string name="hint_text">Text</string>
     <string name="share">Share</string>
     <string name="select_date">Select date</string>
     <string name="enter_dates">Enter dates\n</string>
-    <string name="mm_dd_yyyy">mm/dd/yyyy</string>
+    <string name="mm_dd_yyyy" translatable="false">mm/dd/yyyy</string>
     <string name="start_date">Start date</string>
     <string name="end_date">End Date\n</string>
-    <string name="ok">Ok</string>
+    <string name="ok" translatable="false">Ok</string>
     <string name="cancel">Cancel</string>
-    <string name="looking_for_a_job">looking for a job</string>
+    <string name="looking_for_a_job">Looking for a job</string>
     <string name="need_permission">Location permission is required</string>
-    <string name="desc_button_plus">button plus zoom</string>
-    <string name="desc_button_minus">button minus zoom</string>
-    <string name="desc_button_location">button get location</string>
+    <string name="desc_button_plus">Button plus zoom</string>
+    <string name="desc_button_minus">Button minus zoom</string>
+    <string name="desc_button_location">Button get location</string>
+    <string name="toast_select_date_event">Select date event</string>
 </resources>

@@ -133,7 +133,7 @@ class JobNewFragment : Fragment() {
         }
 
         binding.CreateJobB.setOnClickListener {
-            jobViewModel.setName(binding.NameET.text.toString())
+            jobViewModel.setName(binding.NameJobET.text.toString())
             jobViewModel.setPosition(binding.PositionET.text.toString())
             jobViewModel.setLink(binding.LinkET.text.toString())
             jobViewModel.save()

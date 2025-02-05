@@ -98,13 +98,6 @@ object AndroidUtils {
         return sdf.format(date)
     }
 
-    @SuppressLint("SimpleDateFormat")
-    fun calendarFormatDate(calendar: Calendar): String {
-        val date = calendar.time
-        val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-        sdf.timeZone = TimeZone.getTimeZone("UTC")
-        return sdf.format(date)
-    }
 
     fun Uri.getFile(context: Context): File? {
         val inputStream = context.contentResolver.openInputStream(this)

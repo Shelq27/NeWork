@@ -61,7 +61,9 @@ class PostNewFragment : Fragment() {
         binding = PostNewFragmentBinding.inflate(layoutInflater)
         lifecycle.addObserver(mediaObserver)
         binding.NewPostTTB.setNavigationOnClickListener {
-            findNavController().navigateUp()
+            viewModel.edit(null)
+            viewModel.reset()
+            findNavController().navigate(R.id.action_postNewFragment_to_postFragment)
         }
         val postId = arguments?.id ?: -1L
         if (postId != -1L) {
@@ -191,11 +193,9 @@ class PostNewFragment : Fragment() {
             }
 
         }
-
         viewModel.mentionedNewPost.observe(viewLifecycleOwner) {
             checkedUsers = it.toLongArray()
         }
-
         viewModel.coords.observe(viewLifecycleOwner) {
             binding.GeoPostMW.map.mapObjects.clear()
             if (it == null) {
@@ -206,6 +206,7 @@ class PostNewFragment : Fragment() {
                 addMarkerOnMap(
                     requireContext(), binding.GeoPostMW, Point(it.lat, it.long)
                 )
+                binding.GeoPostMW.setNoninteractive(true)
             }
         }
         binding.RemoveCoords.setOnClickListener {
@@ -253,12 +254,12 @@ class PostNewFragment : Fragment() {
                 requireContext().contentResolver.openAssetFileDescriptor(
                     viewModel.attachment.value!!.uri!!, "r"
                 )?.let {
-                        mediaObserver.playAudioFromDescriptor(
-                            it,
-                            binding.audioContainer.audioPlay.audioSB,
-                            binding.audioContainer.audioPlay.playAudioIB
-                        )
-                    }
+                    mediaObserver.playAudioFromDescriptor(
+                        it,
+                        binding.audioContainer.audioPlay.audioSB,
+                        binding.audioContainer.audioPlay.playAudioIB
+                    )
+                }
             }
         }
         binding.videoContainer.videoPlay.playVideoIB.setOnClickListener {
@@ -291,17 +292,16 @@ class PostNewFragment : Fragment() {
             }
 
         }
-
         binding.NewPostBB.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
 
                 R.id.take_photo -> {
                     ImagePicker.with(this).crop().compress(MAX_SIZE).galleryMimeTypes(
-                            arrayOf(
-                                "image/png",
-                                "image/jpeg",
-                            )
-                        ).createIntent(pickPhotoLauncher::launch)
+                        arrayOf(
+                            "image/png",
+                            "image/jpeg",
+                        )
+                    ).createIntent(pickPhotoLauncher::launch)
                     true
                 }
 
@@ -322,7 +322,9 @@ class PostNewFragment : Fragment() {
 
                 R.id.geolocation -> {
                     findNavController().navigate(
-                        R.id.action_postNewFragment_to_postMapFragment
+                        R.id.action_postNewFragment_to_postMapFragment, args = Bundle().apply {
+                            id = postId
+                        }
                     )
                     true
                 }

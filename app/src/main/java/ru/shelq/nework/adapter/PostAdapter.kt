@@ -85,6 +85,7 @@ class PostViewHolder(
             PublishedPostTV.text = AndroidUtils.dateFormatToText(post.published, root.context)
             LikeIB.text = post.likeOwnerIds.size.toString()
             LikeIB.isChecked = post.likedByMe
+
             LikeIB.setOnClickListener {
                 onInteractionListener.onLike(post)
                 LikeIB.isChecked = post.likedByMe

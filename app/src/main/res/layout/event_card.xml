@@ -75,10 +75,12 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/element_spacing"
                 android:contentDescription="@string/desc_icon_menu_button"
+                android:paddingStart="@dimen/double_spacing"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_menu_vert_24dp" />
+                app:srcCompat="@drawable/ic_menu_vert_24dp"
+                tools:ignore="RtlSymmetry" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -114,10 +116,10 @@
                 android:id="@+id/imageAttachment"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/max_size_attachment"
-                android:background="@color/primary"
-                android:scaleType="centerCrop"
                 android:adjustViewBounds="true"
+                android:background="@color/primary"
                 android:contentDescription="@string/desc_attachment_image"
+                android:scaleType="centerCrop"
                 android:visibility="gone"
                 tools:src="@drawable/img_test_avatar"
                 tools:visibility="visible" />
@@ -193,13 +195,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/common_spacing"
+            android:backgroundTint="@color/transparent"
             android:checkable="true"
             android:contentDescription="@string/desc_icon_like"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/barrier_middle"
             tools:text="10" />
-
-
 
 
         <com.google.android.material.button.MaterialButton
@@ -208,13 +209,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/common_spacing"
-            android:contentDescription="@string/desc_icon_people"
+            android:backgroundTint="@color/transparent"
             android:checkable="true"
+            android:contentDescription="@string/desc_icon_people"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/barrier_middle"
             tools:text="10" />
-
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

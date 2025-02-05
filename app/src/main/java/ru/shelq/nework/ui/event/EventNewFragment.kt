@@ -74,9 +74,12 @@ class EventNewFragment : Fragment() {
         binding = EventNewFragmentBinding.inflate(layoutInflater)
         lifecycle.addObserver(mediaObserver)
         binding.NewEventTTB.setNavigationOnClickListener {
-            findNavController().navigateUp()
+            viewModel.edit(null)
+            viewModel.reset()
+            findNavController().navigate(R.id.action_eventNewFragment_to_eventFragment)
         }
         val eventId = arguments?.id ?: -1L
+
         if (eventId != -1L) {
             viewModel.getEventById(eventId)
         }
@@ -99,6 +102,12 @@ class EventNewFragment : Fragment() {
                 }
                 edited?.coords?.let {
                     viewModel.changeCoords(it)
+                }
+                edited?.datetime?.let {
+                    viewModel.changeDateTime(it)
+                }
+                edited?.type?.let {
+                    viewModel.changeType(it)
                 }
             }
         }
@@ -218,6 +227,7 @@ class EventNewFragment : Fragment() {
                     binding.GeoEventMW,
                     Point(it.lat, it.long)
                 )
+                binding.GeoEventMW.setNoninteractive(true)
             }
         }
         binding.RemoveCoords.setOnClickListener {
@@ -305,7 +315,6 @@ class EventNewFragment : Fragment() {
             }
 
         }
-
         binding.NewEventBB.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
 
@@ -339,7 +348,9 @@ class EventNewFragment : Fragment() {
 
                 R.id.geolocation -> {
                     findNavController().navigate(
-                        R.id.action_eventNewFragment_to_eventMapFragment
+                        R.id.action_eventNewFragment_to_eventMapFragment, args = Bundle().apply {
+                            id = eventId
+                        }
                     )
                     true
                 }
@@ -419,6 +430,13 @@ class EventNewFragment : Fragment() {
         binding.NewEventTTB.setOnMenuItemClickListener {
             val content = binding.ContentEventET.text.toString()
             val link = binding.Link.text.toString()
+            if (viewModel.datetime.value?.equals("") == true) {
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.toast_select_date_event), Toast.LENGTH_LONG
+                ).show()
+                return@setOnMenuItemClickListener (true)
+            }
             viewModel.changeContent(content)
             viewModel.changeLink(link)
             viewModel.save()
@@ -431,14 +449,12 @@ class EventNewFragment : Fragment() {
         return binding.root
     }
 
-    // Отображаем карты перед тем моментом, когда активити с картой станет видимой пользователю:
     override fun onStart() {
         super.onStart()
         MapKitFactory.getInstance().onStart()
         binding.GeoEventMW.onStart()
     }
 
-    // Останавливаем обработку карты, когда активити с картой становится невидимым для пользователя:
     override fun onStop() {
         binding.GeoEventMW.onStop()
         MapKitFactory.getInstance().onStop()

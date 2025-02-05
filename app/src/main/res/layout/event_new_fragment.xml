@@ -148,7 +148,7 @@
             android:id="@+id/CalendarFAB"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/desc_take_date"
+            android:contentDescription="@string/desc_select_date"
             app:layout_anchor="@id/NewEventBB"
             app:srcCompat="@drawable/ic_add_24dp" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

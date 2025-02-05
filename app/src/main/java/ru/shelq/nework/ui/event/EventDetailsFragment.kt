@@ -21,7 +21,7 @@ import ru.shelq.nework.auth.AppAuth
 import ru.shelq.nework.databinding.EventDetailsFragmentBinding
 import ru.shelq.nework.dto.User
 import ru.shelq.nework.enumer.AttachmentType
-import ru.shelq.nework.ui.post.PostDetailsFragment.Companion.id
+import ru.shelq.nework.enumer.EventType
 import ru.shelq.nework.ui.post.PostDetailsFragment.Companion.saveLat
 import ru.shelq.nework.ui.post.PostDetailsFragment.Companion.saveLong
 import ru.shelq.nework.util.AndroidUtils
@@ -29,8 +29,8 @@ import ru.shelq.nework.util.AndroidUtils.addMarkerOnMap
 import ru.shelq.nework.util.AndroidUtils.loadImgCircle
 import ru.shelq.nework.util.AndroidUtils.moveCamera
 import ru.shelq.nework.util.AndroidUtils.share
-import ru.shelq.nework.util.MediaLifecycleObserver
 import ru.shelq.nework.util.IdArg
+import ru.shelq.nework.util.MediaLifecycleObserver
 import ru.shelq.nework.viewmodel.EventViewModel
 import javax.inject.Inject
 
@@ -67,6 +67,7 @@ class EventDetailsFragment : Fragment() {
         viewModel.reset()
         viewModel.edit(null)
         val eventId = arguments?.id ?: -1
+        println(eventId)
         viewModel.getEventById(eventId)
 
         viewModel.selectedEvent.observe(viewLifecycleOwner) { event ->
@@ -104,6 +105,8 @@ class EventDetailsFragment : Fragment() {
                 }
 
                 if (event.speakerIds.isNotEmpty()) {
+                    binding.TitleSpeakersTV.visibility = View.VISIBLE
+                    binding.GroupSpeakersLL.visibility = View.VISIBLE
                     if (needLoadSpeakersAvatars) {
                         viewModel.getSpeakers(event)
                         fillSpeakers()
@@ -124,6 +127,8 @@ class EventDetailsFragment : Fragment() {
 
                     EventDetailsTBL.run {
                         setNavigationOnClickListener {
+                            viewModel.reset()
+                            viewModel.edit(null)
                             findNavController().navigate(R.id.action_eventDetailsFragment_to_eventFragment)
 
                         }
@@ -154,6 +159,13 @@ class EventDetailsFragment : Fragment() {
                     } else {
                         LinkPostTV.visibility = View.GONE
                     }
+
+                    TypeEventTV.text =
+                        when (event.type) {
+                            EventType.OFFLINE -> getString(R.string.offline)
+                            EventType.ONLINE -> getString(R.string.online)
+                        }
+
                     DateEventTV.text = AndroidUtils.dateFormatToText(event.datetime, root.context)
 
 
@@ -188,8 +200,8 @@ class EventDetailsFragment : Fragment() {
                     if (event.coords != null) {
                         val point = Point(event.coords.lat, event.coords.long)
                         GeoEventMW.visibility = View.VISIBLE
-                        moveToMarker(point)// Перемещаем камеру в определенную область на карте
-                        setMarker(point)// Устанавливаем маркер на карте
+                        moveToMarker(point)
+                        setMarker(point)
                         GeoEventMW.setNoninteractive(true)
                         GeoEventMW.setOnClickListener {
                             GeoEventMW.onStop()
@@ -213,7 +225,6 @@ class EventDetailsFragment : Fragment() {
                         videoAttachment.videoPlay.isVisible = false
                         when (event.attachment.type) {
 
-                            //изображение
                             AttachmentType.IMAGE -> {
                                 imageAttachment.isVisible = true
                                 Glide.with(imageAttachment)
@@ -224,14 +235,14 @@ class EventDetailsFragment : Fragment() {
                                     .centerCrop()
                                     .into(binding.imageAttachment)
                             }
-                            //видео
+
                             AttachmentType.VIDEO -> {
                                 videoAttachment.videoPlay.isVisible = true
                                 Glide.with(videoAttachment.videoThumb)
                                     .load(event.attachment.url)
                                     .into(binding.videoAttachment.videoThumb)
                             }
-                            //аудио
+
                             AttachmentType.AUDIO -> {
                                 audioAttachment.audioPlay.isVisible = true
                             }
@@ -315,7 +326,6 @@ class EventDetailsFragment : Fragment() {
         binding.GeoEventMW.onStart()
     }
 
-    // Останавливаем обработку карты, когда активити с картой становится невидимым для пользователя:
     override fun onStop() {
         binding.GeoEventMW.onStop()
         MapKitFactory.getInstance().onStop()
@@ -359,6 +369,8 @@ class EventDetailsFragment : Fragment() {
         speakerNumber = -1
         needLoadSpeakersAvatars = true
         mapSpeakers.clear()
+        binding.GroupSpeakersLL.visibility = View.GONE
+        binding.TitleSpeakersTV.visibility = View.GONE
         binding.listAvatarsSpeakers.avatar1.isVisible = false
         binding.listAvatarsSpeakers.avatar2.isVisible = false
         binding.listAvatarsSpeakers.avatar3.isVisible = false

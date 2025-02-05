@@ -22,6 +22,7 @@ import com.yandex.mapkit.user_location.UserLocationObjectListener
 import com.yandex.mapkit.user_location.UserLocationView
 import ru.shelq.nework.R
 import ru.shelq.nework.databinding.MapFragmentBinding
+import ru.shelq.nework.ui.event.EventNewFragment.Companion.id
 import ru.shelq.nework.ui.post.PostDetailsFragment.Companion.saveLat
 import ru.shelq.nework.ui.post.PostDetailsFragment.Companion.saveLong
 import ru.shelq.nework.ui.post.PostMapFragment.Companion.id
@@ -138,7 +139,7 @@ class EventMapFragment: Fragment() {
             userLocation.setObjectListener(locationObjectListener)
 
         }
-        val postId = arguments?.id ?: -1L
+        val eventId = arguments?.id ?: -1L
         val saveLat = arguments?.saveLat ?: 0.0
         val saveLong = arguments?.saveLong ?: 0.0
 
@@ -154,7 +155,7 @@ class EventMapFragment: Fragment() {
                 findNavController().navigate(
                     R.id.action_eventMapFragment_to_eventDetailsFragment,
                     args = Bundle().apply {
-                        id = postId
+                        id = eventId
                     })
             }
         }
@@ -163,6 +164,7 @@ class EventMapFragment: Fragment() {
             findNavController().navigate(
                 R.id.action_eventMapFragment_to_eventNewFragment,
                 args = Bundle().apply {
+                    id = eventId
                     lat = mark.latitude
                     long = mark.longitude
                 })

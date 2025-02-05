@@ -37,9 +37,8 @@
                 android:id="@+id/AvatarIV"
                 android:layout_width="@dimen/posts_avatar_size"
                 android:layout_height="@dimen/posts_avatar_size"
-                android:layout_marginStart="@dimen/element_spacing"
-                android:layout_marginTop="@dimen/element_spacing"
-                android:layout_marginBottom="@dimen/common_spacing"
+                android:layout_margin="@dimen/common_spacing"
+
                 android:background="@drawable/not_avatar_circle_background"
                 android:contentDescription="@string/desc_avatar_image"
                 app:layout_constraintBottom_toBottomOf="@id/barrier_top"
@@ -52,9 +51,11 @@
                 android:id="@+id/AuthorTV"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/element_spacing"
-                android:layout_marginEnd="@dimen/element_spacing"
+                android:layout_marginStart="@dimen/common_spacing"
+                android:layout_marginEnd="@dimen/common_spacing"
                 android:ellipsize="end"
+
+                android:paddingBottom="@dimen/element_spacing"
                 android:singleLine="true"
                 android:textSize="@dimen/size_text_title"
                 android:textStyle="bold"
@@ -69,7 +70,9 @@
                 android:id="@+id/NameJobTV"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/element_spacing"
+                android:layout_marginStart="@dimen/common_spacing"
+                android:layout_marginEnd="@dimen/common_spacing"
+
                 app:layout_constraintBottom_toBottomOf="@id/barrier_top"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/AvatarIV"
@@ -118,21 +121,28 @@
                 android:id="@+id/TypeEventTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/element_spacing"
-                android:layout_marginEnd="@dimen/element_spacing"
-                android:text="@string/text_type_event_online"
+                android:paddingStart="@dimen/common_spacing"
+                android:paddingTop="@dimen/common_spacing"
+                android:paddingEnd="@dimen/common_spacing"
                 android:textSize="@dimen/size_text_title"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@id/DateEventTV"
-                app:layout_constraintTop_toBottomOf="@id/AttachmentGroup" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/AttachmentGroup"
+                tools:text="@string/text_type_event_online" />
 
             <TextView
                 android:id="@+id/DateEventTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/element_spacing"
-                android:layout_marginTop="@dimen/element_spacing"
-                android:layout_marginEnd="@dimen/element_spacing"
+                android:paddingStart="@dimen/common_spacing"
+                android:paddingTop="@dimen/element_spacing"
+                android:paddingEnd="@dimen/common_spacing"
+                android:paddingBottom="@dimen/element_spacing"
+                app:layout_constraintBottom_toTopOf="@id/TextEventTV"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/TypeEventTV"
                 tools:text="12.02.21 10:45" />
 
@@ -141,58 +151,71 @@
                 android:id="@+id/TextEventTV"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/element_spacing"
-                android:layout_marginTop="@dimen/common_spacing"
-                android:layout_marginEnd="@dimen/element_spacing"
                 android:autoLink="web"
+                android:padding="@dimen/common_spacing"
                 app:layout_constraintBottom_toTopOf="@id/TitleSpeakersTV"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/DateEventTV"
-                tools:text="@tools:sample/lorem[100]" />
+                tools:ignore="VisualLintLongText"
+                tools:text="@tools:sample/lorem[20]" />
 
             <TextView
                 android:id="@+id/TitleSpeakersTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/element_spacing"
-                android:layout_marginEnd="@dimen/element_spacing"
+                android:padding="@dimen/common_spacing"
                 android:text="@string/title_speakers"
                 android:textSize="@dimen/size_text_title"
                 android:textStyle="bold"
-                app:layout_constraintTop_toBottomOf="@id/TextEventTV" />
+                android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@id/GroupSpeakersLL"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/TextEventTV"
+                tools:visibility="visible" />
+
 
             <LinearLayout
                 android:id="@+id/GroupSpeakersLL"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/element_spacing"
+
                 android:orientation="horizontal"
-                app:layout_constraintTop_toBottomOf="@id/TitleSpeakersTV">
+                android:paddingStart="@dimen/common_spacing"
+                android:paddingEnd="@dimen/common_spacing"
+                android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@id/TitleLikersTV"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/TitleSpeakersTV"
+                tools:visibility="visible">
 
                 <include
                     android:id="@+id/list_avatars_speakers"
                     layout="@layout/avatars_multiple" />
             </LinearLayout>
 
-
             <TextView
                 android:id="@+id/TitleLikersTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/element_spacing"
+                android:padding="@dimen/common_spacing"
                 android:text="@string/title_likers"
                 android:textSize="@dimen/size_text_title"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@id/GroupLikersLL"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/GroupSpeakersLL" />
 
             <LinearLayout
                 android:id="@+id/GroupLikersLL"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/element_spacing"
+
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toTopOf="@id/TitleParticipantTV"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -204,8 +227,12 @@
                     style="@style/Widget.AppTheme.LikeButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/element_spacing"
+                    android:backgroundTint="@color/transparent"
+
                     android:checkable="true"
                     android:contentDescription="@string/desc_icon_like"
+                    android:padding="@dimen/common_spacing"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/barrier_middle"
                     tools:text="10" />
@@ -219,7 +246,7 @@
                 android:id="@+id/TitleParticipantTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/element_spacing"
+                android:padding="@dimen/common_spacing"
                 android:text="@string/title_participant"
                 android:textSize="@dimen/size_text_title"
                 android:textStyle="bold"
@@ -232,7 +259,7 @@
                 android:id="@+id/GroupParticipantLL"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/element_spacing"
+
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toTopOf="@id/ContainerMap"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -244,17 +271,23 @@
                     style="@style/Widget.AppTheme.ParticipantsButton"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/posts_avatar_size"
+                    android:layout_marginEnd="@dimen/element_spacing"
+
+                    android:backgroundTint="@color/transparent"
+
                     android:checkable="true"
+                    android:padding="@dimen/common_spacing"
                     tools:text="10" />
 
                 <include
                     android:id="@+id/list_avatars_participant"
                     layout="@layout/avatars_multiple" />
             </LinearLayout>
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/ContainerMap"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/max_size_attachment"
                 android:clickable="true"
                 app:layout_constraintBottom_toTopOf="@id/TitleLinkTV"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -262,22 +295,26 @@
                 app:layout_constraintTop_toBottomOf="@id/GroupParticipantLL">
 
 
-            <com.yandex.mapkit.mapview.MapView
-                android:id="@+id/GeoEventMW"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/max_size_attachment"
-                android:layout_marginTop="@dimen/common_spacing"
-                android:clickable="false"
-                android:visibility="gone"
-                tools:visibility="visible"
-                tools:ignore="MissingConstraints" />
+                <com.yandex.mapkit.mapview.MapView
+                    android:id="@+id/GeoEventMW"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/common_spacing"
+                    android:clickable="false"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:visibility="visible" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
                 android:id="@+id/TitleLinkTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/element_spacing"
+                android:padding="@dimen/common_spacing"
+
                 android:text="@string/title_site"
                 android:textSize="@dimen/size_text_title"
                 android:textStyle="bold"
@@ -291,9 +328,10 @@
                 android:id="@+id/LinkPostTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/element_spacing"
                 android:autoLink="web"
-                android:padding="@dimen/element_spacing"
+                android:paddingStart="@dimen/common_spacing"
+                android:paddingEnd="@dimen/common_spacing"
+                android:paddingBottom="@dimen/common_spacing"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/TitleLinkTV"
                 tools:text="https://03www.ru/" />

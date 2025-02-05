@@ -40,7 +40,7 @@ private val empty = Event(
     author = "",
     authorJob = "",
     authorAvatar = "",
-    datetime = AndroidUtils.calendarFormatDate(Calendar.getInstance()),
+    datetime = AndroidUtils.calendarToUTCDate(Calendar.getInstance()),
     published = "",
     content = "",
     likeOwnerIds = emptyList(),
@@ -323,9 +323,7 @@ class EventViewModel @Inject constructor(
     }
 
     fun changeSpeakersNewEvent(list: List<Long>) {
-
         _speakersNewEvent.value = list
-
         _changed.value = true
     }
 

@@ -7,7 +7,7 @@
     <fragment
         android:id="@+id/signInFragment"
         android:name="ru.shelq.nework.ui.auth.SingInFragment"
-        android:label="@string/title_login_button"
+        android:label="@string/title_reg_button"
         tools:layout="@layout/sign_in_fragment">
         <action
             android:id="@+id/action_signInFragment_to_signUpFragment"
@@ -81,6 +81,9 @@
             <action
                 android:id="@+id/action_postNewFragment_to_postMapFragment"
                 app:destination="@id/postMapFragment" />
+            <action
+                android:id="@+id/action_postNewFragment_to_postFragment"
+                app:destination="@id/postFragment" />
         </fragment>
         <fragment
             android:id="@+id/postLikersFragment"

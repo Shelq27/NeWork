@@ -12,7 +12,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.net.toFile
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.github.dhaval2404.imagepicker.ImagePicker
@@ -73,17 +72,17 @@ class SignUpFragment : Fragment() {
             binding.LoadAvatarIB.setImageURI(it.uri)
         }
         enableLogin()
-        binding.Name.doOnTextChanged { text, start, before, count ->
+        binding.Name.doOnTextChanged { _, _, _, _ ->
             enableLogin()
         }
-        binding.Login.doOnTextChanged { text, start, before, count ->
+        binding.Login.doOnTextChanged { _, _, _, _ ->
             enableLogin()
         }
 
-        binding.Pass.doOnTextChanged { text, start, before, count ->
+        binding.Pass.doOnTextChanged { _, _, _, _ ->
             enableLogin()
         }
-        binding.PassRepeat.doOnTextChanged { text, start, before, count ->
+        binding.PassRepeat.doOnTextChanged { _, _, _, _ ->
             enableLogin()
         }
         binding.SignUpB.setOnClickListener {
@@ -122,6 +121,7 @@ class SignUpFragment : Fragment() {
                 binding.PassRepeat.text.toString().isNotEmpty()
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (resultCode) {

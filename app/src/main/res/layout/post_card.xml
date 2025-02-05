@@ -8,6 +8,7 @@
     android:layout_margin="@dimen/element_spacing"
 
     >
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/CardPostCL"
         android:layout_width="match_parent"
@@ -69,11 +70,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/element_spacing"
+                android:paddingStart="@dimen/double_spacing"
+                app:layout_constraintEnd_toEndOf="parent"
                 android:contentDescription="@string/desc_icon_menu_button"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_menu_vert_24dp" />
+                app:srcCompat="@drawable/ic_menu_vert_24dp"
+                tools:ignore="RtlSymmetry" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.Barrier
@@ -112,12 +115,12 @@
 
             <ImageView
                 android:id="@+id/imageAttachment"
-                android:background="@color/primary"
-                android:scaleType="centerCrop"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/max_size_attachment"
                 android:adjustViewBounds="true"
+                android:background="@color/primary"
                 android:contentDescription="@string/desc_attachment_image"
+                android:scaleType="centerCrop"
                 android:visibility="gone"
                 tools:src="@drawable/test_avatar2"
                 tools:visibility="visible" />
@@ -171,6 +174,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/common_spacing"
+            android:backgroundTint="@color/transparent"
+
             android:checkable="true"
             android:contentDescription="@string/desc_icon_like"
             app:layout_constraintBottom_toBottomOf="parent"

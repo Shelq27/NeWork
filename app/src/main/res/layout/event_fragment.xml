@@ -48,7 +48,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/ListEventView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/event_card" />
         </androidx.core.widget.NestedScrollView>

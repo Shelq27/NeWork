@@ -164,6 +164,8 @@ class PostMapFragment : Fragment() {
             findNavController().navigate(
                 R.id.action_postMapFragment_to_postNewFragment,
                 args = Bundle().apply {
+
+                    id = postId
                     lat = mark.latitude
                     long = mark.longitude
                 })
