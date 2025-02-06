@@ -99,4 +99,5 @@
     <string name="desc_button_job">Button job</string>
     <string name="desc_tab_layout">container tab post|job</string>
     <string name="login_button">Login</string>
+    <string name="title_sign_in">Authorization</string>
 </resources>

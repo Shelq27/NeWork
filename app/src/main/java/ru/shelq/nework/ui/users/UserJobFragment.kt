@@ -38,7 +38,8 @@ class UserJobFragment  : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = UserJobFragmentBinding.inflate(layoutInflater, container, false)
-        userViewModel.selectedUser.observe(viewLifecycleOwner) {user ->
+
+        userViewModel.selectedUser.observe(viewLifecycleOwner) {
             jobViewModel.loadJobs()
         }
         val adapter = JobAdapter(object : JobOnInteractionListener {

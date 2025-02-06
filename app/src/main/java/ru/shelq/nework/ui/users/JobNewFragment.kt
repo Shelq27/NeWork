@@ -58,6 +58,9 @@ class JobNewFragment : Fragment() {
         jobViewModel.jobCreated.observe(viewLifecycleOwner) {
             findNavController().navigateUp()
         }
+        binding.NewJobTBL.setNavigationOnClickListener {
+            findNavController().navigateUp()
+        }
 
         binding.EnterDatesB.setOnClickListener {
             val dialog = Dialog(requireContext())
@@ -111,11 +114,11 @@ class JobNewFragment : Fragment() {
                 }
                 materialDatePicker.show(childFragmentManager, "tag")
             }
-            val clearFinish = dialog.findViewById(R.id.ClearDateIB) as ImageButton
+            val clearFinish: ImageButton = dialog.findViewById(R.id.ClearDateIB)
             clearFinish.setOnClickListener {
                 endDate.setText("")
             }
-            val yesBtn = dialog.findViewById(R.id.OkIB) as Button
+            val yesBtn: Button = dialog.findViewById(R.id.OkIB)
             yesBtn.setOnClickListener {
                 jobViewModel.setStart(AndroidUtils.calendarToUTCDate(calendarStart))
                 if (endDate.text.toString() == "") {
@@ -124,7 +127,7 @@ class JobNewFragment : Fragment() {
 
                 dialog.dismiss()
             }
-            val noBtn = dialog.findViewById(R.id.CancelIB) as Button
+            val noBtn: Button = dialog.findViewById(R.id.CancelIB)
             noBtn.setOnClickListener {
                 dialog.dismiss()
             }

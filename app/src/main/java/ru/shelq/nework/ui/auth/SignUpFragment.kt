@@ -85,6 +85,9 @@ class SignUpFragment : Fragment() {
         binding.PassRepeat.doOnTextChanged { _, _, _, _ ->
             enableLogin()
         }
+        binding.RegistrationMTB.setNavigationOnClickListener {
+            findNavController().navigateUp()
+        }
         binding.SignUpB.setOnClickListener {
             AndroidUtils.hideKeyboard(requireView())
             if (binding.Pass.text.toString() != binding.PassRepeat.text.toString()) {

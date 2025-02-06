@@ -92,4 +92,5 @@
     <string name="desc_button_job">Кнопка работа</string>
     <string name="desc_tab_layout">Контейнер с переключением постов и работы</string>
     <string name="login_button">Войти</string>
+    <string name="title_sign_in">Авторизация</string>
 </resources>

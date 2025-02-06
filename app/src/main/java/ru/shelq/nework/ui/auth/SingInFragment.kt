@@ -30,12 +30,12 @@ class SingInFragment : Fragment() {
     ): View {
         binding = SignInFragmentBinding.inflate(layoutInflater)
 
-        binding.Login.doOnTextChanged{text, start, before, count ->
+        binding.Login.doOnTextChanged{ _, _, _, _ ->
             enableLogin()
         }
 
         passError()
-        binding.Pass.doOnTextChanged{text, start, before, count ->
+        binding.Pass.doOnTextChanged{ text, _, _, _ ->
             if(text == null){
                 passError()
             }
