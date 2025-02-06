@@ -63,7 +63,8 @@
         - Переход на фрагмент карты с добавлением метки
         - Переход на фрагмент со списком пользователей с возможностью их отметить 
 
-<img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Экран%20Создания%20Поста%201%20(Основной).png" width=25% height=25%><img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Экран%20Создания%20Поста%201%20(Карта).png" width=25% height=25%><img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Экран%20Создания%20Поста%201%20(Упомянутые).png" width=25% height=25%><img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Экран%20Создания%20Поста%201%20(Вложение%20Фото).png" width=25% height=25%><img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Экран%20Создания%20Поста%201%20(Вложение%20АудиоВидео).png" width=25% height=25%>
+<img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Экран%20Создания%20Поста%201%20(Основной).png" width=25% height=25%><img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Экран%20Создания%20Поста%201%20(Карта).png" width=25% height=25%><img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Экран%20Создания%20Поста%201%20(Упомянутые).png" width=25% height=25%>
+<img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Экран%20Создания%20Поста%201%20(Вложение%20Фото).png" width=25% height=25%><img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Экран%20Создания%20Поста%201%20(Вложение%20АудиоВидео).png" width=25% height=25%>
 
 - **Редактирование Поста**
     - Функционал аналогичен созданию поста
