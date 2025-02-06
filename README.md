@@ -78,9 +78,6 @@
         - Переход на фрагмент со списком пользователей с возможностью отметить их как Спикеров
         - Указание формата события и даты его проведения
 
-<img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Создания%20события%201.png" width=25% height=25%>
-<img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Создания%20события%202.png" width=25% height=25%>
-<img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Создания%20события%203.png" width=25% height=25%>
-<img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Создания%20события%204.png" width=25% height=25%>
+<img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Создания%20события%201.png" width=25% height=25%><img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Создания%20события%202.png" width=25% height=25%><img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Создания%20события%203.png" width=25% height=25%><img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Создания%20события%204.png" width=25% height=25%>
 
 - **Детальная карточка поста**
