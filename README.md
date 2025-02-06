@@ -4,8 +4,8 @@
 
 ### Краткое описание.
 
-Приложение в котором пользователи
-могут создавать посты и события с медиафайлами и отмечать их на Яндекс картах, указывать места
+Приложение , в котором пользователи
+могут создавать посты и события с медиафайлами, отмечать их на Яндекс картах, указывать места
 работы и социальные связи (упоминание в постах, конференциях).
 
 ### Инструменты.
@@ -26,23 +26,23 @@
 
 - **Основной экран.**
     - Функционал:
-        - Просмотр стены постов , событий или юзеров
+        - Просмотр стены постов, событий или юзеров
         - Возможность ставить like
         - Прослушивать аудио или видео вложение
         - Переход в детальную карточку поста или события
         - Переход в детальную карточку юзера
-        - Возможность редкатировать или удалить свой пост
+        - Возможность редактировать или удалить свой пост
         - Поделиться текстом поста или события
         - Переход через меню на авторизацию или регистрацию
-        - Переход на создание постов или событий если вы авторизированы
+        - Переход на создание постов или событий, если пользователь авторизирован
 
 <img src ="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Основной%20Экран%20Пост.png" width=25% height=25%><img src ="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Основной%20Экран%20Ивент.png" width=25% height=25%><img src ="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Основной%20Экран%20Юзеры.png" width=25% height=25%>
 
-Также меню с авторизацией или профилем в случае если пользователь авторизирован
+Меню с авторизацией или профилем, в случае если пользователь авторизирован
 
 <img src ="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Основной%20Экран%20Меню%20с%20Авторизацией.png" width=25% height=25%><img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Основной%20Экран%20Меню%20с%20Профилем.png" width=25% height=25%>
 
-В случае если вы не авторизированы вам выдаст диалог с прохождением авторизации
+Если не авторизирован, выдаст диалог с прохождением авторизации.
 
 <img src ="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Экран%20С%20просьбой%20Авторизации.png" width=25% height=25%>
 
@@ -54,11 +54,11 @@
 <img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Экран%20Авторизации.png" width=25% height=25%><img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Экран%20Регистрации%20.png" width=25% height=25%>
     
 
-- **Создание Поста.**
+- **Создание поста.**
     - Функционал:
         - Ввод текста поста
         - Ввод ссылки поста
-        - Добавление вложения аудио или видео, избражения из галереи или фото с камеры
+        - Добавление вложения аудио или видео, изображения из галереи или фото с камеры
         - Прослушивать аудио или видео вложение
         - Переход на фрагмент карты с добавлением метки
         - Переход на фрагмент со списком пользователей с возможностью их отметить 
@@ -66,7 +66,7 @@
 <img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Экран%20Создания%20Поста%201%20(Основной).png" width=25% height=25%><img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Экран%20Создания%20Поста%201%20(Карта).png" width=25% height=25%><img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Экран%20Создания%20Поста%201%20(Упомянутые).png" width=25% height=25%>
 <img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Экран%20Создания%20Поста%201%20(Вложение%20Фото).png" width=25% height=25%><img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Экран%20Создания%20Поста%201%20(Вложение%20АудиоВидео).png" width=25% height=25%>
 
-- **Редактирование Поста**
+- **Редактирование поста**
     - Функционал аналогичен созданию поста
   
 <img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Экран%20Редактирования%20Поста.png" width=25% height=25%>
@@ -75,15 +75,15 @@
 - **Детальная карточка поста**
     - Функционал :
       - Возможность поделиться текстом сообщения
-      - Просмотр списка  Лайкеров и Упомянутых людей если их больше 5 
+      - Просмотр списка лайкеров и упомянутых людей, если их больше 5
       - Открытие фрагмента карты на весь экран
       - Прослушивание вложений  аудио или видео
 
 <img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Пост%20детальная%20карточка%201.png" width=25% height=25%><img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Пост%20детальная%20карточка(Список%20Упомянутых)%202.png" width=25% height=25%><img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Пост%20детальная%20карточка%203%20(Фрагменты%20С%20картой).png" width=25% height=25%>
 
 - **Создание и редактирование события.**
-    - Функционал аналогичен посту  отличия:
-        - Переход на фрагмент со списком пользователей с возможностью отметить их как Спикеров
+    - Функционал аналогичен посту, отличия:
+        - Переход на фрагмент со списком пользователей с возможностью отметить их как спикеров
         - Указание формата события и даты его проведения
 
 <img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Создания%20события%201.png" width=25% height=25%><img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Создания%20события%202.png" width=25% height=25%><img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Создания%20события%203.png" width=25% height=25%><img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Создания%20события%204.png" width=25% height=25%>
@@ -91,7 +91,7 @@
 
 - **Детальная карточка события**
     - Функционал аналогичен посту отличия :
-        - Просмотр списка Лайкеров , Спикеров и Участников  если их больше 5 
+        - Просмотр списка лайкеров , спикеров и участников, если их больше 5 
 
 <img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Детальная%20карточка%20события%20(Основа).png" width=25% height=25%>
 
