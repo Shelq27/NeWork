@@ -26,13 +26,13 @@
 
 - **Основной экран.**
 
-      Содержит экран постов , событий и пользователей.
+    Содержит экран постов , событий и пользователей.
 
 <img src ="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Основной%20Экран%20Пост.png" width=25% height=25%><img src ="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Основной%20Экран%20Ивент.png" width=25% height=25%><img src ="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Основной%20Экран%20Юзеры.png" width=25% height=25%>
 
-     Также меню с авторизацией или профилем в случае если пользователь авторизирован
+   Также меню с авторизацией или профилем в случае если пользователь авторизирован
 
-<img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Основной%20Экран%20Меню%20с%20Авторизацией.png" width="=25% height=25%"><img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Основной%20Экран%20Меню%20с%20Профилем.png" width="=25% height=25%">
+<img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Основной%20Экран%20Меню%20с%20Авторизацией.png" width=25% height=25%"><img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Основной%20Экран%20Меню%20с%20Профилем.png" width=25% height=25%">
 
 - Функционал основных экранов :
   - Просмотр стены постов событий или юзеров
@@ -47,5 +47,6 @@
 
 В случае если вы не авторизированы вам выдаст диалог с прохождением регистрации или авторизации
 
-<img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Экран%20С%20просьбой%20Авторизации.png" width="=25% height=25%">
+<img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Экран%20С%20просьбой%20Авторизации.png" width=25% height=25%">
 
+<img src="" width=25% height=25%">
