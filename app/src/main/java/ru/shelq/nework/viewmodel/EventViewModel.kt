@@ -272,7 +272,7 @@ class EventViewModel @Inject constructor(
 
     fun likeByEvent(event: Event) = viewModelScope.launch {
         try {
-            _dataState.value = FeedModelState(error = false)
+            _dataState.value = FeedModelState()
             repository.likeById(event)
             _dataState.value = FeedModelState()
         } catch (e: Exception) {

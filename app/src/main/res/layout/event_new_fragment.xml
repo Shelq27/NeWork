@@ -84,6 +84,8 @@
                 <include
                     android:id="@+id/image_container"
                     layout="@layout/image_load"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:visibility="gone"
                     tools:visibility="visible" />
 
@@ -112,7 +114,8 @@
                     android:layout_height="221dp"
                     android:layout_marginTop="@dimen/common_spacing"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
+                    app:layout_constraintTop_toTopOf="parent" />
+
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/RemoveCoords"
                     android:layout_width="@dimen/button_remove_width"

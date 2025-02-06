@@ -95,7 +95,6 @@ open class PostViewModel @Inject constructor(
     val postCreated: LiveData<Unit>
         get() = _postCreated
 
-    //    Для карт
     private val _coords = MutableLiveData<Coordinates?>()
     val coords: LiveData<Coordinates?>
         get() = _coords
@@ -265,7 +264,7 @@ open class PostViewModel @Inject constructor(
 
     fun likeByPost(post: Post) = viewModelScope.launch {
         try {
-            _dataState.value = FeedModelState(error = false)
+            _dataState.value = FeedModelState()
             repository.likeById(post)
             _dataState.value = FeedModelState()
         } catch (e: Exception) {

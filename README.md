@@ -26,7 +26,7 @@
 
 - **Основной экран.**
     - Функционал:
-        - Просмотр стены постов событий или юзеров
+        - Просмотр стены постов , событий или юзеров
         - Возможность ставить like
         - Прослушивать аудио или видео вложение
         - Переход в детальную карточку поста или события
@@ -70,11 +70,41 @@
   
 <img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Экран%20Редактирования%20Поста.png" width=25% height=25%>
 
+
+- **Детальная карточка поста**
+    - Функционал :
+      - Возможность поделиться текстом сообщения
+      - Просмотр списка  Лайкеров и Упомянутых людей если их больше 5 
+      - Открытие фрагмента карты на весь экран
+      - Прослушивание вложений  аудио или видео
+
+<img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Пост%20детальная%20карточка%201.png" width=25% height=25%><img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Пост%20детальная%20карточка(Список%20Упомянутых)%202.png" width=25% height=25%><img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Пост%20детальная%20карточка%203%20(Фрагменты%20С%20картой).png" width=25% height=25%>
+
 - **Создание и редактирование события.**
-    - Функционал аналогичен посту ключевые отличия:
+    - Функционал аналогичен посту  отличия:
         - Переход на фрагмент со списком пользователей с возможностью отметить их как Спикеров
         - Указание формата события и даты его проведения
 
 <img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Создания%20события%201.png" width=25% height=25%><img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Создания%20события%202.png" width=25% height=25%><img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Создания%20события%203.png" width=25% height=25%><img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Создания%20события%204.png" width=25% height=25%>
 
-- **Детальная карточка поста**
+
+- **Детальная карточка события**
+    - Функционал аналогичен посту отличия :
+        - Просмотр списка Лайкеров , Спикеров и Участников  если их больше 5 
+
+<img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Детальная%20карточка%20события%20(Основа).png" width=25% height=25%>
+
+- **Детальная карточка юзера**
+    - Функционал :
+        - Просмотр постов юзера
+        - Возможность редактирования и удаления своих постов
+        - Просмотр работ юзера
+        - Добавление и удаление своих работ
+
+<img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Детальная%20карточка%20юзера%201%20(Посты).png" width=25% height=25%><img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Детальная%20карточка%20юзера%202%20Работы).png" width=25% height=25%><img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Детальная%20карточка%20юзера%203%20(Создание%20Работы).png" width=25% height=25%>
+<img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Детальная%20карточка%20юзера%203%20(Создание%20Работы%20Ввод%20Даты).png" width=25% height=25%><img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Детальная%20карточка%20юзера%203%20(Создание%20Работы%20Календарь).png" width=25% height=25%><img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Детальная%20карточка%20юзера%203%20(Создание%20Работы%20Ввод%20Даты%20В%20Ручную).png" width=25% height=25%>
+
+
+
+
+    
