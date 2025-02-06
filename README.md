@@ -54,8 +54,7 @@
         - Возможность перейти на окно регистрации из авторизации
         - Загрузка аватара и его превью
 
-<img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Экран%20Авторизации.png" width=25% height=25%>
-<img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Экран%20Регистрации%20.png" width=25% height=25%>
+<img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Экран%20Авторизации.png" width=25% height=25%><img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Экран%20Регистрации%20.png" width=25% height=25%>
     
 
 - **Создание Поста.**
@@ -67,11 +66,7 @@
         - Переход на фрагмент карты с добавлением метки
         - Переход на фрагмент со списком пользователей с возможностью их отметить 
 
-<img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Экран%20Создания%20Поста%201%20(Основной).png" width=25% height=25%>
-<img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Экран%20Создания%20Поста%201%20(Карта).png" width=25% height=25%>
-<img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Экран%20Создания%20Поста%201%20(Упомянутые).png" width=25% height=25%>
-<img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Экран%20Создания%20Поста%201%20(Вложение%20Фото).png" width=25% height=25%>
-<img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Экран%20Создания%20Поста%201%20(Вложение%20АудиоВидео).png" width=25% height=25%>
+<img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Экран%20Создания%20Поста%201%20(Основной).png" width=25% height=25%><img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Экран%20Создания%20Поста%201%20(Карта).png" width=25% height=25%><img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Экран%20Создания%20Поста%201%20(Упомянутые).png" width=25% height=25%><img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Экран%20Создания%20Поста%201%20(Вложение%20Фото).png" width=25% height=25%><img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Экран%20Создания%20Поста%201%20(Вложение%20АудиоВидео).png" width=25% height=25%>
 
 - **Редактирование Поста**
     - Функционал аналогичен созданию поста
@@ -79,10 +74,13 @@
 <img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Экран%20Редактирования%20Поста.png" width=25% height=25%>
 
 - **Создание и редактирование события.**
-    - Функционал аналогичен посту ключевые отличий:
+    - Функционал аналогичен посту ключевые отличия:
         - Переход на фрагмент со списком пользователей с возможностью отметить их как Спикеров
         - Указание формата события и даты его проведения
 
-<img src="" width=25% height=25%>
+<img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Создания%20события%201.png" width=25% height=25%>
+<img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Создания%20события%202.png" width=25% height=25%>
+<img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Создания%20события%203.png" width=25% height=25%>
+<img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Создания%20события%204.png" width=25% height=25%>
 
 - **Детальная карточка поста**
