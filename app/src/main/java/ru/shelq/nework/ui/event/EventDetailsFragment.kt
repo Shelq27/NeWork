@@ -154,10 +154,12 @@ class EventDetailsFragment : Fragment() {
                     }
                     TextEventTV.text = event.content
                     if (event.link != null) {
+                        TitleLinkTV.visibility= View.VISIBLE
                         LinkPostTV.visibility = View.VISIBLE
                         LinkPostTV.text = event.link
                     } else {
                         LinkPostTV.visibility = View.GONE
+                        TitleLinkTV.visibility= View.GONE
                     }
 
                     TypeEventTV.text =
@@ -200,6 +202,7 @@ class EventDetailsFragment : Fragment() {
                     if (event.coords != null) {
                         val point = Point(event.coords.lat, event.coords.long)
                         GeoEventMW.visibility = View.VISIBLE
+                        ContainerMap.visibility = View.VISIBLE
                         moveToMarker(point)
                         setMarker(point)
                         GeoEventMW.setNoninteractive(true)
@@ -216,6 +219,7 @@ class EventDetailsFragment : Fragment() {
 
                     } else {
                         GeoEventMW.visibility = View.GONE
+                        ContainerMap.visibility = View.GONE
                     }
 
                     if (event.attachment?.url != null) {

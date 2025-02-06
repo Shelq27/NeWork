@@ -131,9 +131,11 @@ class PostDetailsFragment : Fragment() {
 
                     if (post.link != null) {
                         LinkPostTV.visibility = View.VISIBLE
+                        TitleLinkTV.visibility=View.VISIBLE
                         LinkPostTV.text = post.link
                     } else {
                         LinkPostTV.visibility = View.GONE
+                        TitleLinkTV.visibility = View.GONE
                     }
 
                     MentionedB.run {
@@ -157,6 +159,7 @@ class PostDetailsFragment : Fragment() {
 
                     if (post.coords != null) {
                         val point = Point(post.coords.lat, post.coords.long)
+                        ContainerMap.visibility = View.VISIBLE
                         GeoPostMW.visibility = View.VISIBLE
                         moveToMarker(point)// Перемещаем камеру в определенную область на карте
                         setMarker(point)// Устанавливаем маркер на карте
@@ -174,6 +177,7 @@ class PostDetailsFragment : Fragment() {
 
                     } else {
                         GeoPostMW.visibility = View.GONE
+                        ContainerMap.visibility = View.GONE
                     }
 
                     if (post.attachment?.url != null) {
