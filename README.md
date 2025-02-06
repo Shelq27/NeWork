@@ -36,14 +36,11 @@
         - Переход через меню на авторизацию или регистрацию
         - Переход на создание постов или событий если вы авторизированы
 
-<img src ="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Основной%20Экран%20Пост.png" width=25% height=25%>
-<img src ="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Основной%20Экран%20Ивент.png" width=25% height=25%>
-<img src ="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Основной%20Экран%20Юзеры.png" width=25% height=25%>
+<img src ="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Основной%20Экран%20Пост.png" width=25% height=25%><img src ="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Основной%20Экран%20Ивент.png" width=25% height=25%><img src ="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Основной%20Экран%20Юзеры.png" width=25% height=25%>
 
 Также меню с авторизацией или профилем в случае если пользователь авторизирован
 
-<img src ="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Основной%20Экран%20Меню%20с%20Авторизацией.png" width=25% height=25%>
-<img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Основной%20Экран%20Меню%20с%20Профилем.png" width=25% height=25%>
+<img src ="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Основной%20Экран%20Меню%20с%20Авторизацией.png" width=25% height=25%><img src="https://github.com/Shelq27/NeWork/blob/main/app/src/main/res/screenshots/Основной%20Экран%20Меню%20с%20Профилем.png" width=25% height=25%>
 
 В случае если вы не авторизированы вам выдаст диалог с прохождением авторизации
 
