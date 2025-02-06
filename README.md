@@ -20,6 +20,8 @@
     - LiveData, Flow
     - Coroutines
     - YandexMapsMobile
+    - Glide
+    - Navigation
     - [ImagePicker](https://github.com/Dhaval2404/ImagePicker)
 
 ### Функционал приложения.
