@@ -96,7 +96,6 @@
         - Просмотр списка лайкеров , спикеров и участников, если их больше 5 
 
 <img src="https://github.com/Shelq27/NeWork/blob/main/screenshots/Детальная%20карточка%20события%20(Основа).png" width=25% height=25%>
-<img src="https://github.com/Shelq27/NeWork/blob/main/screenshots/Детальная%20карточка%20события%20(Основа).png" width=25% height=25%>
 
 - **Детальная карточка юзера**
     - Функционал :
