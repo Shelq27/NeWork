@@ -1,33 +1,44 @@
 name: CI
-
+# Запуск, если
 on:
+  # Просиходит пуш
   push:
     branches: '*'
+  # Создан pull request
   pull_request:
     branches: '*'
-
+# Задачи
 jobs:
+  # Собрать
   build:
+    # Используем машину с данной ОС
     runs-on: ubuntu-20.04
-
+    # Шаги сборки
     steps:
+      # На вот этой ubuntu-20.04 нам надо сначала код получить
       - name: Checkout Code
-        uses: actions/checkout@v4
-
+        # Используем готовый экшн по клонированию репозитория локально
+        uses: actions/checkout@v3
+      # Используем JDK 17 для сборки
       - name: Set up JDK 17
+        # Аналогично переиспользуем другой экшн по установке JDK
         uses: actions/setup-java@v1
         with:
           java-version: 17
+      # Добавляем недостающий для сборки файл с секретами
       - name: Decode apikey.properties
-        env:
-          API_KEY_SECRET: ${{ secrets.API_KEY_SECRET }}
-        run: echo $API_KEY_SECRET > ./apikey.properties
-        
+        run: |
+          cat << EOF > ./apikey.properties
+          ${{ secrets.API_KEY_SECRET }}
+          EOF
+      # Сборка проекта аналогично тому, что происходит по клику на молоток в Android Studio
       - name: Build
+        # chmod меняет права у файла, чтобы его можно было запустить как исполняемый. На всякий случай
+        # ./gradlew build запуск таски по сборке проекта
         run: |
           chmod +x ./gradlew
           ./gradlew build
-
+      # Загрузить apk файл, чтобы его можно было скачать позже.
       - name: Upload Build Artifact
         uses: actions/upload-artifact@v4
         with:
