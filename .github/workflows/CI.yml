@@ -21,7 +21,7 @@ jobs:
       - name: Decode apikey.properties
         env:
           API_KEY_SECRET: ${{ secrets.API_KEY_SECRET }}
-        run: echo $API_KEY_SECRET > ./app/apikey.properties
+        run: echo $API_KEY_SECRET > ./apikey.properties
         
       - name: Build
         run: |
