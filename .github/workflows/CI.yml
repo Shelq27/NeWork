@@ -18,7 +18,11 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 17
-
+      - name: Decode apikey.properties
+        env:
+          API_KEY_SECRET: ${{ secrets.API_KEY_SECRET }}
+        run: echo $API_KEY_SECRET > ./app/apikey.properties
+        
       - name: Build
         run: |
           chmod +x ./gradlew
