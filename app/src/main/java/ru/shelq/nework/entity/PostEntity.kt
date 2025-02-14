@@ -30,7 +30,7 @@ data class PostEntity(
     val likeOwnerIds: List<Long>,
     val likedByMe: Boolean,
     val read: Boolean = true,
-    @Embedded()
+    @Embedded
     val attachment: AttachmentEmbeddable?,
     val likes: Int = 0
 ) {
@@ -103,6 +103,5 @@ data class AttachmentEmbeddable(
     }
 }
 
-fun List<PostEntity>.toDto(): List<Post> = map(PostEntity::toDto)
 fun List<Post>.toEntity(): List<PostEntity> = map(PostEntity::fromDto)
 

@@ -67,28 +67,28 @@ class PostViewHolder(
             CardPost.setOnClickListener {
                 onInteractionListener.onOpen(post)
             }
-            AuthorTV.text = post.author
-            AvatarIV.loadImgCircle(post.authorAvatar)
+            authorTV.text = post.author
+            avatarIV.loadImgCircle(post.authorAvatar)
 
             if (post.link.equals("")) {
-                LinkPostTV.visibility = View.GONE
+                linkPostTV.visibility = View.GONE
             } else {
-                LinkPostTV.visibility = View.VISIBLE
-                LinkPostTV.text = post.link
+                linkPostTV.visibility = View.VISIBLE
+                linkPostTV.text = post.link
             }
             if (post.content == "") {
-                TextPostTV.visibility = View.GONE
+                textPostTV.visibility = View.GONE
             } else {
-                TextPostTV.visibility = View.VISIBLE
-                TextPostTV.text = post.content
+                textPostTV.visibility = View.VISIBLE
+                textPostTV.text = post.content
             }
-            PublishedPostTV.text = AndroidUtils.dateFormatToText(post.published, root.context)
-            LikeIB.text = post.likeOwnerIds.size.toString()
-            LikeIB.isChecked = post.likedByMe
+            publishedPostTV.text = AndroidUtils.dateFormatToText(post.published, root.context)
+            likeIB.text = post.likeOwnerIds.size.toString()
+            likeIB.isChecked = post.likedByMe
 
-            LikeIB.setOnClickListener {
+            likeIB.setOnClickListener {
                 onInteractionListener.onLike(post)
-                LikeIB.isChecked = post.likedByMe
+                likeIB.isChecked = post.likedByMe
             }
 
             imageAttachment.visibility = View.GONE
@@ -101,7 +101,7 @@ class PostViewHolder(
             videoAttachment.videoView.stopPlayback()
             audioAttachment.audioSB.progress = 0
             if (post.attachment != null) {
-                AttachmentGroup.visibility = View.VISIBLE
+                attachmentGroup.visibility = View.VISIBLE
                 when (post.attachment.type) {
                     AttachmentType.IMAGE -> {
                         imageAttachment.visibility = View.VISIBLE
@@ -132,9 +132,9 @@ class PostViewHolder(
                             audioAttachment.playAudioIB.setBackgroundResource(R.drawable.ic_play_48dp)
                         } else {
                             audioAttachment.audioSB.max =
-                                mediaLifecycleObserver.mediaPlayer!!.duration
+                                mediaLifecycleObserver.mediaPlayer?.duration ?: 0
                             audioAttachment.audioSB.progress =
-                                mediaLifecycleObserver.mediaPlayer!!.currentPosition
+                                mediaLifecycleObserver.mediaPlayer?.currentPosition ?: 0
                             audioAttachment.audioSB.postDelayed(
                                 mediaLifecycleObserver.runnable, 1000
                             )
@@ -167,25 +167,25 @@ class PostViewHolder(
             audioAttachment.playAudioIB.setOnClickListener {
                 if (previousPosition == -1) {
                     mediaLifecycleObserver.playAudio(
-                        post.attachment!!, audioAttachment.audioSB, audioAttachment.playAudioIB
+                        post.attachment, audioAttachment.audioSB, audioAttachment.playAudioIB
                     )
                 } else {
                     if (position == previousPosition) {
                         mediaLifecycleObserver.playAudio(
-                            post.attachment!!, audioAttachment.audioSB, audioAttachment.playAudioIB
+                            post.attachment, audioAttachment.audioSB, audioAttachment.playAudioIB
                         )
                     } else {
                         if (mediaLifecycleObserver.mediaPlayer?.isPlaying == true) {
                             mediaLifecycleObserver.stop()
                             audioAttachment.audioSB.progress = previousPosition
                             mediaLifecycleObserver.playAudio(
-                                post.attachment!!,
+                                post.attachment,
                                 audioAttachment.audioSB,
                                 audioAttachment.playAudioIB
                             )
                         } else {
                             mediaLifecycleObserver.playAudio(
-                                post.attachment!!,
+                                post.attachment,
                                 audioAttachment.audioSB,
                                 audioAttachment.playAudioIB
                             )
@@ -195,9 +195,9 @@ class PostViewHolder(
                 previousPosition = position
             }
 
-            ShareIB.setOnClickListener { onInteractionListener.onShare(post) }
-            MenuIB.isVisible = post.ownedByMe
-            MenuIB.setOnClickListener {
+            shareIB.setOnClickListener { onInteractionListener.onShare(post) }
+            menuIB.isVisible = post.ownedByMe
+            menuIB.setOnClickListener {
                 PopupMenu(it.context, it).apply {
                     inflate(R.menu.menu_options_card)
                     setOnMenuItemClickListener { item ->

@@ -3,12 +3,12 @@ package ru.shelq.nework.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
@@ -32,6 +32,7 @@ private val empty = Jobs(
     userId = 0
 )
 
+@HiltViewModel(assistedFactory = JobViewModel.Factory::class)
 class JobViewModel @AssistedInject constructor(
     private val repository: JobRepository,
     auth: AppAuth,
@@ -43,15 +44,6 @@ class JobViewModel @AssistedInject constructor(
         fun create(userId: Long): JobViewModel
     }
 
-    companion object {
-        fun provideJobViewModelFactory(factory: Factory, userId: Long): ViewModelProvider.Factory {
-            return object : ViewModelProvider.Factory {
-                override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                    return factory.create(userId) as T
-                }
-            }
-        }
-    }
 
     var data: LiveData<FeedModel<Jobs>>
 

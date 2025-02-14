@@ -6,5 +6,4 @@ data class User(
     val login: String,
     val name: String,
     val avatar: String?,
-) : AppItem() {
-}
+) : AppItem()

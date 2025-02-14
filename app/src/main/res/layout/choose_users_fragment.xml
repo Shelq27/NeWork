@@ -2,20 +2,19 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/chooseUsersFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/chooseUsersFragment"
-    tools:context="ui.post.ChooseMentionedFragment"
-    >
+    tools:context="ui.post.ChooseMentionedFragment">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/ChooseUserABL"
+        android:id="@+id/chooseUserABL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/ChooseUserTTB"
+            android:id="@+id/chooseUserTTB"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="?attr/actionBarSize"
@@ -24,18 +23,14 @@
             app:title="Choose users" />
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        app:layout_constraintTop_toBottomOf="@id/ChooseUserABL">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/ListUserChoose"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/user_card_choose" />
-    </androidx.core.widget.NestedScrollView>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/listUserChoose"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/chooseUserABL"
+        tools:listitem="@layout/user_card_choose" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -57,37 +57,33 @@ data class EventEntity(
         attachment?.toDto(),
         link,
         emptyMap(),
-        likes = likes,
         participants = participants
     )
 
     companion object {
-        fun fromDto(dto: Event): EventEntity = with(dto) {
-            EventEntity(
-                dto.id,
-                dto.authorId,
-                dto.author,
-                dto.authorJob,
-                dto.authorAvatar,
-                dto.content,
-                dto.datetime,
-                dto.published,
-                coords = CoordsEmbeddable.fromDto(dto.coords),
-                dto.type,
-                dto.likeOwnerIds,
-                dto.likedByMe,
-                dto.speakerIds,
-                dto.participantsIds,
-                dto.participatedByMe,
-                attachment = AttachmentEmbeddable.fromDto(dto.attachment),
-                link = dto.link,
-                likes = dto.likeOwnerIds.size,
-                participants = dto.participantsIds.size
+        fun fromDto(dto: Event): EventEntity = EventEntity(
+            dto.id,
+            dto.authorId,
+            dto.author,
+            dto.authorJob,
+            dto.authorAvatar,
+            dto.content,
+            dto.datetime,
+            dto.published,
+            coords = CoordsEmbeddable.fromDto(dto.coords),
+            dto.type,
+            dto.likeOwnerIds,
+            dto.likedByMe,
+            dto.speakerIds,
+            dto.participantsIds,
+            dto.participatedByMe,
+            attachment = AttachmentEmbeddable.fromDto(dto.attachment),
+            link = dto.link,
+            likes = dto.likeOwnerIds.size,
+            participants = dto.participantsIds.size
 
-            )
-        }
+        )
     }
 }
 
-fun List<EventEntity>.toDto(): List<Event> = map(EventEntity::toDto)
 fun List<Event>.toEntity(): List<EventEntity> = map(EventEntity::fromDto)

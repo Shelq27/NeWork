@@ -19,7 +19,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import ru.shelq.nework.R
 import ru.shelq.nework.auth.AppAuth
 import ru.shelq.nework.databinding.AppActivityBinding
-import ru.shelq.nework.ui.post.PostDetailsFragment.Companion.id
 import ru.shelq.nework.viewmodel.AuthViewModel
 import ru.shelq.nework.viewmodel.EventViewModel
 import ru.shelq.nework.viewmodel.PostViewModel
@@ -48,12 +47,12 @@ class AppActivity : AppCompatActivity() {
         }
 
         val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.NavHostFragment) as NavHostFragment
+            supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
 
         navController = navHostFragment.navController
-        val appTopBar = binding.AppMTB
+        val appTopBar = binding.appMTB
         setSupportActionBar(appTopBar)
-        val bottomNavigation = binding.AppBN
+        val bottomNavigation = binding.appBN
 
 
 
@@ -112,7 +111,7 @@ class AppActivity : AppCompatActivity() {
         return when (item.itemId) {
             R.id.signIn -> {
                 val navHostFragment =
-                    supportFragmentManager.findFragmentById(R.id.NavHostFragment) as NavHostFragment
+                    supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
                 val navController = navHostFragment.navController
                 navController.navigate(R.id.signInFragment)
                 true
@@ -120,7 +119,7 @@ class AppActivity : AppCompatActivity() {
 
             R.id.signUp -> {
                 val navHostFragment =
-                    supportFragmentManager.findFragmentById(R.id.NavHostFragment) as NavHostFragment
+                    supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
                 val navController = navHostFragment.navController
                 navController.navigate(R.id.signUpFragment)
                 true
@@ -136,7 +135,7 @@ class AppActivity : AppCompatActivity() {
                     .fromUri("android-app://userDetailsFragment?id=${viewModel.data.value!!.id}".toUri())
                     .build()
                 val navHostFragment =
-                    supportFragmentManager.findFragmentById(R.id.NavHostFragment) as NavHostFragment
+                    supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
                 val navController = navHostFragment.navController
                 navController.navigate(request)
                 true

@@ -106,7 +106,6 @@ class EventRepositoryImpl @Inject constructor(
             if (!response.isSuccessful) {
                 throw ApiError(response.code(), response.message())
             }
-
         } catch (e: IOException) {
             throw NetworkError
         } catch (e: Exception) {
@@ -117,12 +116,10 @@ class EventRepositoryImpl @Inject constructor(
     override suspend fun save(event: Event) {
 
         try {
-
             val response = apiService.saveEvent(event.toEventApi())
             if (!response.isSuccessful) {
                 throw ApiError(response.code(), response.message())
             }
-
             val body = response.body() ?: throw ApiError(response.code(), response.message())
             eventDao.insert(EventEntity.fromDto(body))
         } catch (e: IOException) {

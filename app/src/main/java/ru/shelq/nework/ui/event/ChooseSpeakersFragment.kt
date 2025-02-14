@@ -47,17 +47,17 @@ class ChooseSpeakersFragment : Fragment() {
                         eventViewModel.removeUser(user)
                 }
             })
-        binding.ListUserChoose.adapter = adapter
+        binding.listUserChoose.adapter = adapter
 
 
         userViewModel.data.observe(viewLifecycleOwner) { users ->
             adapter.submitList(users)
         }
 
-        binding.ChooseUserTTB.setOnMenuItemClickListener {
+        binding.chooseUserTTB.setOnMenuItemClickListener {
             findNavController().navigateUp()
         }
-        binding.ChooseUserTTB.setNavigationOnClickListener {
+        binding.chooseUserTTB.setNavigationOnClickListener {
             findNavController().navigateUp()
         }
         return binding.root

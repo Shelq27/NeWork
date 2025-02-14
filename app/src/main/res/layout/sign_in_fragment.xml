@@ -7,12 +7,11 @@
 
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/LoginTB"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/LoginMTB"
+            android:id="@+id/loginMTB"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="?attr/actionBarSize"
@@ -30,29 +29,28 @@
 
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/LoginETL"
+            android:id="@+id/loginETL"
             style="?attr/textInputFilledStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:hint="@string/hint_login_edit_text"
-            app:layout_constraintBottom_toTopOf="@id/PasswordETL"
+            app:layout_constraintBottom_toTopOf="@id/passwordETL"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/Login"
+                android:id="@+id/loginTI"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                />
+                android:layout_height="wrap_content" />
 
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/PasswordETL"
+            android:id="@+id/passwordETL"
             style="?attr/textInputFilledStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -60,14 +58,14 @@
             android:layout_marginTop="@dimen/element_spacing"
             android:hint="@string/hint_password_edit_text"
             app:endIconMode="password_toggle"
-            app:layout_constraintBottom_toTopOf="@id/SignIn"
+            app:layout_constraintBottom_toTopOf="@id/signIn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/LoginETL">
+            app:layout_constraintTop_toBottomOf="@id/loginETL">
 
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/Pass"
+                android:id="@+id/passTI"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword" />
@@ -76,7 +74,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
-            android:id="@+id/SignIn"
+            android:id="@+id/signIn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/element_spacing"
@@ -84,10 +82,10 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/PasswordETL" />
+            app:layout_constraintTop_toBottomOf="@id/passwordETL" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/SignUpB"
+            android:id="@+id/signUpB"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -95,7 +93,7 @@
             android:textAllCaps="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/SignIn" />
+            app:layout_constraintTop_toBottomOf="@id/signIn" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

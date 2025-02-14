@@ -120,7 +120,7 @@ class WallRemoteMediator @Inject constructor(
         }
     }
 
-    fun isMe(): Boolean {
+    private fun isMe(): Boolean {
         return userId == auth.authState.value.id
     }
 }

@@ -78,7 +78,6 @@
     <string name="error_user_exist">The user already exists</string>
     <string name="error_format_image">Invalid image format</string>
     <string name="pass_don_t_match">Passwords don\'t match</string>
-    <string name="cancelled">Task cancelled</string>
     <string name="desc_select_date">Select Date</string>
     <string name="attachment_no_more_15mb">Attachment no more 15Mb</string>
     <string name="hint_text">Text</string>
@@ -100,4 +99,7 @@
     <string name="desc_tab_layout">container tab post|job</string>
     <string name="login_button">Login</string>
     <string name="title_sign_in">Authorization</string>
+    <string name="tabs_wall" translatable="false">Wall</string>
+    <string name="tabs_jobs">Jobs</string>
+    <string name="desc_map_fragment">Map Fragment</string>
 </resources>

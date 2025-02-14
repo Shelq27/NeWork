@@ -1,4 +1,3 @@
-@file:Suppress("DEPRECATION")
 
 package ru.shelq.nework.util
 
@@ -12,7 +11,6 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.startActivity
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.yandex.mapkit.Animation
@@ -74,7 +72,7 @@ object AndroidUtils {
 
         val shareIntent =
             Intent.createChooser(intent, context.getString(R.string.share))
-        startActivity(context, shareIntent, null)
+        context.startActivity(shareIntent)
     }
 
     fun showSignInDialog(fragment: Fragment) {

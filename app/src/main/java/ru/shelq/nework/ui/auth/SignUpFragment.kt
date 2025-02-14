@@ -1,13 +1,11 @@
 package ru.shelq.nework.ui.auth
 
 import android.app.Activity
-import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.net.toFile
 import androidx.core.widget.doOnTextChanged
@@ -24,36 +22,39 @@ import ru.shelq.nework.util.AndroidUtils
 import ru.shelq.nework.viewmodel.SignUpViewModel
 import javax.inject.Inject
 
-@Suppress("DEPRECATION")
 @AndroidEntryPoint
 class SignUpFragment : Fragment() {
     @Inject
     lateinit var appAuth: AppAuth
     private val viewModel: SignUpViewModel by viewModels()
-    private lateinit var binding: SignUpFragmentBinding
+    private var binding: SignUpFragmentBinding? = null
+    private fun requireBinding() = requireNotNull(binding)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = SignUpFragmentBinding.inflate(inflater, container, false)
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            when (it.resultCode) {
-                ImagePicker.RESULT_ERROR -> {
-                    Snackbar.make(
-                        binding.root,
-                        ImagePicker.getError(it.data),
-                        Snackbar.LENGTH_LONG
-                    ).show()
-                }
+        val photoLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+                when (it.resultCode) {
+                    ImagePicker.RESULT_ERROR -> {
+                        Snackbar.make(
+                            requireBinding().root,
+                            ImagePicker.getError(it.data),
+                            Snackbar.LENGTH_LONG
+                        ).show()
+                    }
 
-                Activity.RESULT_OK -> {
-                    val uri: Uri? = it.data?.data
-                    viewModel.changePhoto(uri, uri?.toFile())
+                    Activity.RESULT_OK -> {
+                        val uri: Uri? = it.data?.data
+                        viewModel.changePhoto(uri, uri?.toFile())
+                    }
                 }
             }
-        }
-        binding.LoadAvatarIB.setOnClickListener {
+
+
+        requireBinding().loadAvatarIB.setOnClickListener {
             ImagePicker.with(this)
                 .cropSquare()
                 .compress(2048)
@@ -63,42 +64,42 @@ class SignUpFragment : Fragment() {
                         "image/jpeg"
                     )
                 )
-                .start(20)
+                .createIntent(photoLauncher::launch)
         }
 
 
         viewModel.photo.observe(viewLifecycleOwner) {
 
-            binding.LoadAvatarIB.setImageURI(it.uri)
+            requireBinding().loadAvatarIB.setImageURI(it.uri)
         }
         enableLogin()
-        binding.Name.doOnTextChanged { _, _, _, _ ->
+        requireBinding().nameTI.doOnTextChanged { _, _, _, _ ->
             enableLogin()
         }
-        binding.Login.doOnTextChanged { _, _, _, _ ->
+        requireBinding().loginTI.doOnTextChanged { _, _, _, _ ->
             enableLogin()
         }
 
-        binding.Pass.doOnTextChanged { _, _, _, _ ->
+        requireBinding().passTI.doOnTextChanged { _, _, _, _ ->
             enableLogin()
         }
-        binding.PassRepeat.doOnTextChanged { _, _, _, _ ->
+        requireBinding().passRepeat.doOnTextChanged { _, _, _, _ ->
             enableLogin()
         }
-        binding.RegistrationMTB.setNavigationOnClickListener {
+        requireBinding().registrationMTB.setNavigationOnClickListener {
             findNavController().navigateUp()
         }
-        binding.SignUpB.setOnClickListener {
+        requireBinding().signUpB.setOnClickListener {
             AndroidUtils.hideKeyboard(requireView())
-            if (binding.Pass.text.toString() != binding.PassRepeat.text.toString()) {
+            if (requireBinding().passTI.text.toString() != requireBinding().passTI.text.toString()) {
                 Snackbar.make(
-                    binding.root,
+                    requireBinding().root,
                     getString(R.string.pass_don_t_match), Snackbar.LENGTH_LONG
                 ).show()
             } else {
-                viewModel.name.value = binding.Name.text.toString()
-                viewModel.login.value = binding.Login.text.toString()
-                viewModel.pass.value = binding.Pass.text.toString()
+                viewModel.name.value = requireBinding().nameTI.text.toString()
+                viewModel.login.value = requireBinding().loginTI.text.toString()
+                viewModel.pass.value = requireBinding().passTI.text.toString()
                 viewModel.signUp()
             }
 
@@ -110,39 +111,24 @@ class SignUpFragment : Fragment() {
 
         viewModel.userAuthResult.observe(viewLifecycleOwner) { state ->
             if (state.error) {
-                Snackbar.make(binding.root, state.message, Snackbar.LENGTH_LONG)
+                Snackbar.make(requireBinding().root, state.message, Snackbar.LENGTH_LONG)
                     .show()
             }
         }
-        return binding.root
+        return requireBinding().root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
     }
 
     private fun enableLogin() {
-        binding.SignUpB.isEnabled = binding.Name.text.toString().isNotEmpty() &&
-                binding.Login.text.toString().isNotEmpty() &&
-                binding.Pass.text.toString().isNotEmpty() &&
-                binding.PassRepeat.text.toString().isNotEmpty()
+        requireBinding().signUpB.isEnabled =
+            requireBinding().nameTI.text.toString().isNotEmpty() &&
+                    requireBinding().loginTI.text.toString().isNotEmpty() &&
+                    requireBinding().passTI.text.toString().isNotEmpty() &&
+                    requireBinding().passRepeat.text.toString().isNotEmpty()
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        when (resultCode) {
-            Activity.RESULT_OK -> {
-                val uri: Uri = data?.data!!
-                viewModel.changePhoto(uri, uri.toFile())
-                binding.LoadAvatarIB.setImageURI(uri)
-            }
-
-            ImagePicker.RESULT_ERROR -> {
-                Toast.makeText(requireContext(), ImagePicker.getError(data), Toast.LENGTH_SHORT)
-                    .show()
-            }
-
-            else -> {
-                Toast.makeText(requireContext(), getString(R.string.cancelled), Toast.LENGTH_SHORT)
-                    .show()
-            }
-        }
-    }
 }

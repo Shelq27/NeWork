@@ -19,15 +19,15 @@ data class Post(
     val ownedByMe: Boolean = false,
 ) : AppItem() {
 
-    fun toPostApi() = PostApi(
+    fun toPostApi() = Post(
         id,
         authorId,
         author,
         authorJob,
         authorAvatar,
-        coords,
         content,
         published,
+        coords,
         link,
         mentionIds,
         mentionedMe,
@@ -37,21 +37,3 @@ data class Post(
         users
     )
 }
-
-data class PostApi(
-    override val id: Long,
-    val authorId: Long,
-    val author: String,
-    val authorJob: String? = "",
-    val authorAvatar: String? = "",
-    val coords: Coordinates? = null,
-    val content: String,
-    val published: String,
-    val link: String? = null,
-    val mentionIds: List<Long>,
-    val mentionedMe: Boolean,
-    val likeOwnerIds: List<Long>,
-    val likedByMe: Boolean,
-    val attachment: Attachment? = null,
-    val users: Map<String, UserPreview>
-) : AppItem()

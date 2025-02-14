@@ -42,15 +42,15 @@ class UserViewHolder(
 
     fun bind(user: User) {
         binding.apply {
-            Glide.with(AvatarIV)
+            Glide.with(avatarIV)
                 .load(user.avatar)
                 .placeholder(R.drawable.ic_downloading_100dp)
                 .error(R.drawable.ic_error_outline_100dp)
                 .timeout(10_000)
                 .circleCrop()
-                .into(binding.AvatarIV)
-            AuthorTV.text = user.name
-            LoginTV.text = user.login
+                .into(binding.avatarIV)
+            authorTV.text = user.name
+            loginTV.text = user.login
 
             itemView.setOnClickListener {
                 onInteractionListener.onUserClick(user)

@@ -8,12 +8,11 @@
     tools:context=".ui.users.JobNewFragment">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/NewJobABL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/NewJobTBL"
+            android:id="@+id/newJobTBL"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="?attr/actionBarSize"
@@ -28,7 +27,7 @@
         android:padding="@dimen/common_spacing">
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/NameTL"
+            android:id="@+id/nameTL"
             style="?attr/textInputFilledStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -39,22 +38,22 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/NameJobET"
+                android:id="@+id/nameJobET"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/PositionTL"
+            android:id="@+id/positionTL"
             style="?attr/textInputFilledStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/element_spacing"
             android:hint="@string/hint_position_edit_text"
-            app:layout_constraintTop_toBottomOf="@id/NameTL">
+            app:layout_constraintTop_toBottomOf="@id/nameTL">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/PositionET"
+                android:id="@+id/positionET"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -62,17 +61,17 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/LinkTL"
+            android:id="@+id/linkTL"
             style="?attr/textInputFilledStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/element_spacing"
             android:hint="@string/link"
-            app:layout_constraintTop_toBottomOf="@id/PositionTL">
+            app:layout_constraintTop_toBottomOf="@id/positionTL">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/LinkET"
+                android:id="@+id/linkET"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -80,18 +79,18 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
-            android:id="@+id/EnterDatesB"
+            android:id="@+id/enterDatesB"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/element_spacing"
             android:textColor="@color/black"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/LinkTL"
+            app:layout_constraintTop_toBottomOf="@id/linkTL"
             tools:text="27.09.12 - PT" />
 
         <Button
-            android:id="@+id/CreateJobB"
+            android:id="@+id/createJobB"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/element_spacing"

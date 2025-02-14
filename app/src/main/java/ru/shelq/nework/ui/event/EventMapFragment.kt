@@ -29,7 +29,7 @@ import ru.shelq.nework.util.AndroidUtils.moveCamera
 import ru.shelq.nework.util.DoubleArg
 import ru.shelq.nework.util.IdArg
 
-class EventMapFragment: Fragment() {
+class EventMapFragment : Fragment() {
     companion object {
         var Bundle.id by IdArg
         var Bundle.lat: Double by DoubleArg
@@ -41,7 +41,7 @@ class EventMapFragment: Fragment() {
 
     private val mapInputListener: InputListener = object : InputListener {
         override fun onMapTap(p0: Map, p1: Point) {
-            addMarkerOnMap(requireContext(), binding.GeoPostMW, p1)
+            addMarkerOnMap(requireContext(), requireBinding().geoPostMW, p1)
             mark = p1
         }
 
@@ -49,8 +49,9 @@ class EventMapFragment: Fragment() {
         }
     }
     private lateinit var userLocation: UserLocationLayer
+    private var binding: MapFragmentBinding? = null
+    private fun requireBinding() = requireNotNull(binding)
 
-    private lateinit var binding: MapFragmentBinding
     private val locationObjectListener = object : UserLocationObjectListener {
         override fun onObjectAdded(view: UserLocationView) = Unit
 
@@ -98,41 +99,46 @@ class EventMapFragment: Fragment() {
         MapKitFactory.initialize(requireContext())
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        binding = null
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = MapFragmentBinding.inflate(inflater, container, false)
 
-        mapView = binding.GeoPostMW.apply {
+        mapView = requireBinding().geoPostMW.apply {
             userLocation = MapKitFactory.getInstance().createUserLocationLayer(mapWindow)
             userLocation.isVisible = true
             userLocation.isHeadingEnabled = false
 
         }
-        binding.plus.setOnClickListener {
-            binding.GeoPostMW.map.move(
+        requireBinding().plus.setOnClickListener {
+            requireBinding().geoPostMW.map.move(
                 CameraPosition(
-                    binding.GeoPostMW.map.cameraPosition.target,
-                    binding.GeoPostMW.map.cameraPosition.zoom + 1, 0.0f, 0.0f
+                    requireBinding().geoPostMW.map.cameraPosition.target,
+                    requireBinding().geoPostMW.map.cameraPosition.zoom + 1, 0.0f, 0.0f
                 ),
                 Animation(Animation.Type.SMOOTH, 0.3F),
                 null
             )
         }
 
-        binding.minus.setOnClickListener {
-            binding.GeoPostMW.map.move(
+        requireBinding().minus.setOnClickListener {
+            requireBinding().geoPostMW.map.move(
                 CameraPosition(
-                    binding.GeoPostMW.map.cameraPosition.target,
-                    binding.GeoPostMW.map.cameraPosition.zoom - 1, 0.0f, 0.0f
+                    requireBinding().geoPostMW.map.cameraPosition.target,
+                    requireBinding().geoPostMW.map.cameraPosition.zoom - 1, 0.0f, 0.0f
                 ),
                 Animation(Animation.Type.SMOOTH, 0.3F),
                 null,
             )
         }
-        binding.GeoPostMW.map?.addInputListener(mapInputListener)
-        binding.location.setOnClickListener {
+        requireBinding().geoPostMW.map?.addInputListener(mapInputListener)
+        requireBinding().location.setOnClickListener {
             permissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
             userLocation.setObjectListener(locationObjectListener)
 
@@ -143,12 +149,12 @@ class EventMapFragment: Fragment() {
 
         if (saveLat != 0.0 && saveLong != 0.0) {
             val point = Point(saveLat, saveLong)
-            binding.save.visibility = View.GONE
-            binding.back.visibility = View.VISIBLE
+            requireBinding().save.visibility = View.GONE
+            requireBinding().back.visibility = View.VISIBLE
             moveToMarker(point)// Перемещаем камеру в определенную область на карте
             setMarker(point)
-            binding.back.setOnClickListener {
-                binding.GeoPostMW.onStop()
+            requireBinding().back.setOnClickListener {
+                requireBinding().geoPostMW.onStop()
 
                 findNavController().navigate(
                     R.id.action_eventMapFragment_to_eventDetailsFragment,
@@ -158,7 +164,7 @@ class EventMapFragment: Fragment() {
             }
         }
 
-        binding.save.setOnClickListener {
+        requireBinding().save.setOnClickListener {
             findNavController().navigate(
                 R.id.action_eventMapFragment_to_eventNewFragment,
                 args = Bundle().apply {
@@ -169,7 +175,7 @@ class EventMapFragment: Fragment() {
         }
 
 
-        return binding.root
+        return requireBinding().root
     }
 
     override fun onStart() {
@@ -188,12 +194,13 @@ class EventMapFragment: Fragment() {
         super.onDestroyView()
         mapView = null
     }
+
     private fun setMarker(point: Point) {
-        addMarkerOnMap(requireContext(), binding.GeoPostMW, point)
+        addMarkerOnMap(requireContext(), requireBinding().geoPostMW, point)
     }
 
     private fun moveToMarker(point: Point) {
-        moveCamera(binding.GeoPostMW, point)
+        moveCamera(requireBinding().geoPostMW, point)
     }
 
 }

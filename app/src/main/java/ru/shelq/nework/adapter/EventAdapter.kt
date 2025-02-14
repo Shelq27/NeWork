@@ -56,29 +56,29 @@ class EventViewHolder(
 
     fun bind(event: Event, position: Int) {
         binding.apply {
-            EventCard.setOnClickListener {
+            eventCard.setOnClickListener {
                 onInteractionListener.onOpen(event)
             }
-            AuthorTV.text = event.author
-            AvatarIV.loadImgCircle(event.authorAvatar)
-            PublishedEventTV.text = AndroidUtils.dateFormatToText(event.published, root.context)
-            TextEventTV.text = event.content
+            authorTV.text = event.author
+            avatarIV.loadImgCircle(event.authorAvatar)
+            publishedEventTV.text = AndroidUtils.dateFormatToText(event.published, root.context)
+            textEventTV.text = event.content
             if (event.link != null) {
-                LinkEventTV.visibility = View.VISIBLE
-                LinkEventTV.text = event.link
+                linkEventTV.visibility = View.VISIBLE
+                linkEventTV.text = event.link
             } else {
-                LinkEventTV.visibility = View.GONE
+                linkEventTV.visibility = View.GONE
             }
-            TypeEventTV.text = when (event.type) {
+            typeEventTV.text = when (event.type) {
                 EventType.ONLINE -> root.context.getString(R.string.online)
                 EventType.OFFLINE -> root.context.getString(R.string.offline)
             }
-            DateEventTV.text = AndroidUtils.dateFormatToText(event.datetime, root.context)
-            LikeIB.text = event.likeOwnerIds.size.toString()
-            LikeIB.isChecked = event.likedByMe
-            LikeIB.setOnClickListener {
+            dateEventTV.text = AndroidUtils.dateFormatToText(event.datetime, root.context)
+            likeIB.text = event.likeOwnerIds.size.toString()
+            likeIB.isChecked = event.likedByMe
+            likeIB.setOnClickListener {
                 onInteractionListener.onLike(event)
-                LikeIB.isChecked = event.likedByMe
+                likeIB.isChecked = event.likedByMe
             }
             imageAttachment.visibility = View.GONE
             audioAttachment.audioPlay.visibility = View.GONE
@@ -180,9 +180,9 @@ class EventViewHolder(
                 }
                 previousPosition = position
             }
-            ShareIB.setOnClickListener { onInteractionListener.onShare(event) }
-            MenuIB.isVisible = event.ownedByMe
-            MenuIB.setOnClickListener {
+            shareIB.setOnClickListener { onInteractionListener.onShare(event) }
+            menuIB.isVisible = event.ownedByMe
+            menuIB.setOnClickListener {
                 PopupMenu(it.context, it).apply {
                     inflate(R.menu.menu_options_card)
                     setOnMenuItemClickListener { item ->
@@ -202,9 +202,9 @@ class EventViewHolder(
                     }
                 }.show()
             }
-            UsersIB.isChecked = event.participatedByMe
-            UsersIB.text = event.participants.toString()//"${post.likes()}"
-            UsersIB.setOnClickListener {
+            usersIB.isChecked = event.participatedByMe
+            usersIB.text = event.participants.toString()//"${post.likes()}"
+            usersIB.setOnClickListener {
                 onInteractionListener.onParticipate(event)
             }
         }

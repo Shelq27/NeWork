@@ -4,7 +4,7 @@ import kotlinx.coroutines.flow.Flow
 import ru.shelq.nework.dto.Jobs
 
 interface JobRepository {
-    var data: Flow<List<Jobs>>
+    val data: Flow<List<Jobs>>
     fun setUser(userId: Long)
     suspend fun getAll()
     suspend fun removeById(jobs: Jobs)

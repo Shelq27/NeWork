@@ -48,7 +48,7 @@ class UserFragment : Fragment() {
 
         userViewModel.dataState.observe(viewLifecycleOwner) { state ->
             binding.progress.isVisible = state.loading
-            binding.swiperefresh.isRefreshing = state.refreshing
+            binding.swipeRefresh.isRefreshing = state.refreshing
             if (state.error) {
                 Snackbar.make(binding.root, R.string.error_loading, Snackbar.LENGTH_LONG)
                     .setAction(R.string.retry_loading) { userViewModel.loadUsers() }
@@ -56,9 +56,9 @@ class UserFragment : Fragment() {
             }
         }
 
-        binding.swiperefresh.setOnRefreshListener {
+        binding.swipeRefresh.setOnRefreshListener {
             userViewModel.loadUsers()
-            binding.swiperefresh.isRefreshing = false
+            binding.swipeRefresh.isRefreshing = false
         }
         return binding.root
     }

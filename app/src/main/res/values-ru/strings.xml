@@ -73,7 +73,6 @@
     <string name="error_user_exist">Пользователь уже существует</string>
     <string name="error_format_image">Недопустимый формат изображения</string>
     <string name="pass_don_t_match">Пароли не совпадают</string>
-    <string name="cancelled">Задание отменено</string>
     <string name="desc_select_date">Выбрать дату</string>
     <string name="attachment_no_more_15mb">"Вложение не более 15 Мб  "</string>
     <string name="hint_text">Текст</string>
@@ -93,4 +92,7 @@
     <string name="desc_tab_layout">Контейнер с переключением постов и работы</string>
     <string name="login_button">Войти</string>
     <string name="title_sign_in">Авторизация</string>
+    <string name="tabs_wall">Посты</string>
+    <string name="tabs_jobs">Работа</string>
+    <string name="desc_map_fragment">Фрагмент с картой</string>
 </resources>

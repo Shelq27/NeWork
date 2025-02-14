@@ -9,7 +9,7 @@
 
 
     <com.yandex.mapkit.mapview.MapView
-        android:id="@+id/GeoPostMW"
+        android:id="@+id/geoPostMW"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

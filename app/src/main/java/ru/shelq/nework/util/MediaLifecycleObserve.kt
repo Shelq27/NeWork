@@ -3,6 +3,7 @@ package ru.shelq.nework.util
 import android.content.res.AssetFileDescriptor
 import android.media.MediaPlayer
 import android.os.Handler
+import android.os.Looper
 import android.widget.ImageButton
 import android.widget.SeekBar
 import androidx.lifecycle.Lifecycle
@@ -11,15 +12,14 @@ import androidx.lifecycle.LifecycleOwner
 import ru.shelq.nework.R
 import ru.shelq.nework.dto.Attachment
 
-@Suppress("DEPRECATION")
 class MediaLifecycleObserver : LifecycleEventObserver {
 
     var mediaPlayer: MediaPlayer? = MediaPlayer()
     var runnable: Runnable? = null
-    private var handler = Handler()
+    private var handler = Handler(Looper.getMainLooper())
     private var playButton: ImageButton? = null
     private var seekBar: SeekBar? = null
-    var pause: Boolean = false
+    private var pause: Boolean = false
     private lateinit var seekBarListener: SeekBar.OnSeekBarChangeListener
 
     private fun pause() {
@@ -38,12 +38,17 @@ class MediaLifecycleObserver : LifecycleEventObserver {
             Lifecycle.Event.ON_STOP -> {
                 mediaPlayer?.release()
                 mediaPlayer = null
-                if (runnable != null) {
-                    if (handler.hasCallbacks(runnable!!)) {
-                        handler.removeCallbacks(runnable!!)
-                    }
+                runnable?.takeIf { // Берём, если
+
+                    handler.hasCallbacks(it) // если есть каллбеки
+
                 }
 
+                    ?.let { // если не null и есть каллбеки
+
+                        handler.removeCallbacks(it)
+
+                    }
 
             }
 
@@ -67,42 +72,38 @@ class MediaLifecycleObserver : LifecycleEventObserver {
         if (mediaPlayer == null) {
             mediaPlayer = MediaPlayer()
         }
-        try {
-            if (!mediaPlayer!!.isPlaying) {
-                if (pause) {
-                    mediaPlayer!!.seekTo(mediaPlayer!!.currentPosition)
-                    mediaPlayer!!.start()
-                    playButton.setBackgroundResource(R.drawable.ic_pause_48dp)
-                    pause = false
-                    attachment.isPlaying = true
-                } else {
-
-                    mediaPlayer!!.reset()
-                    try {
-                        mediaPlayer!!.setDataSource(attachment.url)
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    }
-                    mediaPlayer!!.prepareAsync()
-                    mediaPlayer!!.setOnPreparedListener {
-                        it.setVolume(15F, 15F)
-                        it.start()
-                        playButton.setBackgroundResource(R.drawable.ic_pause_48dp)
-                        seekBar.progress = 0
-                        seekBar.max = it.duration
-                        attachment.isPlaying = true
-                    }
-                }
+        if (!mediaPlayer!!.isPlaying) {
+            if (pause) {
+                mediaPlayer!!.seekTo(mediaPlayer!!.currentPosition)
+                mediaPlayer!!.start()
+                playButton.setBackgroundResource(R.drawable.ic_pause_48dp)
+                pause = false
+                attachment.isPlaying = true
             } else {
-                pause()
-                pause = true
-                attachment.isPlaying = false
-            }
-            seekbar(attachment)
 
-        } catch (e: NullPointerException) {
-            e.printStackTrace()
+                mediaPlayer!!.reset()
+                try {
+                    mediaPlayer!!.setDataSource(attachment.url)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+                mediaPlayer!!.prepareAsync()
+                mediaPlayer!!.setOnPreparedListener {
+                    it.setVolume(15F, 15F)
+                    it.start()
+                    playButton.setBackgroundResource(R.drawable.ic_pause_48dp)
+                    seekBar.progress = 0
+                    seekBar.max = it.duration
+                    attachment.isPlaying = true
+                }
+            }
+        } else {
+            pause()
+            pause = true
+            attachment.isPlaying = false
         }
+        seekbar(attachment)
+
 
     }
 
@@ -116,14 +117,14 @@ class MediaLifecycleObserver : LifecycleEventObserver {
         if (mediaPlayer == null) {
             mediaPlayer = MediaPlayer()
         }
-        try {
-            if (!mediaPlayer!!.isPlaying) {
-                if (pause) {
-                    mediaPlayer!!.seekTo(mediaPlayer!!.currentPosition)
-                    mediaPlayer!!.start()
-                    playButton.setBackgroundResource(R.drawable.ic_pause_48dp)
-                    pause = false
-                } else{
+
+        if (!mediaPlayer!!.isPlaying) {
+            if (pause) {
+                mediaPlayer!!.seekTo(mediaPlayer!!.currentPosition)
+                mediaPlayer!!.start()
+                playButton.setBackgroundResource(R.drawable.ic_pause_48dp)
+                pause = false
+            } else {
                 mediaPlayer!!.reset()
                 //загрузка трека
                 try {
@@ -139,20 +140,16 @@ class MediaLifecycleObserver : LifecycleEventObserver {
                     seekBar.progress = 0
                     seekBar.max = it.duration
                 }
-                }
-            } else {
-                pause()
-                pause = true
             }
-            seekbar(null)
-
-        } catch (e: NullPointerException) {
-            e.printStackTrace()
+        } else {
+            pause()
+            pause = true
         }
+        seekbar(null)
 
     }
 
-    fun seekbar(attachment: Attachment?) {
+    private fun seekbar(attachment: Attachment?) {
         if (mediaPlayer != null) {
             seekBarListener = SeekBarListener(mediaPlayer as MediaPlayer)
             seekBar?.setOnSeekBarChangeListener(seekBarListener)

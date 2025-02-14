@@ -6,7 +6,6 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:id="@+id/avatarGroup"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -68,7 +67,7 @@
             tools:visibility="visible" />
 
         <ImageButton
-            android:id="@+id/ShowMoreB"
+            android:id="@+id/showMoreB"
             android:layout_width="@dimen/posts_avatar_size"
             android:layout_height="@dimen/posts_avatar_size"
             android:layout_marginStart="-10dp"
@@ -76,7 +75,7 @@
             android:contentDescription="@string/avatar_load_button"
             android:src="@drawable/ic_add_24dp"
             android:visibility="invisible"
-            app:layout_constraintBottom_toTopOf="@id/LoginETL"
+            app:layout_constraintBottom_toTopOf="@id/loginETL"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

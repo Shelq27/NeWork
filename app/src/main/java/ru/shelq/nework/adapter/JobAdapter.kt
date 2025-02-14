@@ -38,12 +38,12 @@ class JobViewHolder(
 
     fun bind(jobs: Jobs) {
         binding.apply {
-            NameJobTV.text = jobs.name
-            PositionJobTV.text = jobs.position
-            PeriodJobTV.text = AndroidUtils.dateRangeToText(jobs.start, jobs.finish)
-            LinkJobTV.text = jobs.link
-            DeleteJobIB.visibility = if (jobs.ownedByMe) View.VISIBLE else View.INVISIBLE
-            DeleteJobIB.setOnClickListener{
+            nameJobTV.text = jobs.name
+            positionJobTV.text = jobs.position
+            periodJobTV.text = AndroidUtils.dateRangeToText(jobs.start, jobs.finish)
+            linkJobTV.text = jobs.link
+            deleteJobIB.visibility = if (jobs.ownedByMe) View.VISIBLE else View.INVISIBLE
+            deleteJobIB.setOnClickListener{
                 onInteractionListener.onJobDelete(jobs)
             }
         }

@@ -18,6 +18,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.lifecycle.withCreationCallback
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import ru.shelq.nework.R
@@ -38,15 +39,13 @@ class UserPostFragment : Fragment() {
     lateinit var auth: AppAuth
     private val userViewModel: UserViewModel by viewModels(ownerProducer = ::requireActivity)
 
-    @Inject
-    lateinit var factory: WallViewModel.Factory
-    private val wallViewModel: WallViewModel by viewModels {
-        WallViewModel.provideWallViewModelFactory(
-            factory,
-            userViewModel.selectedUser.value!!
-        )
-    }
-    private lateinit var binding: PostFragmentBinding
+    private val wallViewModel: WallViewModel by viewModels(
+        extrasProducer = {
+            defaultViewModelCreationExtras.withCreationCallback<WallViewModel.Factory> { factory ->
+                factory.create(requireNotNull(userViewModel.selectedUser.value))
+            }
+        }
+    )
     private val mediaObserver = MediaLifecycleObserver()
     private var postPlaying: Post? = null
 
@@ -54,7 +53,7 @@ class UserPostFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = PostFragmentBinding.inflate(layoutInflater, container, false)
+        val binding = PostFragmentBinding.inflate(layoutInflater, container, false)
 
         val adapter = PostAdapter(object : PostOnInteractionListener {
             override fun onEdit(post: Post) {
@@ -101,7 +100,7 @@ class UserPostFragment : Fragment() {
 
         })
 
-        binding.ListPostView.adapter = adapter
+        binding.listPostView.adapter = adapter
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -111,7 +110,7 @@ class UserPostFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 adapter.loadStateFlow.collectLatest { state ->
-                    binding.SwipeRefresh.isRefreshing =
+                    binding.swipeRefresh.isRefreshing =
                         state.refresh is LoadState.Loading ||
                                 state.prepend is LoadState.Loading ||
                                 state.append is LoadState.Loading
@@ -126,8 +125,8 @@ class UserPostFragment : Fragment() {
                 wallViewModel.resetError()
             }
         }
-        binding.AddNewPostIB.visibility = View.GONE
-        binding.SwipeRefresh.setOnRefreshListener(adapter::refresh)
+        binding.addNewPostIB.visibility = View.GONE
+        binding.swipeRefresh.setOnRefreshListener(adapter::refresh)
         return binding.root
     }
 

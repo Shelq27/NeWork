@@ -50,7 +50,6 @@ class ApiModule {
                     chain.proceed(request)
                 }
                 it.addInterceptor { chain ->
-                    //test
                     appAuth.authState.value.token?.let { token ->
                         val newRequest = chain.request().newBuilder()
                             .addHeader("Authorization", token)

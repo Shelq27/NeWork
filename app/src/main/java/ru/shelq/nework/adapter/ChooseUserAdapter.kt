@@ -14,7 +14,7 @@ interface CheckOnInteractionListener{
     fun onCheck(user: User, checked: Boolean){}
 }
 class ChooseUserAdapter(
-    private var checkedUsers: LongArray?,
+    private val checkedUsers: LongArray?,
     private val onCheckListener: CheckOnInteractionListener
 ) : ListAdapter<User, ChooseUserAdapter.ChooseUserViewHolder>(ChooseUserDiffCallback()) {
 
@@ -37,29 +37,20 @@ class ChooseUserAdapter(
 
         fun bind(user: User) {
             binding.apply {
-                    Glide.with(AvatarIV)
+                    Glide.with(avatarIV)
                         .load(user.avatar)
                         .placeholder(R.drawable.ic_downloading_100dp)
                         .error(R.drawable.ic_error_outline_100dp)
                         .timeout(10_000)
                         .circleCrop()
-                        .into(AvatarIV)
-                AuthorTV.text = user.name
-                LoginTV.text = user.login
+                        .into(avatarIV)
+                authorTV.text = user.name
+                loginTV.text = user.login
 
-                ChooseUserCB.isChecked = checkedUsers?.contains(user.id) == true
+                chooseUserCB.isChecked = checkedUsers?.contains(user.id) == true
 
-                ChooseUserCB.setOnClickListener {
-                    if (checkedUsers != null) {
-                        if (ChooseUserCB.isChecked) {
-                            if (checkedUsers?.contains(user.id) == false) checkedUsers =
-                                checkedUsers!!.plus(user.id)
-                        } else {
-                            if (checkedUsers?.contains(user.id) == true) checkedUsers =
-                                checkedUsers!!.takeIf { !it.equals(user.id) }
-                        }
-                    }
-                    onCheckListener.onCheck(user, ChooseUserCB.isChecked)
+                chooseUserCB.setOnClickListener {
+                    onCheckListener.onCheck(user, chooseUserCB.isChecked)
                 }
             }
         }

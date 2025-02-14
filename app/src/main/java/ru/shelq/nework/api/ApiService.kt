@@ -15,11 +15,9 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 import ru.shelq.nework.auth.AuthState
 import ru.shelq.nework.dto.Event
-import ru.shelq.nework.dto.EventApi
 import ru.shelq.nework.dto.Jobs
 import ru.shelq.nework.dto.Media
 import ru.shelq.nework.dto.Post
-import ru.shelq.nework.dto.PostApi
 import ru.shelq.nework.dto.User
 
 
@@ -44,7 +42,7 @@ interface ApiService {
     suspend fun getPostAfter(@Path("id") id: Long, @Query("count") count: Int): Response<List<Post>>
 
     @POST("posts")
-    suspend fun savePost(@Body post: PostApi): Response<Post>
+    suspend fun savePost(@Body post: Post): Response<Post>
 
     @DELETE("posts/{id}")
     suspend fun deletePostById(@Path("id") id: Long): Response<Unit>
@@ -86,7 +84,7 @@ interface ApiService {
     suspend fun getNewerEvent(@Path("id") id: Long): Response<List<Event>>
 
     @POST("events")
-    suspend fun saveEvent(@Body event: EventApi): Response<Event>
+    suspend fun saveEvent(@Body event: Event): Response<Event>
 
     @DELETE("events/{id}")
     suspend fun deleteEventById(@Path("id") id: Long): Response<Unit>
@@ -214,9 +212,6 @@ interface ApiService {
 
     @DELETE("my/jobs/{id}")
     suspend fun removeJobById(@Path("id") jobId: Long): Response<Unit>
-
-
-
 
 
 }

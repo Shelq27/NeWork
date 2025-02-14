@@ -22,11 +22,10 @@ data class Event(
     val link: String? = null,
     val users: Map<String, UserPreview>,
     val ownedByMe: Boolean = false,
-    val likes: Int = 0,
     val participants: Int = 0
 
 ) : AppItem() {
-    fun toEventApi() = EventApi(
+    fun toEventApi() = Event(
         id,
         authorId,
         author,
@@ -48,23 +47,4 @@ data class Event(
     )
 }
 
-data class EventApi(
-    override val id: Long,
-    val authorId: Long,
-    val author: String,
-    val authorJob: String? = "",
-    val authorAvatar: String? = "",
-    val content: String,
-    val datetime: String,
-    val published: String,
-    val coords: Coordinates? = null,
-    val type: EventType,
-    val likeOwnerIds: List<Long>,
-    val likedByMe: Boolean,
-    val speakerIds: List<Long>,
-    val participantsIds: List<Long>,
-    val participatedByMe: Boolean,
-    val attachment: Attachment? = null,
-    val link: String? = null,
-    val users: Map<String, UserPreview>,
-) : AppItem()
+

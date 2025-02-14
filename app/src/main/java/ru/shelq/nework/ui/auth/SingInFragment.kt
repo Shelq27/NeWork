@@ -22,7 +22,9 @@ class SingInFragment : Fragment() {
     @Inject
     lateinit var appAuth: AppAuth
     private val viewModel: SignInViewModel by viewModels()
-    private lateinit var binding: SignInFragmentBinding
+    private var binding: SignInFragmentBinding? = null
+    private fun requireBinding() = requireNotNull(binding)
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -30,26 +32,28 @@ class SingInFragment : Fragment() {
     ): View {
         binding = SignInFragmentBinding.inflate(layoutInflater)
 
-        binding.Login.doOnTextChanged{ _, _, _, _ ->
+        requireBinding().loginTI.doOnTextChanged { _, _, _, _ ->
             enableLogin()
         }
 
         passError()
-        binding.Pass.doOnTextChanged{ text, _, _, _ ->
-            if(text == null){
+        requireBinding().passTI.doOnTextChanged { text, _, _, _ ->
+            if (text == null) {
                 passError()
-            }
-            else{
-                binding.PasswordETL.error = null
+            } else {
+                requireBinding().passwordETL.error = null
             }
             enableLogin()
         }
-        binding.SignIn.isEnabled = binding.Login.text.toString().isNotEmpty() && binding.Pass.text.toString().isNotEmpty()
+        requireBinding().signIn.isEnabled =
+            requireBinding().loginTI.text.toString()
+                .isNotEmpty() && requireBinding().passTI.text.toString()
+                .isNotEmpty()
 
-        binding.SignIn.setOnClickListener{
+        requireBinding().signIn.setOnClickListener {
             AndroidUtils.hideKeyboard(requireView())
-            viewModel.login.value = binding.Login.text.toString()
-            viewModel.pass.value = binding.Pass.text.toString()
+            viewModel.login.value = requireBinding().loginTI.text.toString()
+            viewModel.pass.value = requireBinding().passTI.text.toString()
             viewModel.signIn()
         }
         viewModel.authState.observe(viewLifecycleOwner) { state ->
@@ -59,25 +63,32 @@ class SingInFragment : Fragment() {
 
         viewModel.userAuthResult.observe(viewLifecycleOwner) { state ->
             if (state.error) {
-                Snackbar.make(binding.root, state.message, Snackbar.LENGTH_LONG)
+                Snackbar.make(requireBinding().root, state.message, Snackbar.LENGTH_LONG)
                     .show()
             }
         }
 
-        binding.SignUpB.setOnClickListener{
+        requireBinding().signUpB.setOnClickListener {
             findNavController().navigate(R.id.action_signInFragment_to_signUpFragment)
         }
-        binding.LoginMTB.setNavigationOnClickListener{
+        requireBinding().loginMTB.setNavigationOnClickListener {
             findNavController().navigateUp()
         }
-        return binding.root
+        return requireBinding().root
     }
 
-    private fun passError(){
-        binding.PasswordETL.error = getString(R.string.password_empty)
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
     }
 
-    private fun enableLogin(){
-        binding.SignIn.isEnabled = binding.Login.text.toString().isNotEmpty() && binding.Pass.text.toString().isNotEmpty()
+    private fun passError() {
+        requireBinding().passwordETL.error = getString(R.string.password_empty)
+    }
+
+    private fun enableLogin() {
+        requireBinding().signIn.isEnabled =
+            requireBinding().loginTI.text.toString().isNotEmpty() && requireBinding().passTI.text.toString()
+                .isNotEmpty()
     }
 }

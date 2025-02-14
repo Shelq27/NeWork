@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -25,8 +24,8 @@ import ru.shelq.nework.auth.AppAuth
 import ru.shelq.nework.databinding.PostFragmentBinding
 import ru.shelq.nework.dto.Post
 import ru.shelq.nework.util.AndroidUtils
-import ru.shelq.nework.util.MediaLifecycleObserver
 import ru.shelq.nework.util.IdArg
+import ru.shelq.nework.util.MediaLifecycleObserver
 import ru.shelq.nework.viewmodel.PostViewModel
 import javax.inject.Inject
 
@@ -92,7 +91,7 @@ class PostFragment : Fragment() {
             }
         })
 
-        binding.ListPostView.adapter = adapter
+        binding.listPostView.adapter = adapter
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.data.collectLatest(adapter::submitData)
@@ -102,7 +101,7 @@ class PostFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 adapter.loadStateFlow.collectLatest { state ->
-                    binding.SwipeRefresh.isRefreshing =
+                    binding.swipeRefresh.isRefreshing =
                         state.refresh is LoadState.Loading ||
                                 state.prepend is LoadState.Loading ||
                                 state.append is LoadState.Loading
@@ -113,26 +112,26 @@ class PostFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.newerPostCount.collectLatest {
-                binding.NewPost.isVisible = it > 0
+                binding.newPost.isVisible = it > 0
             }
         }
 
 
         viewModel.dataState.observe(viewLifecycleOwner) { state ->
-            binding.ProgressBar.isVisible = state.loading
+            binding.progressBar.isVisible = state.loading
             if (state.error) {
                 Snackbar.make(binding.root, R.string.error_loading, Snackbar.LENGTH_LONG)
                     .show()
             }
         }
 
-        binding.NewPost.setOnClickListener {
+        binding.newPost.setOnClickListener {
             viewModel.readNewPosts()
-            binding.NewPost.isVisible = false
-            binding.ListPostView.smoothScrollToPosition(0)
+            binding.newPost.isVisible = false
+            binding.listPostView.smoothScrollToPosition(0)
         }
 
-        binding.AddNewPostIB.setOnClickListener {
+        binding.addNewPostIB.setOnClickListener {
             if (appAuth.authenticated()) {
                 viewModel.edit(null)
                 viewModel.reset()
@@ -142,7 +141,7 @@ class PostFragment : Fragment() {
             }
         }
 
-        binding.SwipeRefresh.setOnRefreshListener(adapter::refresh)
+        binding.swipeRefresh.setOnRefreshListener(adapter::refresh)
 
         return binding.root
     }

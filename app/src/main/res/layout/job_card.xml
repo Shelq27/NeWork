@@ -16,34 +16,34 @@
             android:padding="@dimen/common_spacing">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/HeadJobCL"
+                android:id="@+id/headJobCL"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
-                    android:id="@+id/NameJobTV"
+                    android:id="@+id/nameJobTV"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/size_text_title"
                     android:textStyle="bold"
-                    app:layout_constraintEnd_toStartOf="@id/DeleteJobIB"
+                    app:layout_constraintEnd_toStartOf="@id/deleteJobIB"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="LeroyMerlin" />
 
                 <TextView
-                    android:id="@+id/PeriodJobTV"
+                    android:id="@+id/periodJobTV"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/element_spacing"
-                    app:layout_constraintEnd_toStartOf="@id/DeleteJobIB"
+                    app:layout_constraintEnd_toStartOf="@id/deleteJobIB"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/NameJobTV"
+                    app:layout_constraintTop_toBottomOf="@id/nameJobTV"
                     tools:text="1 september 2020 - PT" />
 
                 <ImageButton
-                    android:id="@+id/DeleteJobIB"
+                    android:id="@+id/deleteJobIB"
                     style="?attr/materialIconButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -58,21 +58,21 @@
 
 
             <TextView
-                android:id="@+id/PositionJobTV"
+                android:id="@+id/positionJobTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/job_spacing"
                 android:textStyle="bold"
-                app:layout_constraintTop_toBottomOf="@id/HeadJobCL"
+                app:layout_constraintTop_toBottomOf="@id/headJobCL"
                 tools:text="Product Turnover Manager" />
 
             <TextView
-                android:id="@+id/LinkJobTV"
+                android:id="@+id/linkJobTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/job_spacing"
                 android:autoLink="web"
-                app:layout_constraintTop_toBottomOf="@id/PositionJobTV"
+                app:layout_constraintTop_toBottomOf="@id/positionJobTV"
 
                 tools:text="https://spb.leroymerlin.ru/" />
         </androidx.constraintlayout.widget.ConstraintLayout>

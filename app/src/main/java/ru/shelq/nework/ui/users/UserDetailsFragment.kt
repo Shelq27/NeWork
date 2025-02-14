@@ -75,18 +75,18 @@ class UserDetailsFragment : Fragment() {
         viewPager2 = binding.viewPager
         adapter = FragmentPageAdapter(childFragmentManager, viewLifecycleOwner.lifecycle)
 
-        tabLayout.addTab(tabLayout.newTab().setText("Wall"))
-        tabLayout.addTab(tabLayout.newTab().setText("Jobs"))
+        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.tabs_wall)))
+        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.tabs_jobs)))
         viewPager2.adapter = adapter
         TabLayoutMediator(tabLayout, viewPager2) { tab, index ->
             when (index) {
                 0 -> {
-                    tab.text = "Wall"
+                    tab.text = getString(R.string.tabs_wall)
                     binding.AddNewJobsIB.visibility = View.GONE
                 }
 
                 1 -> {
-                    tab.text = "Jobs"
+                    tab.text = getString(R.string.tabs_jobs)
                     binding.AddNewJobsIB.visibility = View.VISIBLE
                 }
 

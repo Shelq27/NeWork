@@ -7,7 +7,7 @@
     tools:context=".ui.post.PostNewFragment">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/NewPostABL"
+        android:id="@+id/newPostABL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -15,7 +15,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/NewPostTTB"
+            android:id="@+id/newPostTTB"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="?attr/actionBarSize"
@@ -32,7 +32,7 @@
         app:layout_constraintBottom_toTopOf="@+id/GroupNewPostBB"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/NewPostABL">
+        app:layout_constraintTop_toBottomOf="@id/newPostABL">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -50,7 +50,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/ContentPostET"
+                    android:id="@+id/contentPostET"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     tools:text="@tools:sample/lorem[20]" />
@@ -68,20 +68,20 @@
                 app:boxStrokeWidth="1dp">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/Link"
+                    android:id="@+id/link"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <FrameLayout
-                android:id="@+id/AttachmentGroup"
+                android:id="@+id/attachmentGroup"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
 
                 <include
-                    android:id="@+id/image_container"
+                    android:id="@+id/imageContainer"
                     layout="@layout/image_load"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -90,41 +90,42 @@
                     tools:visibility="visible" />
 
                 <include
-                    android:id="@+id/audio_container"
+                    android:id="@+id/audioContainer"
                     layout="@layout/audio_load"
                     android:visibility="gone"
                     tools:visibility="visible" />
 
                 <include
-                    android:id="@+id/video_container"
+                    android:id="@+id/videoContainer"
                     layout="@layout/video_load"
                     android:visibility="gone"
                     tools:visibility="visible" />
             </FrameLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/CoordsContainerCL"
+                android:id="@+id/coordsContainerCL"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="gone">
+
                 <com.yandex.mapkit.mapview.MapView
-                    android:id="@+id/GeoPostMW"
+                    android:id="@+id/geoPostMW"
                     android:layout_width="match_parent"
                     android:layout_height="221dp"
                     android:layout_marginTop="@dimen/common_spacing"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent">
-                </com.yandex.mapkit.mapview.MapView>
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/RemoveCoords"
+                    android:id="@+id/removeCoords"
                     android:layout_width="@dimen/button_remove_width"
                     android:layout_height="@dimen/button_remove_height"
                     android:text="@string/text_button_remove"
                     android:textAllCaps="false"
                     app:cornerRadius="100dp"
-                    app:layout_constraintTop_toBottomOf="@id/GeoPostMW"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
+                    app:layout_constraintTop_toBottomOf="@id/geoPostMW" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>

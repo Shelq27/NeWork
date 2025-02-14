@@ -1,4 +1,4 @@
-package ru.shelq.nework.ui.post
+package ru.shelq.nework.ui.event
 
 import android.content.Intent
 import android.os.Bundle
@@ -24,7 +24,6 @@ import ru.shelq.nework.auth.AppAuth
 import ru.shelq.nework.databinding.EventFragmentBinding
 import ru.shelq.nework.dto.Event
 import ru.shelq.nework.util.AndroidUtils
-import ru.shelq.nework.util.DoubleArg
 import ru.shelq.nework.util.IdArg
 import ru.shelq.nework.util.MediaLifecycleObserver
 import ru.shelq.nework.viewmodel.EventViewModel
@@ -41,8 +40,6 @@ class EventFragment : Fragment() {
 
     companion object {
         var Bundle.id by IdArg
-        var Bundle.saveLat: Double by DoubleArg
-        var Bundle.saveLong: Double by DoubleArg
     }
 
     override fun onCreateView(
@@ -102,7 +99,7 @@ class EventFragment : Fragment() {
 
         })
 
-        binding.ListEventView.adapter = adapter
+        binding.listEventView.adapter = adapter
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -112,7 +109,7 @@ class EventFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 adapter.loadStateFlow.collectLatest { state ->
-                    binding.SwipeRefresh.isRefreshing =
+                    binding.swipeRefresh.isRefreshing =
                         state.refresh is LoadState.Loading ||
                                 state.prepend is LoadState.Loading ||
                                 state.append is LoadState.Loading
@@ -123,26 +120,26 @@ class EventFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.newerEventCount.collectLatest {
-                binding.NewEvent.isVisible = it > 0
+                binding.newEvent.isVisible = it > 0
             }
         }
 
 
         viewModel.dataState.observe(viewLifecycleOwner) { state ->
-            binding.ProgressBar.isVisible = state.loading
+            binding.progressBar.isVisible = state.loading
             if (state.error) {
                 Snackbar.make(binding.root, R.string.error_loading, Snackbar.LENGTH_LONG)
                     .show()
             }
         }
 
-        binding.NewEvent.setOnClickListener {
+        binding.newEvent.setOnClickListener {
             viewModel.readNewEvents()
-            binding.NewEvent.isVisible = false
-            binding.ListEventView.smoothScrollToPosition(0)
+            binding.newEvent.isVisible = false
+            binding.listEventView.smoothScrollToPosition(0)
         }
 
-        binding.AddNewEventIB.setOnClickListener {
+        binding.addNewEventIB.setOnClickListener {
             if (appAuth.authenticated()) {
                 viewModel.edit(null)
                 viewModel.reset()
@@ -152,7 +149,7 @@ class EventFragment : Fragment() {
             }
         }
 
-        binding.SwipeRefresh.setOnRefreshListener(adapter::refresh)
+        binding.swipeRefresh.setOnRefreshListener(adapter::refresh)
         return binding.root
     }
 

@@ -1,6 +1,4 @@
 package ru.shelq.nework.viewmodel
-
-import android.annotation.SuppressLint
 import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.LiveData
@@ -29,7 +27,7 @@ import java.io.IOException
 import javax.inject.Inject
 
 @HiltViewModel
-class SignUpViewModel @SuppressLint("StaticFieldLeak")
+class SignUpViewModel
 @Inject constructor(
     private val apiService: ApiService,
     @ApplicationContext private val context: Context
@@ -53,50 +51,67 @@ class SignUpViewModel @SuppressLint("StaticFieldLeak")
     val photo: LiveData<PhotoModel>
         get() = _photo
 
-    fun changePhoto(uri: Uri?, file: File?){
+    fun changePhoto(uri: Uri?, file: File?) {
         _photo.value = PhotoModel(uri, file)
     }
 
-    fun signUp() = viewModelScope.launch{
+    fun signUp() = viewModelScope.launch {
         try {
             var authResult = AuthState()
-            when(_photo.value){
-                noPhoto -> authResult = registerUser(name.value!!.toString(), login.value!!.toString().trim(), pass.value!!.toString().trim(), null)
+            when (_photo.value) {
+                noPhoto -> authResult = registerUser(
+                    name.value!!.toString(),
+                    login.value!!.toString().trim(),
+                    pass.value!!.toString().trim(),
+                    null
+                )
+
                 else -> _photo.value?.file?.let { file ->
-                    authResult = registerUser(name.value!!.toString(), login.value!!.toString().trim(), pass.value!!.toString().trim(), MediaUpload(file))
+                    authResult = registerUser(
+                        name.value!!.toString(),
+                        login.value!!.toString().trim(),
+                        pass.value!!.toString().trim(),
+                        MediaUpload(file)
+                    )
                 }
             }
-            if(authResult != null){
+            if (authResult != null) {
                 _authState.value = authResult
                 _userAuthResult.value = UserAuthResult()
             }
-        }
-        catch(apiException: ApiError){
-            _userAuthResult.value = UserAuthResult(error = true, "${apiException.status}:${apiException.code}")
-        }
-        catch (e: Exception) {
+        } catch (apiException: ApiError) {
+            _userAuthResult.value =
+                UserAuthResult(error = true, "${apiException.status}:${apiException.code}")
+        } catch (e: Exception) {
             println(e.printStackTrace())
             _userAuthResult.value = UserAuthResult(error = true)
         }
     }
 
-    private suspend fun registerUser(name:String, login: String, pass: String, upload: MediaUpload?): AuthState {
+    private suspend fun registerUser(
+        name: String,
+        login: String,
+        pass: String,
+        upload: MediaUpload?
+    ): AuthState {
         try {
-            val response: retrofit2.Response<AuthState> = if(upload != null){
+            val response: retrofit2.Response<AuthState> = if (upload != null) {
                 val media = MultipartBody.Part.createFormData(
-                    "file", upload.file.name, upload.file.asRequestBody())
+                    "file", upload.file.name, upload.file.asRequestBody()
+                )
                 apiService.registerUserAvatar(
                     login.toRequestBody("multipart/form-data".toMediaTypeOrNull()),
                     pass.toRequestBody("multipart/form-data".toMediaTypeOrNull()),
                     name.toRequestBody("multipart/form-data".toMediaTypeOrNull()),
-                    media)
-            }else{
+                    media
+                )
+            } else {
                 apiService.registerUser(login, pass, name)
             }
 
             if (!response.isSuccessful) {
                 var message = ""
-                message = when(response.code()){
+                message = when (response.code()) {
                     403 -> context.getString(R.string.error_user_exist)
                     415 -> context.getString(R.string.error_format_image)
                     else -> response.message()

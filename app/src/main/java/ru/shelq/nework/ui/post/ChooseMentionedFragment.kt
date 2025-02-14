@@ -12,7 +12,6 @@ import ru.shelq.nework.adapter.CheckOnInteractionListener
 import ru.shelq.nework.adapter.ChooseUserAdapter
 import ru.shelq.nework.databinding.ChooseUsersFragmentBinding
 import ru.shelq.nework.dto.User
-import ru.shelq.nework.util.DoubleArg
 import ru.shelq.nework.util.LongArrayArg
 import ru.shelq.nework.viewmodel.PostViewModel
 import ru.shelq.nework.viewmodel.UserViewModel
@@ -47,16 +46,16 @@ class ChooseMentionedFragment : Fragment() {
                         postViewModel.removeUser(user)
                 }
             })
-        binding.ListUserChoose.adapter = adapter
+        binding.listUserChoose.adapter = adapter
 
         userViewModel.data.observe(viewLifecycleOwner) { users ->
             adapter.submitList(users)
         }
 
-        binding.ChooseUserTTB.setOnMenuItemClickListener {
+        binding.chooseUserTTB.setOnMenuItemClickListener {
             findNavController().navigateUp()
         }
-        binding.ChooseUserTTB.setNavigationOnClickListener {
+        binding.chooseUserTTB.setNavigationOnClickListener {
             findNavController().navigateUp()
         }
         return binding.root

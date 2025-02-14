@@ -8,13 +8,12 @@
     android:orientation="vertical">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/PostDetailsABL"
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/PostDetailsTBL"
+            android:id="@+id/postDetailsTBL"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="?attr/actionBarSize"
@@ -35,20 +34,20 @@
             android:layout_height="wrap_content">
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/AvatarIV"
+                android:id="@+id/avatarIV"
                 android:layout_width="@dimen/posts_avatar_size"
                 android:layout_height="@dimen/posts_avatar_size"
                 android:layout_margin="@dimen/common_spacing"
                 android:background="@drawable/not_avatar_circle_background"
                 android:contentDescription="@string/desc_avatar_image"
-                app:layout_constraintBottom_toBottomOf="@id/barrier_top"
+                app:layout_constraintBottom_toBottomOf="@id/barrierTop"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:src="@drawable/img_test_avatar" />
 
 
             <TextView
-                android:id="@+id/AuthorTV"
+                android:id="@+id/authorTV"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/common_spacing"
@@ -58,39 +57,39 @@
                 android:singleLine="true"
                 android:textSize="@dimen/size_text_title"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/NameJobTV"
+                app:layout_constraintBottom_toTopOf="@+id/nameJobTV"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/AvatarIV"
+                app:layout_constraintStart_toEndOf="@id/avatarIV"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_chainStyle="packed"
                 tools:text="Albert Ablyaev" />
 
             <TextView
-                android:id="@+id/NameJobTV"
+                android:id="@+id/nameJobTV"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/common_spacing"
                 android:layout_marginEnd="@dimen/common_spacing"
-                app:layout_constraintBottom_toBottomOf="@id/barrier_top"
+                app:layout_constraintBottom_toBottomOf="@id/barrierTop"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/AvatarIV"
-                app:layout_constraintTop_toBottomOf="@id/AuthorTV"
+                app:layout_constraintStart_toEndOf="@id/avatarIV"
+                app:layout_constraintTop_toBottomOf="@id/authorTV"
                 tools:text="Android Developer" />
 
             <androidx.constraintlayout.widget.Barrier
-                android:id="@+id/barrier_top"
+                android:id="@+id/barrierTop"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:barrierDirection="bottom"
-                app:constraint_referenced_ids="AvatarIV,NameJobTV" />
+                app:constraint_referenced_ids="avatarIV,nameJobTV" />
 
             <FrameLayout
-                android:id="@+id/AttachmentGroup"
+                android:id="@+id/attachmentGroup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/barrier_top">
+                app:layout_constraintTop_toBottomOf="@id/barrierTop">
 
                 <ImageView
                     android:id="@+id/imageAttachment"
@@ -105,64 +104,64 @@
                     tools:visibility="visible" />
 
                 <include
-                    android:id="@+id/audio_attachment"
+                    android:id="@+id/audioAttachment"
                     layout="@layout/audio_play"
                     android:visibility="gone"
                     tools:visibility="visible" />
 
                 <include
-                    android:id="@+id/video_attachment"
+                    android:id="@+id/videoAttachment"
                     layout="@layout/video_play" />
             </FrameLayout>
 
             <TextView
-                android:id="@+id/DatePublicationPostTV"
+                android:id="@+id/datePublicationPostTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/common_spacing"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/TextPostTV"
-                app:layout_constraintTop_toBottomOf="@id/AttachmentGroup"
+                app:layout_constraintBottom_toTopOf="@id/textPostTV"
+                app:layout_constraintTop_toBottomOf="@id/attachmentGroup"
                 tools:text="12.02.21 10:45" />
 
             <TextView
-                android:id="@+id/TextPostTV"
+                android:id="@+id/textPostTV"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:autoLink="web"
                 android:padding="@dimen/common_spacing"
-                app:layout_constraintBottom_toTopOf="@id/TitleLikersTV"
+                app:layout_constraintBottom_toTopOf="@id/titleLikersTV"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/DatePublicationPostTV"
+                app:layout_constraintTop_toBottomOf="@id/datePublicationPostTV"
                 tools:text="@tools:sample/lorem[20]" />
 
             <TextView
-                android:id="@+id/TitleLikersTV"
+                android:id="@+id/titleLikersTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/common_spacing"
                 android:text="@string/title_likers"
                 android:textSize="@dimen/size_text_title"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@id/GroupLikersLL"
+                app:layout_constraintBottom_toTopOf="@id/groupLikersLL"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/TextPostTV" />
+                app:layout_constraintTop_toBottomOf="@id/textPostTV" />
 
             <LinearLayout
-                android:id="@+id/GroupLikersLL"
+                android:id="@+id/groupLikersLL"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintBottom_toTopOf="@id/TitleMentionedTV"
+                app:layout_constraintBottom_toTopOf="@id/titleMentionedTV"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/TitleLikersTV">
+                app:layout_constraintTop_toBottomOf="@id/titleLikersTV">
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/LikeIB"
+                    android:id="@+id/likeIB"
                     style="@style/Widget.AppTheme.LikeButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -172,41 +171,41 @@
                     android:contentDescription="@string/desc_icon_like"
                     android:padding="@dimen/common_spacing"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/barrier_middle"
+                    app:layout_constraintTop_toBottomOf="@id/barrierMiddle"
                     tools:text="10" />
 
                 <include
-                    android:id="@+id/list_avatars_likers"
+                    android:id="@+id/listAvatarsLikers"
                     layout="@layout/avatars_multiple" />
 
             </LinearLayout>
 
             <TextView
-                android:id="@+id/TitleMentionedTV"
+                android:id="@+id/titleMentionedTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/common_spacing"
                 android:text="@string/title_mentioned"
                 android:textSize="@dimen/size_text_title"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@id/GroupMentionedLL"
+                app:layout_constraintBottom_toTopOf="@id/groupMentionedLL"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/GroupLikersLL" />
+                app:layout_constraintTop_toBottomOf="@id/groupLikersLL" />
 
             <LinearLayout
-                android:id="@+id/GroupMentionedLL"
+                android:id="@+id/groupMentionedLL"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/element_spacing"
                 android:orientation="horizontal"
-                app:layout_constraintBottom_toTopOf="@id/ContainerMap"
+                app:layout_constraintBottom_toTopOf="@id/containerMap"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/TitleMentionedTV">
+                app:layout_constraintTop_toBottomOf="@id/titleMentionedTV">
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/MentionedB"
+                    android:id="@+id/mentionedB"
                     style="@style/Widget.AppTheme.LikeButton"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/posts_avatar_size"
@@ -218,22 +217,22 @@
                     tools:text="10" />
 
                 <include
-                    android:id="@+id/list_avatars_mentioned"
+                    android:id="@+id/listAvatarsMentioned"
                     layout="@layout/avatars_multiple" />
             </LinearLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/ContainerMap"
+                android:id="@+id/containerMap"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/max_size_attachment"
                 android:clickable="true"
-                app:layout_constraintBottom_toTopOf="@id/TitleLinkTV"
+                app:layout_constraintBottom_toTopOf="@id/titleLinkTV"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/GroupMentionedLL">
+                app:layout_constraintTop_toBottomOf="@id/groupMentionedLL">
 
                 <com.yandex.mapkit.mapview.MapView
-                    android:id="@+id/GeoPostMW"
+                    android:id="@+id/geoPostMW"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="@dimen/common_spacing"
@@ -247,21 +246,21 @@
 
 
             <TextView
-                android:id="@+id/TitleLinkTV"
+                android:id="@+id/titleLinkTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/common_spacing"
                 android:text="@string/title_site"
                 android:textSize="@dimen/size_text_title"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@id/LinkPostTV"
+                app:layout_constraintBottom_toTopOf="@id/linkPostTV"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/ContainerMap" />
+                app:layout_constraintTop_toBottomOf="@id/containerMap" />
 
 
             <TextView
-                android:id="@+id/LinkPostTV"
+                android:id="@+id/linkPostTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:autoLink="web"
@@ -269,7 +268,7 @@
                 android:paddingEnd="@dimen/common_spacing"
                 android:paddingBottom="@dimen/common_spacing"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/TitleLinkTV"
+                app:layout_constraintTop_toBottomOf="@id/titleLinkTV"
                 tools:text="https://03www.ru/" />
 
 

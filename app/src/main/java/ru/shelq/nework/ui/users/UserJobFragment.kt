@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.lifecycle.withCreationCallback
 import ru.shelq.nework.R
 import ru.shelq.nework.adapter.JobAdapter
 import ru.shelq.nework.adapter.JobOnInteractionListener
@@ -16,21 +17,25 @@ import ru.shelq.nework.databinding.UserJobFragmentBinding
 import ru.shelq.nework.dto.Jobs
 import ru.shelq.nework.viewmodel.JobViewModel
 import ru.shelq.nework.viewmodel.UserViewModel
-import javax.inject.Inject
 
 @AndroidEntryPoint
-class UserJobFragment  : Fragment() {
+class UserJobFragment : Fragment() {
 
     private val userViewModel: UserViewModel by viewModels(ownerProducer = ::requireActivity)
-    @Inject
-    lateinit var factory: JobViewModel.Factory
 
-    private val jobViewModel: JobViewModel by viewModels {
-        JobViewModel.provideJobViewModelFactory(
-            factory,
-            userViewModel.selectedUser.value!!
-        )
-    }
+    private val jobViewModel: JobViewModel by viewModels(
+
+        extrasProducer = {
+
+            defaultViewModelCreationExtras.withCreationCallback<JobViewModel.Factory> { factory ->
+
+                factory.create(requireNotNull(userViewModel.selectedUser.value))
+
+            }
+
+        }
+
+    )
     private lateinit var binding: UserJobFragmentBinding
 
     override fun onCreateView(
@@ -58,7 +63,7 @@ class UserJobFragment  : Fragment() {
 
         jobViewModel.dataState.observe(viewLifecycleOwner) { state ->
             binding.progress.isVisible = state.loading
-            binding.swiperefresh.isRefreshing = state.refreshing
+            binding.swipeRefresh.isRefreshing = state.refreshing
             if (state.error) {
                 Snackbar.make(binding.root, R.string.error_loading, Snackbar.LENGTH_LONG)
                     .setAction(R.string.retry_loading) {
@@ -70,9 +75,9 @@ class UserJobFragment  : Fragment() {
         }
 
 
-        binding.swiperefresh.setOnRefreshListener {
+        binding.swipeRefresh.setOnRefreshListener {
             jobViewModel.loadJobs()
-            binding.swiperefresh.isRefreshing = false
+            binding.swipeRefresh.isRefreshing = false
         }
         return binding.root
     }

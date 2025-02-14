@@ -23,7 +23,7 @@
         android:padding="@dimen/element_spacing">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/AvatarIV"
+            android:id="@+id/avatarIV"
             android:layout_width="@dimen/posts_avatar_size"
             android:layout_height="@dimen/posts_avatar_size"
             android:layout_marginBottom="@dimen/common_spacing"
@@ -36,7 +36,7 @@
             />
 
         <TextView
-            android:id="@+id/AuthorTV"
+            android:id="@+id/authorTV"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/common_spacing"
@@ -45,15 +45,15 @@
             android:singleLine="true"
             android:textSize="@dimen/size_text_title"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/LoginTV"
+            app:layout_constraintBottom_toTopOf="@+id/loginTV"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/AvatarIV"
+            app:layout_constraintStart_toEndOf="@id/avatarIV"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed"
             tools:text="Albert Ablyaev" />
 
         <TextView
-            android:id="@+id/LoginTV"
+            android:id="@+id/loginTV"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/common_spacing"
@@ -61,8 +61,8 @@
             android:layout_marginEnd="@dimen/common_spacing"
             android:layout_marginBottom="@dimen/common_spacing"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/AvatarIV"
-            app:layout_constraintTop_toBottomOf="@id/AuthorTV"
+            app:layout_constraintStart_toEndOf="@id/avatarIV"
+            app:layout_constraintTop_toBottomOf="@id/authorTV"
             tools:text="albiberio" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -32,7 +32,6 @@ import ru.shelq.nework.util.MediaLifecycleObserver
 import ru.shelq.nework.viewmodel.PostViewModel
 import javax.inject.Inject
 
-@Suppress("DEPRECATION")
 @AndroidEntryPoint
 class PostDetailsFragment : Fragment() {
     companion object {
@@ -51,7 +50,8 @@ class PostDetailsFragment : Fragment() {
     private var mapMentioned = HashMap<Int, ImageView>()
     private var mapLikers = HashMap<Int, ImageView>()
 
-    private lateinit var binding: PostDetailsFragmentBinding
+    private var binding: PostDetailsFragmentBinding? = null
+    private fun requireBinding() = requireNotNull(binding)
     private val viewModel: PostViewModel by activityViewModels()
 
 
@@ -76,11 +76,11 @@ class PostDetailsFragment : Fragment() {
                         viewModel.getLikers(post)
                         fillLikers()
                         needLoadLikersAvatars = false
-                        binding.listAvatarsLikers.ShowMoreB.isVisible =
+                        requireBinding().listAvatarsLikers.showMoreB.isVisible =
                             post.likeOwnerIds.size > 5
                     }
                 }
-                binding.listAvatarsLikers.ShowMoreB.setOnClickListener {
+                requireBinding().listAvatarsLikers.showMoreB.setOnClickListener {
                     findNavController().navigate(R.id.action_postDetailsFragment_to_postLikersFragment)
                 }
 
@@ -89,10 +89,11 @@ class PostDetailsFragment : Fragment() {
                         viewModel.getMentioned(post)
                         fillMentioned()
                         needLoadMentionedAvatars = false
-                        binding.listAvatarsMentioned.ShowMoreB.isVisible = post.mentionIds.size > 5
+                        requireBinding().listAvatarsMentioned.showMoreB.isVisible =
+                            post.mentionIds.size > 5
                     }
                 }
-                binding.listAvatarsMentioned.ShowMoreB.setOnClickListener {
+                requireBinding().listAvatarsMentioned.showMoreB.setOnClickListener {
                     findNavController().navigate(R.id.action_postDetailsFragment_to_postMentionedFragment)
                 }
 
@@ -101,50 +102,50 @@ class PostDetailsFragment : Fragment() {
 
 
 
-                binding.apply {
+                requireBinding().apply {
 
                     if (post.authorJob != null) {
-                        NameJobTV.text = post.authorJob
+                        nameJobTV.text = post.authorJob
                     } else {
-                        NameJobTV.text = getText(R.string.looking_for_a_job)
+                        nameJobTV.text = getText(R.string.looking_for_a_job)
                     }
-                    PostDetailsTBL.setNavigationOnClickListener {
+                    postDetailsTBL.setNavigationOnClickListener {
                         findNavController().navigate(R.id.action_postDetailsFragment_to_postFragment)
                     }
 
-                    PostDetailsTBL.setOnMenuItemClickListener { menuItem ->
+                    postDetailsTBL.setOnMenuItemClickListener { menuItem ->
                         when (menuItem.itemId) {
                             R.id.share -> {
-                                share(requireContext(), binding.TextPostTV.text.toString())
+                                share(requireContext(), textPostTV.text.toString())
                                 true
                             }
 
-                            else -> super.onOptionsItemSelected(menuItem)
+                            else -> false
                         }
 
                     }
-                    AvatarIV.loadImgCircle(post.authorAvatar)
-                    AuthorTV.text = post.author
-                    DatePublicationPostTV.text =
+                    avatarIV.loadImgCircle(post.authorAvatar)
+                    authorTV.text = post.author
+                    datePublicationPostTV.text =
                         AndroidUtils.dateFormatToText(post.published, root.context)
-                    TextPostTV.text = post.content
+                    textPostTV.text = post.content
 
                     if (post.link != null) {
-                        LinkPostTV.visibility = View.VISIBLE
-                        TitleLinkTV.visibility=View.VISIBLE
-                        LinkPostTV.text = post.link
+                        linkPostTV.visibility = View.VISIBLE
+                        titleLinkTV.visibility = View.VISIBLE
+                        linkPostTV.text = post.link
                     } else {
-                        LinkPostTV.visibility = View.GONE
-                        TitleLinkTV.visibility = View.GONE
+                        linkPostTV.visibility = View.GONE
+                        titleLinkTV.visibility = View.GONE
                     }
 
-                    MentionedB.run {
+                    mentionedB.run {
                         text = post.mentionIds.size.toString()
                         isChecked = post.mentionedMe
                     }
 
 
-                    LikeIB.run {
+                    likeIB.run {
                         text = post.likeOwnerIds.size.toString()
                         isChecked = post.likedByMe
                         setOnClickListener {
@@ -159,13 +160,13 @@ class PostDetailsFragment : Fragment() {
 
                     if (post.coords != null) {
                         val point = Point(post.coords.lat, post.coords.long)
-                        ContainerMap.visibility = View.VISIBLE
-                        GeoPostMW.visibility = View.VISIBLE
+                        containerMap.visibility = View.VISIBLE
+                        geoPostMW.visibility = View.VISIBLE
                         moveToMarker(point)// Перемещаем камеру в определенную область на карте
                         setMarker(point)// Устанавливаем маркер на карте
-                        GeoPostMW.setNoninteractive(true)
-                        GeoPostMW.setOnClickListener {
-                            GeoPostMW.onStop()
+                        geoPostMW.setNoninteractive(true)
+                        geoPostMW.setOnClickListener {
+                            geoPostMW.onStop()
                             findNavController().navigate(
                                 R.id.action_postDetailsFragment_to_postMapFragment,
                                 args = Bundle().apply {
@@ -176,8 +177,8 @@ class PostDetailsFragment : Fragment() {
                         }
 
                     } else {
-                        GeoPostMW.visibility = View.GONE
-                        ContainerMap.visibility = View.GONE
+                        geoPostMW.visibility = View.GONE
+                        containerMap.visibility = View.GONE
                     }
 
                     if (post.attachment?.url != null) {
@@ -197,7 +198,7 @@ class PostDetailsFragment : Fragment() {
                                     .error(R.drawable.ic_error_outline_100dp)
                                     .timeout(10_000)
                                     .centerCrop()
-                                    .into(binding.imageAttachment)
+                                    .into(imageAttachment)
                             }
                             //видео
                             AttachmentType.VIDEO -> {
@@ -206,7 +207,7 @@ class PostDetailsFragment : Fragment() {
                                 videoAttachment.videoPlay.visibility = View.VISIBLE
                                 Glide.with(videoAttachment.videoThumb)
                                     .load(post.attachment.url)
-                                    .into(binding.videoAttachment.videoThumb)
+                                    .into(videoAttachment.videoThumb)
                             }
                             //аудио
                             AttachmentType.AUDIO -> {
@@ -216,8 +217,8 @@ class PostDetailsFragment : Fragment() {
                             }
                         }
                     } else {
-                        AttachmentGroup.visibility = View.GONE
-                        Glide.with(imageAttachment).clear(binding.imageAttachment)
+                        attachmentGroup.visibility = View.GONE
+                        Glide.with(imageAttachment).clear(imageAttachment)
                     }
                     videoAttachment.playVideoIB.setOnClickListener {
                         videoAttachment.videoView.visibility = View.VISIBLE
@@ -240,8 +241,8 @@ class PostDetailsFragment : Fragment() {
                     audioAttachment.playAudioIB.setOnClickListener {
                         mediaObserver.playAudio(
                             post.attachment!!,
-                            binding.audioAttachment.audioSB,
-                            binding.audioAttachment.playAudioIB
+                            audioAttachment.audioSB,
+                            audioAttachment.playAudioIB
                         )
                     }
 
@@ -273,47 +274,52 @@ class PostDetailsFragment : Fragment() {
 
         viewModel.dataState.observe(viewLifecycleOwner) { state ->
             if (state.error) {
-                Snackbar.make(binding.root, R.string.error_loading, Snackbar.LENGTH_LONG)
+                Snackbar.make(requireBinding().root, R.string.error_loading, Snackbar.LENGTH_LONG)
                     .show()
                 viewModel.resetError()
             }
         }
 
 
-        return binding.root
+        return requireBinding().root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
     }
 
     // Отображаем карты перед тем моментом, когда активити с картой станет видимой пользователю:
     override fun onStart() {
         super.onStart()
         MapKitFactory.getInstance().onStart()
-        binding.GeoPostMW.onStart()
+        requireBinding().geoPostMW.onStart()
     }
 
     // Останавливаем обработку карты, когда активити с картой становится невидимым для пользователя:
     override fun onStop() {
-        binding.GeoPostMW.onStop()
+        requireBinding().geoPostMW.onStop()
         MapKitFactory.getInstance().onStop()
         super.onStop()
     }
 
     private fun setMarker(point: Point) {
-        addMarkerOnMap(requireContext(), binding.GeoPostMW, point)
+        addMarkerOnMap(requireContext(), requireBinding().geoPostMW, point)
     }
 
     private fun moveToMarker(point: Point) {
-        moveCamera(binding.GeoPostMW, point)
+        moveCamera(requireBinding().geoPostMW, point)
     }
 
     private fun clearLikersAvatars() {
         likerNumber = -1
         needLoadLikersAvatars = true
         mapLikers.clear()
-        binding.listAvatarsLikers.avatar1.isVisible = false
-        binding.listAvatarsLikers.avatar2.isVisible = false
-        binding.listAvatarsLikers.avatar3.isVisible = false
-        binding.listAvatarsLikers.avatar4.isVisible = false
-        binding.listAvatarsLikers.avatar5.isVisible = false
+        requireBinding().listAvatarsLikers.avatar1.isVisible = false
+        requireBinding().listAvatarsLikers.avatar2.isVisible = false
+        requireBinding().listAvatarsLikers.avatar3.isVisible = false
+        requireBinding().listAvatarsLikers.avatar4.isVisible = false
+        requireBinding().listAvatarsLikers.avatar5.isVisible = false
 
 
     }
@@ -322,29 +328,29 @@ class PostDetailsFragment : Fragment() {
         mentionedNumber = -1
         needLoadMentionedAvatars = true
         mapMentioned.clear()
-        binding.listAvatarsMentioned.avatar1.isVisible = false
-        binding.listAvatarsMentioned.avatar2.isVisible = false
-        binding.listAvatarsMentioned.avatar3.isVisible = false
-        binding.listAvatarsMentioned.avatar4.isVisible = false
-        binding.listAvatarsMentioned.avatar5.isVisible = false
+        requireBinding().listAvatarsMentioned.avatar1.isVisible = false
+        requireBinding().listAvatarsMentioned.avatar2.isVisible = false
+        requireBinding().listAvatarsMentioned.avatar3.isVisible = false
+        requireBinding().listAvatarsMentioned.avatar4.isVisible = false
+        requireBinding().listAvatarsMentioned.avatar5.isVisible = false
     }
 
     private fun fillLikers() {
-        mapLikers[0] = binding.listAvatarsLikers.avatar1
-        mapLikers[1] = binding.listAvatarsLikers.avatar2
-        mapLikers[2] = binding.listAvatarsLikers.avatar3
-        mapLikers[3] = binding.listAvatarsLikers.avatar4
-        mapLikers[4] = binding.listAvatarsLikers.avatar5
+        mapLikers[0] = requireBinding().listAvatarsLikers.avatar1
+        mapLikers[1] = requireBinding().listAvatarsLikers.avatar2
+        mapLikers[2] = requireBinding().listAvatarsLikers.avatar3
+        mapLikers[3] = requireBinding().listAvatarsLikers.avatar4
+        mapLikers[4] = requireBinding().listAvatarsLikers.avatar5
 
 
     }
 
     private fun fillMentioned() {
-        mapMentioned[0] = binding.listAvatarsMentioned.avatar1
-        mapMentioned[1] = binding.listAvatarsMentioned.avatar2
-        mapMentioned[2] = binding.listAvatarsMentioned.avatar3
-        mapMentioned[3] = binding.listAvatarsMentioned.avatar4
-        mapMentioned[4] = binding.listAvatarsMentioned.avatar5
+        mapMentioned[0] = requireBinding().listAvatarsMentioned.avatar1
+        mapMentioned[1] = requireBinding().listAvatarsMentioned.avatar2
+        mapMentioned[2] = requireBinding().listAvatarsMentioned.avatar3
+        mapMentioned[3] = requireBinding().listAvatarsMentioned.avatar4
+        mapMentioned[4] = requireBinding().listAvatarsMentioned.avatar5
     }
 
     private fun loadAvatar(imageView: ImageView, user: User) {

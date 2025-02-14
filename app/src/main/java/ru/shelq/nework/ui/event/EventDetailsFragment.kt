@@ -34,7 +34,6 @@ import ru.shelq.nework.util.MediaLifecycleObserver
 import ru.shelq.nework.viewmodel.EventViewModel
 import javax.inject.Inject
 
-@Suppress("DEPRECATION")
 @AndroidEntryPoint
 class EventDetailsFragment : Fragment() {
     companion object {
@@ -45,8 +44,8 @@ class EventDetailsFragment : Fragment() {
     lateinit var auth: AppAuth
     private val mediaObserver = MediaLifecycleObserver()
     private val viewModel: EventViewModel by activityViewModels()
-    private lateinit var binding: EventDetailsFragmentBinding
-
+    private var binding: EventDetailsFragmentBinding? = null
+    private fun requireBinding() = requireNotNull(binding)
     private var mapLikers = HashMap<Int, ImageView>()
     private var mapParticipants = HashMap<Int, ImageView>()
     private var mapSpeakers = HashMap<Int, ImageView>()
@@ -81,12 +80,12 @@ class EventDetailsFragment : Fragment() {
                         viewModel.getLikers(event)
                         fillLikers()
                         needLoadLikersAvatars = false
-                        binding.listAvatarsLikers.ShowMoreB.isVisible =
+                        requireBinding().listAvatarsLikers.showMoreB.isVisible =
                             event.likeOwnerIds.size > 5
                     }
                 }
 
-                binding.listAvatarsLikers.ShowMoreB.setOnClickListener {
+                requireBinding().listAvatarsLikers.showMoreB.setOnClickListener {
                     findNavController().navigate(R.id.action_eventDetailsFragment_to_eventLikersFragment)
                 }
 
@@ -95,37 +94,37 @@ class EventDetailsFragment : Fragment() {
                         viewModel.getParticipants(event)
                         fillParticipants()
                         needLoadParticipantsAvatars = false
-                        binding.listAvatarsParticipant.ShowMoreB.isVisible =
+                        requireBinding().listAvatarsParticipant.showMoreB.isVisible =
                             event.participantsIds.size > 5
                     }
                 }
 
-                binding.listAvatarsParticipant.ShowMoreB.setOnClickListener {
+                requireBinding().listAvatarsParticipant.showMoreB.setOnClickListener {
                     findNavController().navigate(R.id.action_eventDetailsFragment_to_eventParticipantsFragment)
                 }
 
                 if (event.speakerIds.isNotEmpty()) {
-                    binding.TitleSpeakersTV.visibility = View.VISIBLE
-                    binding.GroupSpeakersLL.visibility = View.VISIBLE
+                    requireBinding().titleSpeakersTV.visibility = View.VISIBLE
+                    requireBinding().groupSpeakersLL.visibility = View.VISIBLE
                     if (needLoadSpeakersAvatars) {
                         viewModel.getSpeakers(event)
                         fillSpeakers()
                         needLoadSpeakersAvatars = false
-                        binding.listAvatarsSpeakers.ShowMoreB.isVisible =
+                        requireBinding().listAvatarsSpeakers.showMoreB.isVisible =
                             event.speakerIds.size > 5
                     }
                 }
 
-                binding.listAvatarsSpeakers.ShowMoreB.setOnClickListener {
+                requireBinding().listAvatarsSpeakers.showMoreB.setOnClickListener {
                     findNavController().navigate(R.id.action_eventDetailsFragment_to_eventSpeakersFragment)
                 }
 
 
 
 
-                binding.apply {
+                requireBinding().apply {
 
-                    EventDetailsTBL.run {
+                    eventDetailsTBL.run {
                         setNavigationOnClickListener {
                             viewModel.reset()
                             viewModel.edit(null)
@@ -135,43 +134,46 @@ class EventDetailsFragment : Fragment() {
                         setOnMenuItemClickListener { menuItem ->
                             when (menuItem.itemId) {
                                 R.id.share -> {
-                                    share(requireContext(), binding.TextEventTV.text.toString())
+                                    share(
+                                        requireContext(),
+                                        requireBinding().textEventTV.text.toString()
+                                    )
                                     true
                                 }
 
-                                else -> super.onOptionsItemSelected(menuItem)
+                                else -> false
                             }
                         }
 
                     }
-                    AvatarIV.loadImgCircle(event.authorAvatar)
-                    AuthorTV.text = event.author
+                    avatarIV.loadImgCircle(event.authorAvatar)
+                    authorTV.text = event.author
 
                     if (event.authorJob != null) {
-                        NameJobTV.text = event.authorJob
+                        nameJobTV.text = event.authorJob
                     } else {
-                        NameJobTV.text = getText(R.string.looking_for_a_job)
+                        nameJobTV.text = getText(R.string.looking_for_a_job)
                     }
-                    TextEventTV.text = event.content
+                    textEventTV.text = event.content
                     if (event.link != null) {
-                        TitleLinkTV.visibility= View.VISIBLE
-                        LinkPostTV.visibility = View.VISIBLE
-                        LinkPostTV.text = event.link
+                        titleLinkTV.visibility = View.VISIBLE
+                        linkPostTV.visibility = View.VISIBLE
+                        linkPostTV.text = event.link
                     } else {
-                        LinkPostTV.visibility = View.GONE
-                        TitleLinkTV.visibility= View.GONE
+                        linkPostTV.visibility = View.GONE
+                        titleLinkTV.visibility = View.GONE
                     }
 
-                    TypeEventTV.text =
+                    typeEventTV.text =
                         when (event.type) {
                             EventType.OFFLINE -> getString(R.string.offline)
                             EventType.ONLINE -> getString(R.string.online)
                         }
 
-                    DateEventTV.text = AndroidUtils.dateFormatToText(event.datetime, root.context)
+                    dateEventTV.text = AndroidUtils.dateFormatToText(event.datetime, root.context)
 
 
-                    ParticipantB.run {
+                    participantB.run {
                         text = event.participantsIds.size.toString()
                         isChecked = event.participatedByMe
                         setOnClickListener {
@@ -184,7 +186,7 @@ class EventDetailsFragment : Fragment() {
                         }
                     }
 
-                    LikeIB.run {
+                    likeIB.run {
                         text = event.likeOwnerIds.size.toString()
                         isChecked = event.likedByMe
 
@@ -201,13 +203,13 @@ class EventDetailsFragment : Fragment() {
 
                     if (event.coords != null) {
                         val point = Point(event.coords.lat, event.coords.long)
-                        GeoEventMW.visibility = View.VISIBLE
-                        ContainerMap.visibility = View.VISIBLE
+                        geoEventMW.visibility = View.VISIBLE
+                        containerMap.visibility = View.VISIBLE
                         moveToMarker(point)
                         setMarker(point)
-                        GeoEventMW.setNoninteractive(true)
-                        GeoEventMW.setOnClickListener {
-                            GeoEventMW.onStop()
+                        geoEventMW.setNoninteractive(true)
+                        geoEventMW.setOnClickListener {
+                            geoEventMW.onStop()
                             findNavController().navigate(
                                 R.id.action_eventDetailsFragment_to_eventMapFragment,
                                 args = Bundle().apply {
@@ -218,12 +220,12 @@ class EventDetailsFragment : Fragment() {
                         }
 
                     } else {
-                        GeoEventMW.visibility = View.GONE
-                        ContainerMap.visibility = View.GONE
+                        geoEventMW.visibility = View.GONE
+                        containerMap.visibility = View.GONE
                     }
 
                     if (event.attachment?.url != null) {
-                        AttachmentGroup.isVisible = true
+                        attachmentGroup.isVisible = true
                         imageAttachment.isVisible = false
                         audioAttachment.audioPlay.isVisible = false
                         videoAttachment.videoPlay.isVisible = false
@@ -237,14 +239,14 @@ class EventDetailsFragment : Fragment() {
                                     .error(R.drawable.ic_error_outline_100dp)
                                     .timeout(10_000)
                                     .centerCrop()
-                                    .into(binding.imageAttachment)
+                                    .into(requireBinding().imageAttachment)
                             }
 
                             AttachmentType.VIDEO -> {
                                 videoAttachment.videoPlay.isVisible = true
                                 Glide.with(videoAttachment.videoThumb)
                                     .load(event.attachment.url)
-                                    .into(binding.videoAttachment.videoThumb)
+                                    .into(requireBinding().videoAttachment.videoThumb)
                             }
 
                             AttachmentType.AUDIO -> {
@@ -252,8 +254,8 @@ class EventDetailsFragment : Fragment() {
                             }
                         }
                     } else {
-                        AttachmentGroup.isVisible = false
-                        Glide.with(imageAttachment).clear(binding.imageAttachment)
+                        attachmentGroup.isVisible = false
+                        Glide.with(imageAttachment).clear(requireBinding().imageAttachment)
                     }
                     videoAttachment.playVideoIB.setOnClickListener {
                         videoAttachment.videoView.isVisible = true
@@ -276,8 +278,8 @@ class EventDetailsFragment : Fragment() {
                     audioAttachment.playAudioIB.setOnClickListener {
                         mediaObserver.playAudio(
                             event.attachment!!,
-                            binding.audioAttachment.audioSB,
-                            binding.audioAttachment.playAudioIB
+                            requireBinding().audioAttachment.audioSB,
+                            requireBinding().audioAttachment.playAudioIB
                         )
                     }
 
@@ -316,32 +318,37 @@ class EventDetailsFragment : Fragment() {
 
         viewModel.dataState.observe(viewLifecycleOwner) { state ->
             if (state.error) {
-                Snackbar.make(binding.root, R.string.error_loading, Snackbar.LENGTH_LONG)
+                Snackbar.make(requireBinding().root, R.string.error_loading, Snackbar.LENGTH_LONG)
                     .show()
                 viewModel.resetError()
             }
         }
-        return binding.root
+        return requireBinding().root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
     }
 
     override fun onStart() {
         super.onStart()
         MapKitFactory.getInstance().onStart()
-        binding.GeoEventMW.onStart()
+        requireBinding().geoEventMW.onStart()
     }
 
     override fun onStop() {
-        binding.GeoEventMW.onStop()
+        requireBinding().geoEventMW.onStop()
         MapKitFactory.getInstance().onStop()
         super.onStop()
     }
 
     private fun setMarker(point: Point) {
-        addMarkerOnMap(requireContext(), binding.GeoEventMW, point)
+        addMarkerOnMap(requireContext(), requireBinding().geoEventMW, point)
     }
 
     private fun moveToMarker(point: Point) {
-        moveCamera(binding.GeoEventMW, point)
+        moveCamera(requireBinding().geoEventMW, point)
     }
 
 
@@ -349,11 +356,11 @@ class EventDetailsFragment : Fragment() {
         likerNumber = -1
         needLoadLikersAvatars = true
         mapLikers.clear()
-        binding.listAvatarsLikers.avatar1.isVisible = false
-        binding.listAvatarsLikers.avatar2.isVisible = false
-        binding.listAvatarsLikers.avatar3.isVisible = false
-        binding.listAvatarsLikers.avatar4.isVisible = false
-        binding.listAvatarsLikers.avatar5.isVisible = false
+        requireBinding().listAvatarsLikers.avatar1.isVisible = false
+        requireBinding().listAvatarsLikers.avatar2.isVisible = false
+        requireBinding().listAvatarsLikers.avatar3.isVisible = false
+        requireBinding().listAvatarsLikers.avatar4.isVisible = false
+        requireBinding().listAvatarsLikers.avatar5.isVisible = false
 
 
     }
@@ -362,49 +369,49 @@ class EventDetailsFragment : Fragment() {
         participantNumber = -1
         needLoadParticipantsAvatars = true
         mapParticipants.clear()
-        binding.listAvatarsParticipant.avatar1.isVisible = false
-        binding.listAvatarsParticipant.avatar2.isVisible = false
-        binding.listAvatarsParticipant.avatar3.isVisible = false
-        binding.listAvatarsParticipant.avatar4.isVisible = false
-        binding.listAvatarsParticipant.avatar5.isVisible = false
+        requireBinding().listAvatarsParticipant.avatar1.isVisible = false
+        requireBinding().listAvatarsParticipant.avatar2.isVisible = false
+        requireBinding().listAvatarsParticipant.avatar3.isVisible = false
+        requireBinding().listAvatarsParticipant.avatar4.isVisible = false
+        requireBinding().listAvatarsParticipant.avatar5.isVisible = false
     }
 
     private fun clearSpeakersAvatars() {
         speakerNumber = -1
         needLoadSpeakersAvatars = true
         mapSpeakers.clear()
-        binding.GroupSpeakersLL.visibility = View.GONE
-        binding.TitleSpeakersTV.visibility = View.GONE
-        binding.listAvatarsSpeakers.avatar1.isVisible = false
-        binding.listAvatarsSpeakers.avatar2.isVisible = false
-        binding.listAvatarsSpeakers.avatar3.isVisible = false
-        binding.listAvatarsSpeakers.avatar4.isVisible = false
-        binding.listAvatarsSpeakers.avatar5.isVisible = false
+        requireBinding().groupSpeakersLL.visibility = View.GONE
+        requireBinding().titleSpeakersTV.visibility = View.GONE
+        requireBinding().listAvatarsSpeakers.avatar1.isVisible = false
+        requireBinding().listAvatarsSpeakers.avatar2.isVisible = false
+        requireBinding().listAvatarsSpeakers.avatar3.isVisible = false
+        requireBinding().listAvatarsSpeakers.avatar4.isVisible = false
+        requireBinding().listAvatarsSpeakers.avatar5.isVisible = false
     }
 
     private fun fillLikers() {
-        mapLikers[0] = binding.listAvatarsLikers.avatar1
-        mapLikers[1] = binding.listAvatarsLikers.avatar2
-        mapLikers[2] = binding.listAvatarsLikers.avatar3
-        mapLikers[3] = binding.listAvatarsLikers.avatar4
-        mapLikers[4] = binding.listAvatarsLikers.avatar5
+        mapLikers[0] = requireBinding().listAvatarsLikers.avatar1
+        mapLikers[1] = requireBinding().listAvatarsLikers.avatar2
+        mapLikers[2] = requireBinding().listAvatarsLikers.avatar3
+        mapLikers[3] = requireBinding().listAvatarsLikers.avatar4
+        mapLikers[4] = requireBinding().listAvatarsLikers.avatar5
 
     }
 
     private fun fillParticipants() {
-        mapParticipants[0] = binding.listAvatarsParticipant.avatar1
-        mapParticipants[1] = binding.listAvatarsParticipant.avatar2
-        mapParticipants[2] = binding.listAvatarsParticipant.avatar3
-        mapParticipants[3] = binding.listAvatarsParticipant.avatar4
-        mapParticipants[4] = binding.listAvatarsParticipant.avatar5
+        mapParticipants[0] = requireBinding().listAvatarsParticipant.avatar1
+        mapParticipants[1] = requireBinding().listAvatarsParticipant.avatar2
+        mapParticipants[2] = requireBinding().listAvatarsParticipant.avatar3
+        mapParticipants[3] = requireBinding().listAvatarsParticipant.avatar4
+        mapParticipants[4] = requireBinding().listAvatarsParticipant.avatar5
     }
 
     private fun fillSpeakers() {
-        mapSpeakers[0] = binding.listAvatarsSpeakers.avatar1
-        mapSpeakers[1] = binding.listAvatarsSpeakers.avatar2
-        mapSpeakers[2] = binding.listAvatarsSpeakers.avatar3
-        mapSpeakers[3] = binding.listAvatarsSpeakers.avatar4
-        mapSpeakers[4] = binding.listAvatarsSpeakers.avatar5
+        mapSpeakers[0] = requireBinding().listAvatarsSpeakers.avatar1
+        mapSpeakers[1] = requireBinding().listAvatarsSpeakers.avatar2
+        mapSpeakers[2] = requireBinding().listAvatarsSpeakers.avatar3
+        mapSpeakers[3] = requireBinding().listAvatarsSpeakers.avatar4
+        mapSpeakers[4] = requireBinding().listAvatarsSpeakers.avatar5
     }
 
     private fun loadAvatar(imageView: ImageView, user: User) {

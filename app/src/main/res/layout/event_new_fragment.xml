@@ -7,7 +7,7 @@
     tools:context=".ui.event.EventNewFragment">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/NewEventABL"
+        android:id="@+id/newEventABL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -15,7 +15,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/NewEventTTB"
+            android:id="@+id/newEventTTB"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="?attr/actionBarSize"
@@ -29,10 +29,10 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/GroupNewEventBB"
+        app:layout_constraintBottom_toTopOf="@+id/groupNewEventBB"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/NewEventABL">
+        app:layout_constraintTop_toBottomOf="@id/newEventABL">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -50,7 +50,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/ContentEventET"
+                    android:id="@+id/contentEventET"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     tools:text="@tools:sample/lorem[20]" />
@@ -66,7 +66,7 @@
                 app:boxStrokeWidth="1dp">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/Link"
+                    android:id="@+id/link"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/element_spacing"
@@ -76,13 +76,13 @@
 
 
             <FrameLayout
-                android:id="@+id/AttachmentGroup"
+                android:id="@+id/attachmentGroup"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
 
                 <include
-                    android:id="@+id/image_container"
+                    android:id="@+id/imageContainer"
                     layout="@layout/image_load"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -90,26 +90,26 @@
                     tools:visibility="visible" />
 
                 <include
-                    android:id="@+id/audio_container"
+                    android:id="@+id/audioContainer"
                     layout="@layout/audio_load"
                     android:visibility="gone"
                     tools:visibility="visible" />
 
                 <include
-                    android:id="@+id/video_container"
+                    android:id="@+id/videoContainer"
                     layout="@layout/video_load"
                     android:visibility="gone"
                     tools:visibility="visible" />
             </FrameLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/CoordsContainerCL"
+                android:id="@+id/coordsContainerCL"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="gone">
 
                 <com.yandex.mapkit.mapview.MapView
-                    android:id="@+id/GeoEventMW"
+                    android:id="@+id/geoEventMW"
                     android:layout_width="match_parent"
                     android:layout_height="221dp"
                     android:layout_marginTop="@dimen/common_spacing"
@@ -117,7 +117,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/RemoveCoords"
+                    android:id="@+id/removeCoords"
                     android:layout_width="@dimen/button_remove_width"
                     android:layout_height="@dimen/button_remove_height"
                     android:text="@string/text_button_remove"
@@ -125,7 +125,7 @@
                     app:cornerRadius="100dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/GeoEventMW" />
+                    app:layout_constraintTop_toBottomOf="@id/geoEventMW" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
@@ -133,7 +133,7 @@
     </androidx.core.widget.NestedScrollView>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:id="@+id/GroupNewEventBB"
+        android:id="@+id/groupNewEventBB"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
@@ -142,17 +142,17 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <com.google.android.material.bottomappbar.BottomAppBar
-            android:id="@+id/NewEventBB"
+            android:id="@+id/newEventBB"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:menu="@menu/menu_new_bottom_bar" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/CalendarFAB"
+            android:id="@+id/calendarFAB"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/desc_select_date"
-            app:layout_anchor="@id/NewEventBB"
+            app:layout_anchor="@id/newEventBB"
             app:srcCompat="@drawable/ic_add_24dp" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

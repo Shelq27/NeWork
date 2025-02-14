@@ -15,10 +15,11 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.lifecycle.withCreationCallback
 import ru.shelq.nework.R
 import ru.shelq.nework.auth.AppAuth
+import ru.shelq.nework.databinding.JobDatesPickerBinding
 import ru.shelq.nework.databinding.JobNewFragmentBinding
 import ru.shelq.nework.util.AndroidUtils
 import ru.shelq.nework.viewmodel.JobViewModel
@@ -33,44 +34,42 @@ import javax.inject.Inject
 class JobNewFragment : Fragment() {
     @Inject
     lateinit var auth: AppAuth
-    private lateinit var binding: JobNewFragmentBinding
 
-    @Inject
-    lateinit var factory: JobViewModel.Factory
-
-    private val jobViewModel: JobViewModel by viewModels {
-        JobViewModel.provideJobViewModelFactory(
-            factory,
-            auth.authState.value.id
-        )
-    }
+    private val jobViewModel: JobViewModel by viewModels(
+        extrasProducer = {
+            defaultViewModelCreationExtras.withCreationCallback<JobViewModel.Factory> { factory ->
+                factory.create(requireNotNull(auth.authState.value.id))
+            }
+        }
+    )
 
     @SuppressLint("SetTextI18n")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = JobNewFragmentBinding.inflate(layoutInflater, container, false)
+        val binding = JobNewFragmentBinding.inflate(layoutInflater, container, false)
         jobViewModel.newJob.observe(viewLifecycleOwner) {
-            binding.EnterDatesB.text = formatDate(it.start) + " - " + formatDate(it.finish)
+            binding.enterDatesB.text = formatDate(it.start) + " - " + formatDate(it.finish)
         }
 
         jobViewModel.jobCreated.observe(viewLifecycleOwner) {
             findNavController().navigateUp()
         }
-        binding.NewJobTBL.setNavigationOnClickListener {
+        binding.newJobTBL.setNavigationOnClickListener {
             findNavController().navigateUp()
         }
 
-        binding.EnterDatesB.setOnClickListener {
+        binding.enterDatesB.setOnClickListener {
             val dialog = Dialog(requireContext())
+            val bindingDatePicker = JobDatesPickerBinding.inflate(layoutInflater)
+            dialog.setContentView(bindingDatePicker.root)
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
             dialog.setCancelable(false)
-            dialog.setContentView(R.layout.job_dates_picker)
             dialog.window?.decorView?.setBackgroundResource(R.drawable.dialog_background)
-            val datePicker = dialog.findViewById<ImageButton>(R.id.DatePickerIB)
+            val datePicker = bindingDatePicker.datePickerIB
             //начальная дата
-            val startDate = dialog.findViewById<TextInputEditText>(R.id.DateStartTI)
+            val startDate = bindingDatePicker.dateStartTI
             val calendarStart = AndroidUtils.dateUTCToCalendar(jobViewModel.newJob.value!!.start)
             startDate.setText(
                 SimpleDateFormat("MM/dd/yyyy", Locale.getDefault()).format(
@@ -78,7 +77,7 @@ class JobNewFragment : Fragment() {
                 )
             )
             //конечная дата
-            val endDate = dialog.findViewById<TextInputEditText>(R.id.date_end_input)
+            val endDate = bindingDatePicker.dateEndInput
             val calendarEnd = Calendar.getInstance()
             jobViewModel.newJob.value!!.finish?.let {
                 calendarEnd.time = Date.from(ZonedDateTime.parse(it).toInstant())
@@ -114,11 +113,11 @@ class JobNewFragment : Fragment() {
                 }
                 materialDatePicker.show(childFragmentManager, "tag")
             }
-            val clearFinish: ImageButton = dialog.findViewById(R.id.ClearDateIB)
+            val clearFinish: ImageButton = bindingDatePicker.clearDateIB
             clearFinish.setOnClickListener {
                 endDate.setText("")
             }
-            val yesBtn: Button = dialog.findViewById(R.id.OkIB)
+            val yesBtn: Button = bindingDatePicker.okIB
             yesBtn.setOnClickListener {
                 jobViewModel.setStart(AndroidUtils.calendarToUTCDate(calendarStart))
                 if (endDate.text.toString() == "") {
@@ -127,7 +126,7 @@ class JobNewFragment : Fragment() {
 
                 dialog.dismiss()
             }
-            val noBtn: Button = dialog.findViewById(R.id.CancelIB)
+            val noBtn: Button = bindingDatePicker.cancelIB
             noBtn.setOnClickListener {
                 dialog.dismiss()
             }
@@ -135,10 +134,10 @@ class JobNewFragment : Fragment() {
 
         }
 
-        binding.CreateJobB.setOnClickListener {
-            jobViewModel.setName(binding.NameJobET.text.toString())
-            jobViewModel.setPosition(binding.PositionET.text.toString())
-            jobViewModel.setLink(binding.LinkET.text.toString())
+        binding.createJobB.setOnClickListener {
+            jobViewModel.setName(binding.nameJobET.text.toString())
+            jobViewModel.setPosition(binding.positionET.text.toString())
+            jobViewModel.setLink(binding.linkET.text.toString())
             jobViewModel.save()
         }
 

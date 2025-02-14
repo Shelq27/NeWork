@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/take_photo"
+        android:id="@+id/takePhoto"
         android:contentDescription="@string/desc_icon_take_a_photo"
         android:icon="@drawable/ic_photo_camera_24dp"
         android:title="@string/text_menu_item_take_a_photo"
@@ -11,7 +11,7 @@
         tools:ignore="AlwaysShowAction" />
 
     <item
-        android:id="@+id/load_attachment"
+        android:id="@+id/loadAttachment"
         android:contentDescription="@string/desc_icon_attachment"
         android:icon="@drawable/ic_attach_file_24dp"
         android:title="@string/load_attachment_item_menu"

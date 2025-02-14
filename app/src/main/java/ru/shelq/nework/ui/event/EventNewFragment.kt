@@ -52,7 +52,7 @@ import java.util.Locale
 @AndroidEntryPoint
 class EventNewFragment : Fragment() {
     companion object {
-        const val MAX_SIZE = 15728640
+        const val MAX_SIZE_IN_BIT = 15728640
         var Bundle.id: Long? by IdArg
 
     }
@@ -60,7 +60,8 @@ class EventNewFragment : Fragment() {
     private val viewModel: EventViewModel by viewModels(ownerProducer = ::requireActivity)
     private val mediaObserver = MediaLifecycleObserver()
     private lateinit var checkedUsers: LongArray
-    private lateinit var binding: EventNewFragmentBinding
+    private var binding: EventNewFragmentBinding? = null
+    private fun requireBinding() = requireNotNull(binding)
 
     private fun removeAttachment() {
         viewModel.changeAttachment(null, null, null, null)
@@ -73,7 +74,7 @@ class EventNewFragment : Fragment() {
     ): View {
         binding = EventNewFragmentBinding.inflate(layoutInflater)
         lifecycle.addObserver(mediaObserver)
-        binding.NewEventTTB.setNavigationOnClickListener {
+        requireBinding().newEventTTB.setNavigationOnClickListener {
             viewModel.edit(null)
             viewModel.reset()
             findNavController().navigate(R.id.action_eventNewFragment_to_eventFragment)
@@ -91,8 +92,8 @@ class EventNewFragment : Fragment() {
         viewModel.edited.observe(viewLifecycleOwner) {
             if (viewModel.edited.value?.id != 0L && viewModel.changed.value != true) {
                 val edited = viewModel.edited.value
-                binding.ContentEventET.setText(edited?.content)
-                binding.Link.setText(edited?.link)
+                requireBinding().contentEventET.setText(edited?.content)
+                requireBinding().link.setText(edited?.link)
 
                 edited?.attachment?.let {
                     viewModel.changeAttachment(it.url, null, null, it.type)
@@ -127,11 +128,11 @@ class EventNewFragment : Fragment() {
                         if (mediaObserver.mediaPlayer?.isPlaying == true) {
                             mediaObserver.stop()
                         }
-                        binding.audioContainer.audioPlay.audioSB.progress = 0
+                        requireBinding().audioContainer.audioPlay.audioSB.progress = 0
                         val fileDescriptor =
                             requireContext().contentResolver.openAssetFileDescriptor(uri, "r")
                         val fileSize = fileDescriptor?.length ?: 0
-                        if (fileSize > PostNewFragment.MAX_SIZE) {
+                        if (fileSize > PostNewFragment.MAX_SIZE_IN_BIT) {
                             Toast.makeText(
                                 requireContext(),
                                 getString(R.string.attachment_no_more_15mb),
@@ -164,34 +165,34 @@ class EventNewFragment : Fragment() {
                 if (mediaObserver.mediaPlayer?.isPlaying == true) {
                     mediaObserver.stop()
                 }
-                binding.audioContainer.audioPlay.audioSB.progress = 0
-                binding.imageContainer.photoContainer.visibility = View.GONE
-                binding.audioContainer.audioLoad.visibility = View.GONE
-                binding.videoContainer.videoLoad.visibility = View.GONE
+                requireBinding().audioContainer.audioPlay.audioSB.progress = 0
+                requireBinding().imageContainer.imageLoad.visibility = View.GONE
+                requireBinding().audioContainer.audioLoad.visibility = View.GONE
+                requireBinding().videoContainer.videoLoad.visibility = View.GONE
             } else {
                 when (it.attachmentType) {
 
                     AttachmentType.IMAGE -> {
-                        binding.audioContainer.audioLoad.visibility = View.GONE
-                        binding.videoContainer.videoLoad.visibility = View.GONE
-                        binding.imageContainer.photoContainer.visibility = View.VISIBLE
+                        requireBinding().audioContainer.audioLoad.visibility = View.GONE
+                        requireBinding().videoContainer.videoLoad.visibility = View.GONE
+                        requireBinding().imageContainer.imageLoad.visibility = View.VISIBLE
                         if (it.url != null) {
-                            Glide.with(binding.imageContainer.photo)
+                            Glide.with(requireBinding().imageContainer.photo)
                                 .load("${it.url}")
                                 .placeholder(R.drawable.ic_downloading_100dp)
                                 .error(R.drawable.ic_error_outline_100dp)
                                 .timeout(10_000)
                                 .centerCrop()
-                                .into(binding.imageContainer.photo)
+                                .into(requireBinding().imageContainer.photo)
                         } else {
-                            binding.imageContainer.photo.setImageURI(it.uri)
+                            requireBinding().imageContainer.photo.setImageURI(it.uri)
                         }
                     }
 
                     AttachmentType.AUDIO -> {
-                        binding.audioContainer.audioLoad.visibility = View.VISIBLE
-                        binding.imageContainer.photoContainer.visibility = View.GONE
-                        binding.videoContainer.videoLoad.visibility = View.GONE
+                        requireBinding().audioContainer.audioLoad.visibility = View.VISIBLE
+                        requireBinding().imageContainer.imageLoad.visibility = View.GONE
+                        requireBinding().videoContainer.videoLoad.visibility = View.GONE
 
                     }
 
@@ -199,12 +200,12 @@ class EventNewFragment : Fragment() {
                         if (mediaObserver.mediaPlayer?.isPlaying == true) {
                             mediaObserver.stop()
                         }
-                        binding.audioContainer.audioLoad.visibility = View.GONE
-                        binding.imageContainer.photoContainer.visibility = View.GONE
-                        binding.videoContainer.videoLoad.visibility = View.VISIBLE
-                        Glide.with(binding.videoContainer.videoPlay.videoThumb)
+                        requireBinding().audioContainer.audioLoad.visibility = View.GONE
+                        requireBinding().imageContainer.imageLoad.visibility = View.GONE
+                        requireBinding().videoContainer.videoLoad.visibility = View.VISIBLE
+                        Glide.with(requireBinding().videoContainer.videoPlay.videoThumb)
                             .load(it.url ?: it.uri)
-                            .into(binding.videoContainer.videoPlay.videoThumb)
+                            .into(requireBinding().videoContainer.videoPlay.videoThumb)
                     }
 
                     else -> Unit
@@ -216,31 +217,31 @@ class EventNewFragment : Fragment() {
             checkedUsers = it.toLongArray()
         }
         viewModel.coords.observe(viewLifecycleOwner) {
-            binding.GeoEventMW.map.mapObjects.clear()
+            requireBinding().geoEventMW.map.mapObjects.clear()
             if (it == null) {
-                binding.CoordsContainerCL.visibility = View.GONE
+                requireBinding().coordsContainerCL.visibility = View.GONE
             } else {
-                binding.CoordsContainerCL.visibility = View.VISIBLE
-                moveCamera(binding.GeoEventMW, Point(it.lat, it.long))
+                requireBinding().coordsContainerCL.visibility = View.VISIBLE
+                moveCamera(requireBinding().geoEventMW, Point(it.lat, it.long))
                 addMarkerOnMap(
                     requireContext(),
-                    binding.GeoEventMW,
+                    requireBinding().geoEventMW,
                     Point(it.lat, it.long)
                 )
-                binding.GeoEventMW.setNoninteractive(true)
+                requireBinding().geoEventMW.setNoninteractive(true)
             }
         }
-        binding.RemoveCoords.setOnClickListener {
+        requireBinding().removeCoords.setOnClickListener {
             viewModel.changeCoords(null)
         }
-        binding.ContentEventET.requestFocus()
+        requireBinding().contentEventET.requestFocus()
 
         val pickPhotoLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
                 when (it.resultCode) {
                     ImagePicker.RESULT_ERROR -> {
                         Snackbar.make(
-                            binding.root,
+                            requireBinding().root,
                             ImagePicker.getError(it.data),
                             Snackbar.LENGTH_LONG
                         ).show()
@@ -253,16 +254,16 @@ class EventNewFragment : Fragment() {
                 }
             }
 
-        binding.imageContainer.removePhoto.setOnClickListener {
+        requireBinding().imageContainer.removePhoto.setOnClickListener {
             removeAttachment()
         }
-        binding.audioContainer.removeAudio.setOnClickListener {
+        requireBinding().audioContainer.removeAudio.setOnClickListener {
             removeAttachment()
         }
-        binding.videoContainer.removeVideo.setOnClickListener {
+        requireBinding().videoContainer.removeVideo.setOnClickListener {
             removeAttachment()
         }
-        binding.audioContainer.audioPlay.playAudioIB.setOnClickListener {
+        requireBinding().audioContainer.audioPlay.playAudioIB.setOnClickListener {
 
             if (viewModel.attachment.value?.url != null) {
                 mediaObserver.playAudio(
@@ -270,8 +271,8 @@ class EventNewFragment : Fragment() {
                         url = viewModel.attachment.value!!.url.toString(),
                         type = AttachmentType.AUDIO
                     ),
-                    binding.audioContainer.audioPlay.audioSB,
-                    binding.audioContainer.audioPlay.playAudioIB
+                    requireBinding().audioContainer.audioPlay.audioSB,
+                    requireBinding().audioContainer.audioPlay.playAudioIB
                 )
             } else {
                 requireContext().contentResolver.openAssetFileDescriptor(
@@ -281,15 +282,15 @@ class EventNewFragment : Fragment() {
                     ?.let {
                         mediaObserver.playAudioFromDescriptor(
                             it,
-                            binding.audioContainer.audioPlay.audioSB,
-                            binding.audioContainer.audioPlay.playAudioIB
+                            requireBinding().audioContainer.audioPlay.audioSB,
+                            requireBinding().audioContainer.audioPlay.playAudioIB
                         )
                     }
             }
         }
-        binding.videoContainer.videoPlay.playVideoIB.setOnClickListener {
+        requireBinding().videoContainer.videoPlay.playVideoIB.setOnClickListener {
             viewModel.attachment.value?.let { attachment ->
-                binding.apply {
+                requireBinding().apply {
                     videoContainer.videoPlay.videoView.visibility = View.VISIBLE
                     videoContainer.videoPlay.videoView.apply {
                         setMediaController(MediaController(context))
@@ -315,13 +316,13 @@ class EventNewFragment : Fragment() {
             }
 
         }
-        binding.NewEventBB.setOnMenuItemClickListener { menuItem ->
+        requireBinding().newEventBB.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
 
-                R.id.take_photo -> {
+                R.id.takePhoto -> {
                     ImagePicker.with(this)
                         .crop()
-                        .compress(MAX_SIZE)
+                        .compress(MAX_SIZE_IN_BIT)
                         .galleryMimeTypes(
                             arrayOf(
                                 "image/png",
@@ -332,7 +333,7 @@ class EventNewFragment : Fragment() {
                     true
                 }
 
-                R.id.load_attachment -> {
+                R.id.loadAttachment -> {
                     val choose = arrayOf("audio/*", "video/*")
                     resultLauncher.launch(choose)
                     true
@@ -359,11 +360,11 @@ class EventNewFragment : Fragment() {
             }
 
         }
-        binding.CalendarFAB.setOnClickListener {
+        requireBinding().calendarFAB.setOnClickListener {
             val bindingCalendar = EventBottomSheetDialogBinding.inflate(layoutInflater)
             val bottomSheetDialog = BottomSheetDialog(requireContext())
-            val date = bindingCalendar.DataInput
-            val dataPicker = bindingCalendar.DateEventET
+            val date = bindingCalendar.dataInput
+            val dataPicker = bindingCalendar.dateEventET
             val calendar = if (viewModel.datetime.value?.equals("") == true) {
                 Calendar.getInstance()
             } else {
@@ -406,14 +407,14 @@ class EventNewFragment : Fragment() {
                 )
                 datePickerDialog.show()
             }
-            val radioGroup = bindingCalendar.CalendarRG
+            val radioGroup = bindingCalendar.calendarRG
             when (viewModel.eventType.value) {
                 EventType.ONLINE -> {
-                    bindingCalendar.OnlineRB.isChecked = true
+                    bindingCalendar.onlineRB.isChecked = true
                 }
 
                 EventType.OFFLINE -> {
-                    bindingCalendar.OfflineRB.isChecked = true
+                    bindingCalendar.offlineRB.isChecked = true
                 }
 
                 else -> Unit
@@ -427,9 +428,9 @@ class EventNewFragment : Fragment() {
             bottomSheetDialog.show()
 
         }
-        binding.NewEventTTB.setOnMenuItemClickListener {
-            val content = binding.ContentEventET.text.toString()
-            val link = binding.Link.text.toString()
+        requireBinding().newEventTTB.setOnMenuItemClickListener {
+            val content = requireBinding().contentEventET.text.toString()
+            val link = requireBinding().link.text.toString()
             if (viewModel.datetime.value?.equals("") == true) {
                 Toast.makeText(
                     requireContext(),
@@ -446,26 +447,29 @@ class EventNewFragment : Fragment() {
         viewModel.eventCreated.observe(viewLifecycleOwner) {
             findNavController().navigate(R.id.eventFragment)
         }
-        return binding.root
+        return requireBinding().root
     }
 
     override fun onStart() {
         super.onStart()
         MapKitFactory.getInstance().onStart()
-        binding.GeoEventMW.onStart()
+        requireBinding().geoEventMW.onStart()
     }
 
     override fun onStop() {
-        binding.GeoEventMW.onStop()
+        requireBinding().geoEventMW.onStop()
         MapKitFactory.getInstance().onStop()
         super.onStop()
     }
-
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
+    }
     private fun setMarker(point: Point) {
-        addMarkerOnMap(requireContext(), binding.GeoEventMW, point)
+        addMarkerOnMap(requireContext(), requireBinding().geoEventMW, point)
     }
 
     private fun moveToMarker(point: Point) {
-        moveCamera(binding.GeoEventMW, point)
+        moveCamera(requireBinding().geoEventMW, point)
     }
 }
